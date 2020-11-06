@@ -45,6 +45,8 @@ function mainEntrence(){
     clickGetSunny();
     //浏览领取阳光
     baba_Farmer();
+    //开宝箱
+    find_treasure_box();
     //种芒果
     clickMango();
     //浏览任务
@@ -124,6 +126,7 @@ function openBabaFarmer(){
     if (target) {     
         log("点击立即去收")
         target.click()
+        sleep(1000)
     }
 }
 
@@ -157,14 +160,90 @@ function baba_Farmer() {
             back()        
         }
     }
-    sleep(1000)
+    sleep(500)
+}
+
+// 4. 开宝箱
+
+function find_treasure_box() {
+    for (var i=0; i<10; i++) {
+        // if (1) {
+        sleep(1000)
+        var target = className("android.view.View").text("去进店").findOne(3)
+        if (target) {
+            target.click()
+            // sleep(3000)
+            textContains("宝贝").waitFor();
+            toastLog("寻找阳光宝箱")
+            for (var j=0; j<36; j++) {
+                var target = desc("立即打开").findOne(1)
+                if (target) {
+                    target.parent().click()
+                    toastLog("找到立即打开阳光宝箱 desc")
+                    var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
+                    if (target) {
+                        toastLog("找到 "+target.desc()+" 阳光")
+                    }
+                    sleep(1000)
+                    back();
+                    break;
+                }
+        
+                var target = text("立即打开").findOne(1)
+                if (target) {
+                    target.parent().click()
+                    toastLog("找到立即打开阳光宝箱 text")
+                    var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
+                    if (target) {
+                        toastLog("找到 "+target.desc()+" 阳光")
+                    }
+                    sleep(1000)
+                    back();
+                    break;
+                }
+                      
+                var target = descContains("关注店铺").findOne(1)
+                if (target) {
+                    var bounds = target.bounds()
+                    click(bounds.centerX(), bounds.centerY()+100)
+                    toastLog("找到关注店铺阳光宝箱 desc")
+                    var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
+                    if (target) {
+                        toastLog("找到 "+target.desc()+" 阳光")
+                    }
+                    sleep(1000)
+                    back();
+                    break;
+                }
+        
+                var target = textContains("关注店铺").findOne(1)
+                if (target) {
+                    var bounds = target.bounds()
+                    click(bounds.centerX(), bounds.centerY()+100)
+                    toastLog("找到关注店铺阳光宝箱 text")
+                    var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
+                    if (target) {
+                        toastLog("找到 "+target.desc()+" 阳光")
+                    }
+                    sleep(1000)
+                    back();
+                    break;
+                } else {
+                    swipe(500, 2200, 500, 0, 500);
+                    toastLog("滑动第"+j+"次")
+                    sleep(800)
+                }
+            }
+        } else {
+            break;
+        }
+    }
+
     // 点击关闭领阳光
     log("点击关闭领阳光")
     click(1000, 1360)
     sleep(1000)
 }
-
-// 4. 开宝箱
 
 // 5. 收阳光
 

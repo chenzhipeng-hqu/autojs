@@ -163,7 +163,7 @@ function watering(cnt){
     for(var i=0; i<cnt; i++) {
         click(900, 2200);
         sleep(2500);
-        log("浇水第"+i+"次");
+        log("浇水第"+(i+1)+"次");
     }
 }
 
