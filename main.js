@@ -72,6 +72,12 @@ function taskChoose() {
                 ret = babaFarmer.run()
                 break;
             }
+            case "饿了么果园": {
+                var Eleme = require('Eleme.js');
+                var eleme = new Eleme();
+                ret = eleme.run()
+                break;
+            }
             default:{
                 toastLog("【"+ taskChooseList[option] +"】待开发，敬请等候")
                 break;
