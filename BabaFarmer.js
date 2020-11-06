@@ -155,7 +155,7 @@ function baba_Farmer() {
                 sleep(1000)
                 // toast("第" + i*2 + ":s")
             }
-            textMatches("浏览完成.*|全部都完成.*").findOne(20000);
+            textMatches("浏览完成.*|全部完成啦.*").findOne(20000);
             sleep(1000);
             back()        
         }
@@ -311,7 +311,7 @@ function goto_browse_task() {
                         log("进入支付宝芭芭农场2")
                         click(980, 2088)
                     } else {
-                        textMatches("浏览完成.*|全部都完成.*").findOne(25000);
+                        textMatches("浏览完成.*|全部完成啦.*").findOne(25000);
                         sleep(1000);
                         back();
                     }
