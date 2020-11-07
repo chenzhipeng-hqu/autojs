@@ -89,6 +89,12 @@ function taskChoose() {
                 ret = eleme.run()
                 break;
             }
+            case "东东萌宠": {
+                var JDongPet = require('JDongPet.js');
+                var jdongPet = new JDongPet();
+                ret = jdongPet.run()
+                break;
+            }
             default:{
                 toastLog("【"+ taskChooseList[option] +"】待开发，敬请等候")
                 break;
