@@ -140,12 +140,36 @@ function get_alipay_vip_points(){
     var i=0;
     for(i=0; i<10;i++){
         clickByTextDesc("点击领取",0);
-        sleep(100);
+        sleep(200);
     }
 }
 
 // 3. 家庭积分
 function get_alipay_family_points(){
+    var target = text("家庭积分+1").findOne(1000)
+    log("领取家庭积分")
+    if (target) {
+        target.parent().click()
+        sleep(2300);
+
+        var target = text("小医保额度").findOne(1000)
+        log(target)
+        if (target) {
+            for(i=0; i<3;i++){
+                target.parent().click()
+                sleep(200);
+            }
+        }
+        
+        var target = text("积分").findOne(1000)
+        log(target)
+        if (target) {
+            for(i=0; i<3;i++){
+                target.parent().click()
+                sleep(200);
+            }
+        }
+    }
 }
 
 // 3. 结束
