@@ -15,6 +15,36 @@ auto()
 // console.show()
 console.info("start")
 
+// queryAllList();
+
+// js递归遍历数组获取所有的叶子节点
+function queryList(json,arr) {
+    for (var i = 0; i < json.childCount(); i++) {
+        var sonList = json.child(i);
+        if (sonList.childCount() == 0) {
+            arr.push(json.child(i));
+        } else {
+            queryList(sonList, arr);
+        }
+    }
+    return arr;
+}
+
+function queryAllList() {
+    var list = className("FrameLayout").findOne();
+    var arr=[];
+    queryList(list,arr);
+    
+    for(var k=0;k<arr.length;k++){
+        log("第"+k+"个子控件\n"
+            +"desc="+arr[k].desc()+"\n"
+            +"text="+arr[k].text()+"\n" 
+            +"ID="+arr[k].id()+"\n"
+            +"classname="+arr[k].className()+"\n"
+            +"bounds="+arr[k].bounds()+"\n");
+        }
+}
+
 // 芭芭农场田地 浏览任务
 function baba_Farmer() {
     className("android.view.View").text("去浏览").findOne().click()
@@ -382,26 +412,40 @@ function get_alipay_vip_points(){
     }
 }
 
-// let items = ["《焚书》","《西湖寻梦》","《高太史全集》"];
+// let items = ["全选","《焚书》","《西湖寻梦》","《高太史全集》"];
 // let i = dialogs.multiChoice("下列作品...", items);
 // let result = i.map(idx => items[idx]);
 // toastLog(result);
 
+// log(i)
+// if(i[0] == 0) {
+//     log("选择了全选")
+//     i.shift(0)
+//     for(let j=1; j<items.length; j++) {
+//         if (i.indexOf(j) > -1) {
+//             log("存在")
+//         } else {
+//             i.push(j)
+//         }
+//     }
+// }
+// log(i)
+
 // i.forEach(option => {
 //     var ret = 0;
 //     toastLog("执行【"+ items[option] +"】任务")
-//     log(option.toString())
+//     log(option)
 //     switch (items[option]) {
 //         case "《焚书》": {
-//             log("1")
+//             // log("1")
 //             break;
 //         }
 //         case "《西湖寻梦》": {
-//             log("2")
+//             // log("2")
 //             break;
 //         }
 //         case "《高太史全集》": {
-//             log("3")
+//             // log("3")
 //             break;
 //         }
 //         default:{
@@ -435,36 +479,6 @@ function get_alipay_vip_points(){
 //     // target.click()
 // }
 
-// js递归遍历数组获取所有的叶子节点
-function queryList(json,arr) {
-    for (var i = 0; i < json.childCount(); i++) {
-        var sonList = json.child(i);
-        if (sonList.childCount() == 0) {
-            arr.push(json.child(i));
-        } else {
-            queryList(sonList, arr);
-        }
-    }
-    return arr;
-}
-
-function queryAllList() {
-    var list = className("FrameLayout").findOne();
-    var arr=[];
-    queryList(list,arr);
-    
-    for(var k=0;k<arr.length;k++){
-        log("第"+k+"个子控件\n"
-            +"desc="+arr[k].desc()+"\n"
-            +"text="+arr[k].text()+"\n" 
-            +"ID="+arr[k].id()+"\n"
-            +"classname="+arr[k].className()+"\n"
-            +"bounds="+arr[k].bounds()+"\n");
-        }
-}
-
-// queryAllList();
-
 // var target = textContains("0元领水果").findOne(1000) //支付宝芭芭农场页面
 // log(target)
 // if (target) {
@@ -480,12 +494,223 @@ function queryAllList() {
 //     log(eval(str[0])+1)
 // }
 
-str = "12，今日剩余0次".match("10|[0-9]")
-log(str[0])
+// str = "12，今日剩余0次".match("10|[0-9]")
+// log(str[0])
+// log(eval(str[0])+1)
 
-log(eval(str[0])+1)
+// var target = text("邀请果园新用户").findOne(1000)
+// log(target)
+// if (target) {
+//     log(target.text())
+// }
 
+// goto_browse_task();
 
+function goto_browse_task() {
+    log("点击领水滴")
+    click(112, 2256)
+    sleep(1000)
+    text("邀请果园新用户").waitFor()
+
+    log("开始寻找任务")
+    var taskList = ['签到', '去浏览', '去玩转', '去逛逛', '领取'];
+    var taskId = ignoreId = 0;
+    taskList.forEach(task => {
+        while (text(task).exists()) {
+            text("邀请果园新用户").waitFor()
+            sleep(1000)
+            var button = text(task).findOnce(ignoreId);
+            if (button == null) {
+                break;
+            }
+            log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
+            switch (task) {
+                case '去浏览':
+                    button.parent().click()
+                    for (var i=0; i<4; i++) {
+                        sleep(1000)
+                        swipe(500, 2000, 500, 1800, 1000);
+                        // toast("第" + i*2 + ":s")
+                    }
+                    text("任务完成").findOne(10000);
+                    log("浏览完成啦")
+                    sleep(1000);
+                    back();                    
+                    taskId++;
+                    break;
+                case '去逛逛':
+                case '去玩转':
+                    button.parent().click()
+                    sleep(1000)
+                    back();
+                    taskId++;
+                    break;
+                case '领取':
+                case '签到':
+                    button.parent().click()
+                    sleep(3000)
+                    taskId++;
+                    break;
+                default:
+                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    ignoreId++;
+                    taskId++;
+                    break;
+                }
+            sleep(1000)
+        }
+    })
+    
+    log("点击关闭")
+    click(1000, 1000)
+    sleep(1000)
+}
+
+// var target = text("家庭积分+1").findOne(1000)
+// log(target)
+// if (target) {
+//     // target.parent().click()
+//     sleep(2000);
+// }
+
+// var target = text("小医保额度").findOne(1000)
+// log(target)
+// if (target) {
+//     for(i=0; i<3;i++){
+//         target.parent().click()
+//         sleep(200);
+//     }
+// }
+
+// var target = text("积分").findOne(1000)
+// log(target)
+// if (target) {
+//     for(i=0; i<3;i++){
+//         target.parent().click()
+//         sleep(200);
+//     }
+// }
+
+// var target = className("android.widget.TextView").descContains("搜索框").findOne(1000)
+// log(target)
+// if (target) {
+//     target.click();
+//     target = className("android.widget.EditText").descContains("搜索框").findOne(1000)
+//     target.setText("东东萌宠")
+//     target = className("android.widget.TextView").text("搜索").findOne(1000)
+//     log(target)
+//     if(target) {
+//         target.click();
+//     }
+// }
+
+// var target = className("android.widget.ScrollView").depth(1).findOne(1000)
+// log(target)
+// if (target) {
+//     target.scrollForward()
+// }
+
+// goto_browse_task()
+
+function goto_browse_task() {
+    log("点击赚狗粮")
+    press(133, 2261, 100);
+    sleep(500)
+    className("android.widget.TextView").textContains("做任务赚狗粮").waitFor()
+
+    log("开始寻找任务")
+    var taskList = ['去签到', '去开启', '去浏览', '去领取'];
+    var taskId = ignoreId = 0;
+    var first_enter = 1;
+    taskList.forEach(task => {
+        className("android.widget.TextView").textContains("做任务赚狗粮").waitFor()
+        while (text(task).exists()) {
+            sleep(1000)
+            var button = text(task).findOnce(ignoreId);
+            if (button == null) {
+                break;
+            }
+            log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
+            switch (task) {
+                case '去浏览': {
+                    let bounds = button.bounds()
+                    if (bounds.centerY() <= device.height) {
+                        click(bounds.centerX(), bounds.centerY())
+                        sleep(1500)
+                        back();     
+                        sleep(1000)   
+                    }
+                    swipe(500, 2000, 500, 1700, 500);
+                    sleep(1000)
+                    taskId++;
+                    break;
+                }
+                case '去领取': {
+                    let bounds = button.bounds()
+                    if (bounds.centerY() < device.height) {
+                        click(bounds.centerX(), bounds.centerY())  
+                    }
+                    if (first_enter) {
+                        first_enter = 0;
+                        let target = className("android.widget.ScrollView").depth(1).findOne(1000)
+                        if (target) {
+                            target.scrollBackward()
+                            target.scrollBackward()
+                        }
+                    } else {
+                        swipe(500, 2000, 500, 1800, 500);
+                    }
+                    sleep(1000)
+                    taskId++;
+                    break;
+                }
+                case '去开启':{
+                    let bounds = button.bounds()
+                    click(bounds.centerX(), bounds.centerY())
+                    sleep(1900)
+                    //开心收下
+                    click(538, 1738)
+                    sleep(1000)
+                    log("点击赚狗粮")
+                    press(133, 2261, 100);
+                    sleep(500)
+                    className("android.widget.TextView").textContains("做任务赚狗粮").waitFor()
+
+                    taskId++;
+                    break;
+                }
+                case '去签到': {
+                    let bounds = button.bounds()
+                    click(bounds.centerX(), bounds.centerY())
+                    sleep(1000)
+                    //签到按钮
+                    click(538, 1638)
+                    sleep(1000)
+                    //开心收下
+                    click(538, 1738)
+                    sleep(1000)
+
+                    log("点击赚狗粮")
+                    press(133, 2261, 100);
+                    sleep(500)
+                    className("android.widget.TextView").textContains("做任务赚狗粮").waitFor()
+                    taskId++;
+                    break;
+                }
+                default:
+                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    ignoreId++;
+                    taskId++;
+                    break;
+                }
+            sleep(1000)
+        }
+    })
+    
+    log("任务全部完成, 点击关闭")
+    click(1000, 1150)
+    sleep(1000)
+}
 
 
 console.info("end")
