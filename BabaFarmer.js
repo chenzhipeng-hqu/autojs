@@ -134,7 +134,7 @@ function openBabaFarmer(){
 function clickGetSunny() {
     log("点击领阳光")
     click(980, 1750)
-    sleep(1000)
+    sleep(1500)
     // back();
 }
 
@@ -143,10 +143,11 @@ function baba_Farmer() {
     // sleep(1000)
     var target = className("android.view.View").text("去浏览").findOne(3000)
     if (target != null) {
-        if (text("10, 今日剩余0次").exists()) {
+        // if (text("10, 今日剩余0次").exists()) { //判断是否有浏览任务
 
-        } else if (text("后开始任务").exists()) {
-            
+        // } else 
+        if (text("后开始任务").exists()) {
+            log("浏览倒计时中")
         } else {
             log("点击去浏览")
             target.click()
@@ -156,11 +157,12 @@ function baba_Farmer() {
                 // toast("第" + i*2 + ":s")
             }
             textMatches("浏览完成.*|全部完成啦.*").findOne(20000);
+            log("浏览完成")
             sleep(1000);
             back()        
         }
     }
-    sleep(500)
+    sleep(800)
 }
 
 // 4. 开宝箱
@@ -168,13 +170,12 @@ function baba_Farmer() {
 function find_treasure_box() {
     for (var i=0; i<10; i++) {
         // if (1) {
-        sleep(1000)
         var target = className("android.view.View").text("去进店").findOne(3)
         if (target) {
             target.click()
             // sleep(3000)
             textContains("宝贝").waitFor();
-            toastLog("寻找阳光宝箱")
+            toastLog("第"+(i+1)+"次寻找阳光宝箱")
             for (var j=0; j<36; j++) {
                 var target = desc("立即打开").findOne(1)
                 if (target) {
@@ -234,6 +235,7 @@ function find_treasure_box() {
                     sleep(800)
                 }
             }
+            sleep(1000)
         } else {
             break;
         }
@@ -311,7 +313,8 @@ function goto_browse_task() {
                         log("进入支付宝芭芭农场2")
                         click(980, 2088)
                     } else {
-                        textMatches("浏览完成.*|全部完成啦.*").findOne(25000);
+                        textMatches("浏览完成.*|全部完成啦.*|任务已完成.*").findOne(25000);
+                        log("浏览完成啦")
                         sleep(1000);
                         back();
                     }
