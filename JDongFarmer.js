@@ -53,7 +53,7 @@ function mainEntrence(appName){
     clicksDuck(15);
     // 天天领红包
     get_red_paper();
-    //浏览任务
+    // 结束
     whenComplete();
 }
 
