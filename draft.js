@@ -15,7 +15,7 @@ auto()
 // console.show()
 console.info("start")
 
-// queryAllList();
+queryAllList();
 
 // js递归遍历数组获取所有的叶子节点
 function queryList(json,arr) {
@@ -36,13 +36,18 @@ function queryAllList() {
     queryList(list,arr);
     
     for(var k=0;k<arr.length;k++){
+        // log("第"+k+"个子控件\n"
+        //     +"desc="+arr[k].desc()+"\n"
+        //     +"text="+arr[k].text()+"\n" 
+        //     +"ID="+arr[k].id()+"\n"
+        //     +"classname="+arr[k].className()+"\n"
+        //     +"bounds="+arr[k].bounds()+"\n"
+        //     +"clickable="+arr[k].clickable()+"\n");
+        // }
         log("第"+k+"个子控件\n"
-            +"desc="+arr[k].desc()+"\n"
-            +"text="+arr[k].text()+"\n" 
-            +"ID="+arr[k].id()+"\n"
-            +"classname="+arr[k].className()+"\n"
-            +"bounds="+arr[k].bounds()+"\n");
+            +arr[k]);
         }
+
 }
 
 // 芭芭农场田地 浏览任务
@@ -604,12 +609,6 @@ function goto_browse_task() {
 //     }
 // }
 
-// var target = className("android.widget.ScrollView").depth(1).findOne(1000)
-// log(target)
-// if (target) {
-//     target.scrollForward()
-// }
-
 // goto_browse_task()
 
 function goto_browse_task() {
@@ -711,6 +710,242 @@ function goto_browse_task() {
     click(1000, 1150)
     sleep(1000)
 }
+
+
+// var target = text("去领取").findOne(1000)
+// if (target) {
+//     let bounds = target.bounds()
+//     click(bounds.centerX(), bounds.centerY())
+// }
+
+// FocusOnWaterDroplets()
+
+function FocusOnWaterDroplets() {
+    for (let i=0; i<3; i++) {
+        var target = text("关注得水滴").findOne(1000)
+        if (target) {
+            log("点击关注得水滴 "+ (i+1) + "次");
+            let bounds = target.bounds()
+            click(bounds.centerX(), bounds.centerY())
+            sleep(5500);
+            back();
+            
+            log("点击去领取");
+            target = text("去领取").findOne(2000)
+            if (target) {
+                let bounds = target.bounds()
+                click(bounds.centerX(), bounds.centerY())
+            }
+        }
+    }
+    back();
+}
+
+// goto_browse_task();
+
+// 领水滴
+function goto_browse_task() {
+    log("点击领水滴")
+    press(300, 1738, 100);
+    sleep(500)
+    className("android.view.View").textContains("领水滴").waitFor()
+
+    log("开始寻找任务")
+    var taskList = ['签到', '去逛逛', '去浏览', '去领取', '领取'];
+    var taskId = ignoreId = 0;
+    var first_enter = 1;
+    taskList.forEach(task => {
+        className("android.view.View").textContains("领水滴").waitFor()
+        while (text(task).exists()) {
+            sleep(1000)
+            var button = text(task).findOnce(ignoreId);
+            if (button == null) {
+                break;
+            }
+            log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
+            switch (task) {
+                case '去逛逛': {
+                    let bounds = button.bounds()
+                    if (bounds.centerY() <= device.height) {
+                        click(bounds.centerX(), bounds.centerY())
+                        sleep(8000)
+                        back();     
+                        sleep(1000)   
+                    }
+                    swipe(500, 2000, 500, 1750, 500);
+                    sleep(1000)
+                    taskId++;
+                    break;
+                }
+                case '领取': 
+                case '去领取': {
+                    let bounds = button.bounds()
+                    if (bounds.centerY() < device.height) {
+                        click(bounds.centerX(), bounds.centerY())  
+                    }
+                    if (first_enter) {
+                        first_enter = 0;
+                        let target = className("android.widget.ScrollView").depth(1).findOne(1000)
+                        if (target) {
+                            target.scrollBackward()
+                            target.scrollBackward()
+                        }
+                    } else {
+                        // swipe(500, 2000, 500, 1800, 500);
+                    }
+                    sleep(1000)
+                    taskId++;
+                    break;
+                }
+                case '去签到': {
+                    let bounds = button.bounds()
+                    click(bounds.centerX(), bounds.centerY())
+                    sleep(1000)
+                    //签到按钮
+                    click(538, 1638)
+                    sleep(1000)
+                    //开心收下
+                    click(538, 1738)
+                    sleep(1000)
+
+                    log("点击赚狗粮")
+                    press(133, 2261, 100);
+                    sleep(500)
+                    className("android.widget.TextView").textContains("做任务赚狗粮").waitFor()
+                    taskId++;
+                    break;
+                }
+                default:
+                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    ignoreId++;
+                    taskId++;
+                    break;
+                }
+            sleep(1000)
+        }
+    })
+    
+    log("任务全部完成, 点击关闭")
+    click(1000, 1150)
+    sleep(1000)
+}
+
+// clicksDuck(5)
+
+function clicksDuck(cnt) {
+    for (let i=0; i<cnt; i++) {
+        for (let j=0; j<6; j++) {
+            press(566, 1256, 100)
+            if(className("android.view.View").textMatches("我要休息啦，明天再来找我玩吧").exists()) {
+                log("我要休息啦，明天再来找我玩吧")
+                return true;
+            }
+        }
+        sleep(1000);
+        let target = className("android.widget.TextView").textMatches("喊它回来|收下道具卡").findOne(6000)
+        if (target) {
+            let bounds = target.bounds()
+            click(bounds.centerX(), bounds.centerY())
+        }
+    }
+}
+
+// 签到领取双倍淘金币
+// var target = text("去互动赚更多").findOne(1000)
+// log(target)
+// if (target) {
+//     let bounds = target.bounds()
+//     click(bounds.centerX(), bounds.centerY()+230)
+// }
+
+// var target = text("关闭").findOne(1000)
+// log(target)
+// if (target) {
+//     target.click()
+// }
+
+// get_red_paper();
+
+// 天天领红包
+function get_red_paper() {
+    log("点击天天领红包")
+    press(980, 680, 100);
+    sleep(3000)
+    className("android.widget.TextView").text("天天红包").waitFor()
+
+    log("开始寻找任务")
+    var taskList = ['去浏览', '立即领取'];
+    var taskId = ignoreId = 0;
+    var first_enter = 1;
+    taskList.forEach(task => {
+        className("android.view.View").textContains("天天红包").waitFor()
+        while (text(task).exists()) {
+            sleep(1000)
+            var button = text(task).findOnce(ignoreId);
+            if (button == null) {
+                break;
+            }
+            log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
+            switch (task) {
+                case '去浏览': {
+                    let bounds = button.bounds()
+                    if (bounds.centerY() <= device.height) {
+                        click(bounds.centerX(), bounds.centerY())
+                        sleep(5000)
+                        back();     
+                        sleep(1000)   
+                    }
+                    swipe(500, 2000, 500, 1750, 500);
+                    sleep(500)
+                    taskId++;
+                    break;
+                }
+                case '立即领取': {
+                    let bounds = button.bounds()
+                    if (bounds.centerY() < device.height) {
+                        click(bounds.centerX(), bounds.centerY())  
+                    }
+                    sleep(500)
+                    taskId++;
+                    break;
+                }
+                default:
+                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    ignoreId++;
+                    taskId++;
+                    break;
+                }
+            // sleep(500)
+        }
+    })
+    
+    log("任务全部浏览完成, 去抽奖")
+    swipe(500, 360, 500, 2100, 1000);
+    
+    //抽奖
+    while(1) {
+        var target = textMatches("还剩\\d{1,2}次机会").findOne(2000)
+        if (target) {
+            let cnt = target.text().match("\\d{1,2}")
+            if (cnt > 0) {
+                let bounds = target.bounds()
+                click(bounds.centerX(), bounds.centerY()-100)
+                sleep(3000);
+                var target = textMatches("继续抽奖").findOne(5000)
+                if (target) {
+                    let bounds = target.bounds()
+                    click(bounds.centerX(), bounds.centerY())
+                    sleep(500)
+                }
+            } else {
+                log("抽奖完成")
+                break;
+            }
+        }
+    }
+}
+
+
 
 
 console.info("end")
