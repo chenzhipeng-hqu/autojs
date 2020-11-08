@@ -129,14 +129,17 @@ function openAlipay(){
 
 // 打开饿了么果园
 function openElemeGarden(){ 
-    var target = textContains("饿了么").findOne(3000) //支付宝饿了么页面
+    var target = textContains("饿了么").findOne(5000) //支付宝饿了么页面
     if (target) {
         log("点击饿了么")
-        target.parent().click()
-        target = textContains("0元领水果").findOne(3000) //0元领水果
+        sleep(500)
+        var bounds = target.bounds()
+        click(bounds.centerX(), bounds.centerY())
+        target = textContains("0元领水果").findOne(5000) //0元领水果
         if (target) {
             log("点击0元领水果")
-            target.parent().click()
+            var bounds = target.bounds()
+            click(bounds.centerX(), bounds.centerY())
             sleep(3000)
         }
     }

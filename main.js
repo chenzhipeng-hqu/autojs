@@ -8,8 +8,8 @@ var startTime = "07:00";
 var endTime = "7:35";
 var width = device.width;  //设置屏幕的宽度，像素值
 var height = device.height; //设置屏幕的高度，像素值
-// var width = 1080;  //设置屏幕的宽度，像素值
-// var height = 2340; //设置屏幕的高度，像素值
+var width = 1080;  //设置屏幕的宽度，像素值
+var height = 2400; //设置屏幕的高度，像素值
 const WIDTH = Math.min(device.width, device.height);
 const HEIGHT = Math.max(device.width, device.height);
 const IS_ROOT = files.exists("/sbin/su") || files.exists("/system/xbin/su") || files.exists("/system/bin/su");
@@ -150,6 +150,7 @@ function creatEnv() {
     }
 
     //设置屏幕大小，适应不同屏幕尺寸手机
+    toastLog(device.device+" "+width+"x"+height)
     setScreenMetrics(width, height);
 
     //解锁

@@ -54,6 +54,8 @@ function mainEntrence(){
         goto_browse_task();
         sleep(1000)
     }
+    // 结束
+    whenComplete();
 }
 
 // 1. 环境准备
@@ -254,7 +256,8 @@ function clickMango() {
     log("点击种芒果")
     click(150, 750)
     log("等待天猫农场-福年种福果")
-    className("android.widget.Image").depth(16).textContains("gif;base64,iVB").waitFor()
+    // className("android.widget.Image").depth(16).textContains("gif;base64,iVB").waitFor()
+    className("android.widget.Image").textContains("gif;base64,iVB").waitFor()
     log("找到天猫农场-福年种福果")
     sleep(1000)
     //点击领取昨日肥料
@@ -356,6 +359,12 @@ function goto_browse_task() {
     }
 }
 
-// 8. 逛支付宝
+//结束后返回主页面
+function whenComplete() {
+    back();
+    sleep(500);
+    back();
+    sleep(500);
+}
 
 // 9. 锁屏
