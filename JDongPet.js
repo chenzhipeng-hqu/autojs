@@ -36,9 +36,9 @@ threads.start(function(){
 // deleteEnv();
 
 //程序主入口
-function mainEntrence(){
+function mainEntrence(appName){
     //打开京东
-    openJDong();
+    openJDong(appName);
 
     //打开东东萌宠
     openJDongPet();
@@ -105,27 +105,17 @@ function unlock(){
 }
 
 // 打开京东
-function openJDong(){
-    //launchApp("Alipay");
-    
-    // launchApp("京东");
-    // sleep(1000)
-    // toastLog("等待京东启动");
-    //sleep(3000);
-    // var i=0;
-    // while (!textEndsWith("扫一扫").exists() && !descEndsWith("扫一扫").exists() && i<=5){
-    //     clickByTextDesc("首页",0);
-    //     sleep(1000);
-    //     i++;
-    // }
-    // toastLog("第"+i+"次尝试进入支付宝主页");
-    // if(i>=5){
-    //     toastLog("没有找到支付宝首页");
-    //     sleep(1000);
-    //     clickByTextDesc("首页",0);
-    //     return false;
-    // }
-    return true;
+function openJDong(appName){
+    log("打开"+appName)
+    // app.launch("com.jingdong.app.mall")
+    app.launchApp('京东');
+    sleep(2000)
+    var JDong = desc(appName).findOne(5);
+    if(JDong) {
+        JDong.parent().click()
+    }
+    waitForActivity("com.jingdong.app.mall.MainFrameActivity");
+    log("京东已打开")
 }
 
 // 打开东东萌宠
@@ -142,8 +132,9 @@ function openJDongPet(){
     }
     
     log("打开东东萌宠");
-    className("android.widget.TextView").text("东东萌宠").waitFor()
-    sleep(1200)
+    // className("android.widget.TextView").text("东东萌宠").waitFor()
+    className("android.widget.TextView").textContains("与爱宠相识").waitFor()
+    sleep(1500)
 
     return true;
 }
@@ -195,7 +186,7 @@ function goto_browse_task() {
                             target.scrollBackward()
                         }
                     } else {
-                        swipe(500, 2000, 500, 1800, 500);
+                        // swipe(500, 2000, 500, 1800, 500);
                     }
                     sleep(1000)
                     taskId++;
