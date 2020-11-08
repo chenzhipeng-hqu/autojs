@@ -55,7 +55,8 @@ function mainEntrence(){
          enterOthers2();
         //结束后返回主页面
         whenComplete();
-    }while(checkTime());
+    // }while(checkTime());
+    }while(0);
     
     // get_alipay_points();
 
