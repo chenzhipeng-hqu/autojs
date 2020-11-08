@@ -43,8 +43,8 @@ deleteEnv();
  * 任务选择
  */
 function taskChoose() {
-    taskChooseList = ["全选", "蚂蚁森林", "饿了么果园", "蚂蚁会员积分", "芭芭农场",
-                        "东东萌宠", "东东农场", "淘金币(待开发)", "蚂蚁庄园(待开发)"];
+    taskChooseList = ["全选", "蚂蚁森林", "饿了么果园", "蚂蚁会员积分", "蚂蚁庄园(待开发)",
+                        "东东萌宠", "东东农场", "芭芭农场", "淘金币"];
     var options = dialogs.multiChoice("请选择需要执行的任务", taskChooseList, [0]);
     if (options == '') {
         toastLog("未选择任务");
@@ -108,6 +108,12 @@ function taskChoose() {
                 var JDongFarmer = require('JDongFarmer.js');
                 var jdongFarmer = new JDongFarmer();
                 ret = jdongFarmer.run(JDongAppName)
+                break;
+            }
+            case "淘金币": {
+                var TBCoin = require('TBCoin.js');
+                var taobaoCoin = new TBCoin();
+                ret = taobaoCoin.run()
                 break;
             }
             default:{
