@@ -43,8 +43,8 @@ deleteEnv();
  * 任务选择
  */
 function taskChoose() {
-    taskChooseList = ["全选", "蚂蚁森林", "蚂蚁会员积分", "饿了么果园", "芭芭农场",
-                        "东东萌宠", "淘金币(待开发)", "东东农场(待开发)", "蚂蚁庄园(待开发)"];
+    taskChooseList = ["全选", "蚂蚁森林", "饿了么果园", "蚂蚁会员积分", "芭芭农场",
+                        "东东萌宠", "东东农场", "淘金币(待开发)", "蚂蚁庄园(待开发)"];
     var options = dialogs.multiChoice("请选择需要执行的任务", taskChooseList, [0]);
     if (options == '') {
         toastLog("未选择任务");
@@ -54,13 +54,22 @@ function taskChoose() {
         log("选择了全选")
         options.shift(0)
         for(let j=1; j<taskChooseList.length; j++) {
-            if (i.indexOf(j) > -1) {
+            if (options.indexOf(j) > -1) {
                 // log("存在")
             } else {
                 options.push(j)
             }
         }
     }
+
+    var JDongAppName = "京东"
+    var JDongChooseList = ["京东", "双开京东"]
+    //勾选京东任务时弹出双开京东选择
+    if ((options.indexOf(5) > -1) || (options.indexOf(6) > -1)) {
+        JDongAppName = JDongChooseList[JDongChoose(JDongChooseList)];
+        log(JDongAppName)
+    }
+
     options.forEach(option => {
         var ret = 0;
         toastLog("执行【"+ taskChooseList[option] +"】任务")
@@ -92,7 +101,13 @@ function taskChoose() {
             case "东东萌宠": {
                 var JDongPet = require('JDongPet.js');
                 var jdongPet = new JDongPet();
-                ret = jdongPet.run()
+                ret = jdongPet.run(JDongAppName)
+                break;
+            }
+            case "东东农场": {
+                var JDongFarmer = require('JDongFarmer.js');
+                var jdongFarmer = new JDongFarmer();
+                ret = jdongFarmer.run(JDongAppName)
                 break;
             }
             default:{
@@ -102,6 +117,19 @@ function taskChoose() {
         }
         toastLog("【"+ taskChooseList[option] +"】结束")
     })
+}
+
+/**
+ * 京东 或者 双开京东 选择
+ */
+function JDongChoose(JDongChooseList) {
+    var option = dialogs.singleChoice("选择京东APP）", JDongChooseList, 0);
+    if (option == -1) {
+        toastLog("脚本已退出");
+        exit();
+    }
+
+    return option;
 }
 
 // 1. 环境准备
