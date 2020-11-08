@@ -113,18 +113,18 @@ function openGetCoin(){
     waitForActivity("com.taobao.browser.BrowserActivity");
     sleep(3000)
 
-    var target = text("立即去收").findOne(3000)
-    if (target) {     
-        log("点击立即去收")
-        target.click()
-        sleep(1000)
-    }
+    // var target = text("立即去收").findOne(3000)
+    // if (target) {     
+    //     log("点击立即去收")
+    //     target.click()
+    //     sleep(1000)
+    // }
 }
 
 // 3. 点击淘金币
 function clickSignin() {
     // 签到领取双倍淘金币
-    var target = text("签到领金币").findOne(1000)
+    var target = text("签到领金币").findOne(3000)
     if (target) {
         log("点击签到领取双倍淘金币")
         target.click()
