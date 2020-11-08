@@ -44,7 +44,7 @@ deleteEnv();
  */
 function taskChoose() {
     taskChooseList = ["全选", "蚂蚁森林", "蚂蚁庄园", "饿了么果园", "蚂蚁会员积分",
-                        "东东萌宠", "东东农场", "芭芭农场", "淘金币"];
+                        "东东农场", "东东萌宠", "芭芭农场", "淘金币"];
     var options = dialogs.multiChoice("请选择需要执行的任务", taskChooseList, [0]);
     if (options == '') {
         toastLog("未选择任务");

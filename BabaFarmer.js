@@ -248,7 +248,7 @@ function find_treasure_box() {
                     }
                 } else {
                     swipe(500, 2200, 500, 0, 500);
-                    toastLog("滑动第"+j+"次")
+                    log("滑动第"+j+"次")
                     sleep(800)
                 }
             }
@@ -337,7 +337,7 @@ function goto_browse_task() {
                             if (target1) {
                                 break;
                             }
-                            let target2 = descMatches("浏览完成.*|全部完成啦.*|任务已完成.|任务完成.**").findOne(500);
+                            let target2 = descMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
                             if (target2) {
                                 break;
                             }
