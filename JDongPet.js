@@ -147,13 +147,13 @@ function goto_browse_task() {
     className("android.widget.TextView").textContains("做任务赚狗粮").waitFor()
 
     log("开始寻找任务")
-    var taskList = ['去签到', '去开启', '去浏览', '去领取'];
+    var taskList = ['去签到', '去完成', '去开启', '去浏览', '去领取'];
     var taskId = ignoreId = 0;
     var first_enter = 1;
     taskList.forEach(task => {
         className("android.widget.TextView").textContains("做任务赚狗粮").waitFor()
         while (text(task).exists()) {
-            sleep(1000)
+            sleep(500)
             var button = text(task).findOnce(ignoreId);
             if (button == null) {
                 break;
@@ -169,7 +169,6 @@ function goto_browse_task() {
                         sleep(1000)   
                     }
                     swipe(500, 2000, 500, 1700, 500);
-                    sleep(1000)
                     taskId++;
                     break;
                 }
@@ -188,7 +187,6 @@ function goto_browse_task() {
                     } else {
                         // swipe(500, 2000, 500, 1800, 500);
                     }
-                    sleep(1000)
                     taskId++;
                     break;
                 }
@@ -215,8 +213,20 @@ function goto_browse_task() {
                     click(538, 1638)
                     sleep(1000)
                     //开心收下
-                    click(538, 1738)
+                    click(538, 1600)
                     sleep(1000)
+
+                    log("点击赚狗粮")
+                    press(133, 2261, 100);
+                    sleep(500)
+                    className("android.widget.TextView").textContains("做任务赚狗粮").waitFor()
+                    taskId++;
+                    break;
+                }
+                case '去完成': {
+                    let bounds = button.bounds()
+                    click(bounds.centerX(), bounds.centerY())
+                    sleep(5000)
 
                     log("点击赚狗粮")
                     press(133, 2261, 100);
@@ -253,10 +263,6 @@ function watering(cnt){
 // 3. 结束
 //结束后返回主页面
 function whenComplete() {
-    back();
-    sleep(500);
-    back();
-    sleep(500);
     back();
     sleep(500);
     back();
