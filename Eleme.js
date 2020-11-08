@@ -165,51 +165,53 @@ function goto_browse_task() {
     log("开始寻找任务")
     var taskList = ['签到', '去浏览', '去玩转', '去逛逛', '领取'];
     var taskId = ignoreId = 0;
-    taskList.forEach(task => {
-        while (text(task).exists()) {
-            text("邀请果园新用户").waitFor()
-            sleep(1000)
-            var button = text(task).findOnce(ignoreId);
-            if (button == null) {
-                break;
-            }
-            log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
-            switch (task) {
-                case '去浏览':
-                    button.parent().click()
-                    for (var i=0; i<4; i++) {
-                        sleep(1000)
-                        swipe(500, 2000, 500, 1800, 1000);
-                        // toast("第" + i*2 + ":s")
-                    }
-                    text("任务完成").findOne(10000);
-                    log("浏览完成啦")
-                    sleep(1000);
-                    back();                    
-                    taskId++;
-                    break;
-                case '去逛逛':
-                case '去玩转':
-                    button.parent().click()
-                    sleep(1000)
-                    back();
-                    taskId++;
-                    break;
-                case '领取':
-                case '签到':
-                    button.parent().click()
-                    sleep(3000)
-                    taskId++;
-                    break;
-                default:
-                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
-                    ignoreId++;
-                    taskId++;
+    for (let i=0; i<2; i++) {
+        taskList.forEach(task => {
+            while (text(task).exists()) {
+                text("邀请果园新用户").waitFor()
+                sleep(1000)
+                var button = text(task).findOnce(ignoreId);
+                if (button == null) {
                     break;
                 }
-            sleep(1000)
-        }
-    })
+                log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
+                switch (task) {
+                    case '去浏览':
+                        button.parent().click()
+                        for (var i=0; i<4; i++) {
+                            sleep(1000)
+                            swipe(500, 2000, 500, 1800, 1000);
+                            // toast("第" + i*2 + ":s")
+                        }
+                        text("任务完成").findOne(10000);
+                        log("浏览完成啦")
+                        sleep(1000);
+                        back();                    
+                        taskId++;
+                        break;
+                    case '去逛逛':
+                    case '去玩转':
+                        button.parent().click()
+                        sleep(1000)
+                        back();
+                        taskId++;
+                        break;
+                    case '领取':
+                    case '签到':
+                        button.parent().click()
+                        sleep(3000)
+                        taskId++;
+                        break;
+                    default:
+                        log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                        ignoreId++;
+                        taskId++;
+                        break;
+                    }
+                sleep(1000)
+            }
+        })
+    }
     
     log("任务全部完成, 点击关闭")
     click(1000, 1000)
