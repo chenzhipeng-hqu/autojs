@@ -131,14 +131,15 @@ function openGrowingFruit(){
         freeFruit.parent().click()
     }
     waitForActivity("com.jingdong.app.mall.WebActivity");
-    sleep(2000)
+    // sleep(2000)
 
-    // var target = text("立即去收").findOne(3000)
-    // if (target) {     
-    //     log("点击立即去收")
-    //     target.click()
-    //     sleep(1000)
-    // }
+    var target = text("去签到").findOne(3000)
+    if (target) {     
+        log("点击去签到")
+        let bounds = target.bounds()
+        click(bounds.centerX(), bounds.centerY())
+        sleep(1000)
+    }
 }
 
 // 3. 点击连续签到
@@ -153,7 +154,7 @@ function clickSignin() {
     if (target) {
         let bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY())
-        sleep(500)
+        sleep(1000)
     }
     log("签到完成")
     // back();
@@ -177,6 +178,8 @@ function FocusOnWaterDroplets() {
                 let bounds = target.bounds()
                 click(bounds.centerX(), bounds.centerY())
             }
+        } else {
+            break;
         }
     }
     back();
@@ -191,19 +194,37 @@ function goto_browse_task() {
     className("android.view.View").textContains("领水滴").waitFor()
 
     log("开始寻找任务")
+    // TODO: 去完成任务需要跳过 帮2位好友浇水，下单奖励50g水滴
+    // var taskList = ['签到', '去完成', '去逛逛', '去浏览', '去领取', '领取'];
     var taskList = ['签到', '去逛逛', '去浏览', '去领取', '领取'];
     var taskId = ignoreId = 0;
     var first_enter = 1;
     taskList.forEach(task => {
         className("android.view.View").textContains("领水滴").waitFor()
         while (text(task).exists()) {
-            sleep(1000)
+            sleep(500)
+            var target = text("立即领取").findOne(10);
+            if (target) {
+                let bounds = button.bounds()
+                click(bounds.centerX(), bounds.centerY())
+            }
             var button = text(task).findOnce(ignoreId);
             if (button == null) {
                 break;
             }
             log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
             switch (task) {
+                case '去完成': {
+                    let bounds = button.bounds()
+                    click(bounds.centerX(), bounds.centerY())
+                    sleep(5000)        
+                    log("点击领水滴")
+                    press(300, 1738, 100);
+                    sleep(500)
+                    className("android.view.View").textContains("领水滴").waitFor()
+                    taskId++;
+                    break;
+                }
                 case '去逛逛': {
                     let bounds = button.bounds()
                     if (bounds.centerY() <= device.height) {
@@ -213,7 +234,7 @@ function goto_browse_task() {
                         sleep(1000)   
                     }
                     swipe(500, 2000, 500, 1750, 500);
-                    sleep(1000)
+                    // sleep(1000)
                     taskId++;
                     break;
                 }
@@ -227,11 +248,11 @@ function goto_browse_task() {
                             target.click()
                         }
                     } else {
-                        swipe(500, 2000, 500, 1800, 500);
+                        swipe(500, 2000, 500, 1800, 300);
                     }
                     if (first_enter) {
                         first_enter = 0;
-                        let target = className("android.widget.ScrollView").depth(1).findOne(1000)
+                        let target = className("android.widget.ScrollView").findOne(1000)
                         if (target) {
                             target.scrollBackward()
                             target.scrollBackward()
@@ -239,7 +260,7 @@ function goto_browse_task() {
                     } else {
                         // swipe(500, 2000, 500, 1800, 500);
                     }
-                    sleep(1000)
+                    // sleep(1000)
                     taskId++;
                     break;
                 }
@@ -294,11 +315,12 @@ function clicksDuck(cnt) {
             press(566, 1256, 100)
             if(className("android.view.View").textMatches("我要休息啦，明天再来找我玩吧").exists()) {
                 log("我要休息啦，明天再来找我玩吧")
+                sleep(1300)
                 return true;
             }
         }
         sleep(1000);
-        let target = className("android.widget.TextView").textMatches("喊它回来|收下道具卡").findOne(6000)
+        let target = className("android.widget.TextView").textMatches("喊它回来|收下道具卡|收下水滴").findOne(6000)
         if (target) {
             let bounds = target.bounds()
             click(bounds.centerX(), bounds.centerY())
@@ -389,8 +411,6 @@ function get_red_paper() {
 // 3. 结束
 //结束后返回主页面
 function whenComplete() {
-    back();
-    sleep(500);
     back();
     sleep(500);
     back();
