@@ -180,6 +180,8 @@ function whenComplete() {
     sleep(500);
     back();
     sleep(500);
+    back();
+    sleep(500);
     className("android.widget.TextView").text("首页").findOne(3000).parent().click();
 }
 
