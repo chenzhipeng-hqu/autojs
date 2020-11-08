@@ -318,11 +318,11 @@ function goto_browse_task() {
                     } else {
                         let browse_cnt = 0;
                         while (browse_cnt < 25) {
-                            let target1 = textMatches("浏览完成.*|全部完成啦.*|任务已完成.*").findOne(500);
+                            let target1 = textMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
                             if (target1) {
                                 break;
                             }
-                            let target2 = descMatches("浏览完成.*|全部完成啦.*|任务已完成.*").findOne(500);
+                            let target2 = descMatches("浏览完成.*|全部完成啦.*|任务已完成.|任务完成.**").findOne(500);
                             if (target2) {
                                 break;
                             }
