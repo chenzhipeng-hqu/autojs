@@ -181,56 +181,71 @@ function find_treasure_box() {
             for (var j=0; j<36; j++) {
                 var target = desc("立即打开").findOne(1)
                 if (target) {
-                    target.parent().click()
                     toastLog("找到立即打开阳光宝箱 desc")
-                    var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
-                    if (target) {
-                        toastLog("找到 "+target.desc()+" 阳光")
+                    var bounds = target.bounds()            
+                    if (bounds.centerY() <= device.height) {
+                        click(bounds.centerX(), bounds.centerY()) 
+                        var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
+                        if (target) {
+                            toastLog("找到 "+target.desc()+" 阳光")
+                        }
+                        sleep(1000)
+                        back();
                     }
-                    sleep(1000)
-                    back();
+
                     break;
                 }
         
                 var target = text("立即打开").findOne(1)
                 if (target) {
-                    target.parent().click()
                     toastLog("找到立即打开阳光宝箱 text")
-                    var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
-                    if (target) {
-                        toastLog("找到 "+target.desc()+" 阳光")
+                    var bounds = target.bounds()            
+                    if (bounds.centerY() <= device.height) {
+                        click(bounds.centerX(), bounds.centerY())
+                        var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
+                        if (target) {
+                            toastLog("找到 "+target.desc()+" 阳光")
+                        }
+                        sleep(1000)
+                        back();
                     }
-                    sleep(1000)
-                    back();
                     break;
                 }
                       
                 var target = descContains("关注店铺").findOne(1)
                 if (target) {
-                    var bounds = target.bounds()
-                    click(bounds.centerX(), bounds.centerY()+100)
                     toastLog("找到关注店铺阳光宝箱 desc")
-                    var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
-                    if (target) {
-                        toastLog("找到 "+target.desc()+" 阳光")
+                    var bounds = target.bounds()
+                    if (bounds.centerY() <= device.height) {
+                        click(bounds.centerX(), bounds.centerY()+100)
+                        var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
+                        if (target) {
+                            toastLog("找到 "+target.desc()+" 阳光")
+                        }
+                        sleep(1000)
+                        back();
+                    } else {
+                        log("点击范围超出屏幕")
                     }
-                    sleep(1000)
-                    back();
                     break;
                 }
         
                 var target = textContains("关注店铺").findOne(1)
                 if (target) {
-                    var bounds = target.bounds()
-                    click(bounds.centerX(), bounds.centerY()+100)
                     toastLog("找到关注店铺阳光宝箱 text")
-                    var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
-                    if (target) {
-                        toastLog("找到 "+target.desc()+" 阳光")
+                    var bounds = target.bounds()
+                    if (bounds.centerY() <= device.height) {
+                        click(bounds.centerX(), bounds.centerY()+100)
+                        var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
+                        if (target) {
+                            toastLog("找到 "+target.desc()+" 阳光")
+                        }
+                        sleep(1000)
+                        back();
+                        break;
+                    } else {
+                        log("点击范围超出屏幕")
                     }
-                    sleep(1000)
-                    back();
-                    break;
                 } else {
                     swipe(500, 2200, 500, 0, 500);
                     toastLog("滑动第"+j+"次")
