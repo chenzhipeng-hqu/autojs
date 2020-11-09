@@ -15,7 +15,7 @@ auto()
 // console.show()
 console.info("start")
 
-queryAllList();
+// queryAllList();
 
 // js递归遍历数组获取所有的叶子节点
 function queryList(json,arr) {
@@ -76,7 +76,6 @@ function baba_Farmer() {
 //         log(target)
 //         if (target != null) {
 //             // target.click()
-
 //             // for (var i=0; i<20; i++) {
 //             //     // swipe(500, 2000, 500, 1800, 1000);
 //             //     sleep(1)
@@ -945,8 +944,159 @@ function get_red_paper() {
     }
 }
 
+// var target = textContains("已完成").findOnce(5);
+// log(target)
+// if(target) {
+//     log(target.parent());
+// }
+
+// var button = textContains("逛逛支付宝").findOnce();
+// log(button)
+// if(button) {
+//     log(button.parent().parent());
+// }
+
+// if (target.parent().bounds().centerY() == button.parent().parent().bounds().centerY()) {
+//     log("在同一个控件下")
+// } else {
+//     log("不在同一个控件下!!!!!!1")
+// }
+
+var button = textContains("已完成").findOnce(5);
+log(button)
+if(button) {
+    let parent = button.parent();
+    log(parent);
+    let bounds = parent.bounds();
+    log(bounds)
+    // let target = boundsContains(parent.bounds().centerX(), parent.bounds().centerY(), parent.bounds().width(), parent.bounds().height()).textContains("逛逛支付宝").findOne(1000);
+    log(bounds(0))
+    log(bounds.Y())
+    log(bounds.width())
+    log(bounds.height())
+    let target = boundsInside(bounds).textContains("逛逛支付宝").findOne(1000);
+    if (target) {
+        log(target)
+    }
+}
+
+// var button = textContains("逛逛支付宝").findOnce();
+// log(button)
+// if(button) {
+//     log(button.parent().parent());
+//     button.parent().parent().children()
+//     .forEach(child => {
+//         // var button = child.findOne(textMatches(".?"));
+//         log(child)
+//     })
+// }
 
 
+// var list = className("android.view.View").textContains("逛逛支付宝").findOne();
+// list = list.parent().parent()
+// var arr=[];
+// queryList(list,arr);
+
+// for(var k=0;k<arr.length;k++){
+//     log("第"+k+"个子控件\n"
+//         +"desc="+arr[k].desc()+"\n"
+//         +"text="+arr[k].text()+"\n" 
+//         +"ID="+arr[k].id()+"\n"
+//         +"classname="+arr[k].className()+"\n"
+//         +"bounds="+arr[k].bounds()+"\n"
+//         +"depth="+arr[k].depth()+"\n"
+//         +"clickable="+arr[k].clickable()+"\n");
+//     // log("第"+k+"个子控件\n"
+//     //     +arr[k]);
+// }
+
+
+function goto_browse_task() {
+    // var tmp = className("android.widgetimage").text("集肥料").findOne(3)
+    // log(tmp)
+    log("点击集肥料")
+    click(980, 1760)
+    sleep(1000)
+
+    log("开始寻找任务")
+    var taskList = ['去领取', '领取', '去签到', '去浏览', '去完成', '去逛逛'];
+    var taskId = ignoreId = 0;
+    taskList.forEach(task => {
+        while (text(task).exists()) {
+            var button = text(task).findOnce(ignoreId);
+            if (button == null) {
+                break;
+            }
+            log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
+            switch (task) {
+                case '去完成':
+                case '去浏览':
+                case '去逛逛':
+                    // if (textContains("逛逛支付宝芭芭农场").exists()) {
+                    //     log("跳过支付宝芭芭农场任务");
+                    //     ignoreId++;
+                    //     taskId++;
+                    //     break;
+                    // }
+                    button.click()
+                    for (var i=0; i<4; i++) {
+                        swipe(500, 2000, 500, 1800, 1000);
+                        sleep(1000)
+                        // toast("第" + i*2 + ":s")
+                    }
+
+                    var target = textContains("继续赚肥料").findOne(1000)
+                    var target2 = desc("关闭").findOne(1000) //支付宝的芭芭农场右上角有个关闭
+                    if (target) { //说明进入了支付宝的芭芭农场
+                        log("进入支付宝芭芭农场1")
+                        target.click()
+
+                    } else if (target2) { //说明进入了支付宝的芭芭农场, 需要点击集肥料按钮
+                        log("进入支付宝芭芭农场2")
+                        click(980, 2088)
+                    } else {
+                        let browse_cnt = 0;
+                        while (browse_cnt < 25) {
+                            let target1 = textMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
+                            if (target1) {
+                                break;
+                            }
+                            let target2 = descMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
+                            if (target2) {
+                                break;
+                            }
+                            browse_cnt++;
+                        }
+                        log("浏览完成啦")
+                        sleep(1000);
+                        back();
+                    }
+                    
+                    taskId++;
+                    break;
+                case '去签到':
+                case '去领取':
+                case '领取':
+                    button.click()
+                    taskId++;
+                    break;
+                default:
+                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    ignoreId++;
+                    taskId++;
+                    break;
+                }
+            sleep(1000)
+        }
+    })
+    
+    var target = className("android.widget.Button").textContains("关闭").findOne()
+    // log(target)
+    if (target != null) {
+        log("点击关闭")
+        target.click()
+    }
+}
 
 console.info("end")
 exit()
