@@ -133,7 +133,7 @@ function openGrowingFruit(){
     waitForActivity("com.jingdong.app.mall.WebActivity");
     // sleep(2000)
 
-    var target = text("去签到").findOne(3000)
+    var target = text("去签到").findOne(6000)
     if (target) {     
         log("点击去签到")
         let bounds = target.bounds()
