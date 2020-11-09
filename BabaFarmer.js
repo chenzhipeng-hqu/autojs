@@ -112,7 +112,7 @@ function unlock(){
 
 // 1. 打开淘宝
 function openTaobao(){
-    log("打开淘宝")
+    toastLog("打开淘宝")
     app.launch("com.taobao.taobao")
     waitForActivity("com.taobao.tao.TBMainActivity");
 }
@@ -120,7 +120,12 @@ function openTaobao(){
 // 2. 打开芭芭农场
 function openBabaFarmer(){
     log("打开芭芭农场")
-    var babaFarmer = desc("芭芭农场").findOne().click()
+    var babaFarmer = desc("芭芭农场").findOne()
+    if (babaFarmer) {
+        babaFarmer.click()
+    } else {
+        toastLog("未找到芭芭农场")
+    }
     waitForActivity("com.taobao.browser.BrowserActivity");
     sleep(3000)
 
