@@ -146,7 +146,7 @@ function enterAntFarmer(){
     clickByTextDesc("蚂蚁森林",0);
 
     className("android.widget.TextView").text("蚂蚁森林").waitFor();
-    sleep(1000);
+    sleep(2000);
     log("进入蚂蚁庄园")
     press(938, 1375, 100);
     sleep(1000)
