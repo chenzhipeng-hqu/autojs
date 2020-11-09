@@ -134,6 +134,9 @@ function openJDongPet(){
     log("打开东东萌宠");
     // className("android.widget.TextView").text("东东萌宠").waitFor()
     className("android.widget.TextView").textContains("与爱宠相识").waitFor()
+    sleep(500)
+    //开心收下
+    press(536, 1700, 100);
     sleep(1500)
 
     return true;
@@ -195,7 +198,7 @@ function goto_browse_task() {
                     click(bounds.centerX(), bounds.centerY())
                     sleep(1900)
                     //开心收下
-                    click(538, 1738)
+                    click(538, 1600)
                     sleep(1000)
                     log("点击赚狗粮")
                     press(133, 2261, 100);
