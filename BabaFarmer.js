@@ -163,9 +163,13 @@ function baba_Farmer() {
                 sleep(1000)
                 // toast("第" + i*2 + ":s")
             }
-            textMatches("浏览完成.*|全部完成啦.*").findOne(20000);
-            log("浏览完成")
-            sleep(1000);
+            target = textMatches("浏览完成.*|全部完成啦.*").findOne(20000);
+            if (target) {
+                log("浏览完成")
+            } else {
+                toastLog("浏览超时")
+            }
+            sleep(500);
             back()        
         }
     }
@@ -173,35 +177,38 @@ function baba_Farmer() {
 }
 
 // 4. 开宝箱
-
 function find_treasure_box() {
-    for (var i=0; i<10; i++) {
+    log("开宝箱")
+    for (var i=0; i<13; i++) {
         // if (1) {
-        var target = className("android.view.View").text("去进店").findOne(3)
+        var target = className("android.view.View").text("去进店").findOne(1500)
         if (target) {
             target.click()
-            // sleep(3000)
-            textContains("宝贝").waitFor();
-            toastLog("第"+(i+1)+"次寻找阳光宝箱")
+            sleep(4500)
+            // textContains("宝贝").waitFor();
+            log("第"+(i+1)+"次寻找阳光宝箱")
             for (var j=0; j<36; j++) {
-                var target = desc("立即打开").findOne(1)
+                var target = desc("立即打开").findOne(10)
                 if (target) {
                     toastLog("找到立即打开阳光宝箱 desc")
                     var bounds = target.bounds()            
-                    if (bounds.centerY() <= device.height) {
+                    if (bounds.centerY() < device.height*0.9) {
                         click(bounds.centerX(), bounds.centerY()) 
                         var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
+                            sleep(1000)
+                            back();
+                            break;
+                        } else {
+                            log("未打开宝箱")
                         }
-                        sleep(1000)
-                        back();
+                    } else {
+                        log("宝箱坐标超出屏幕尺寸")
                     }
-
-                    break;
                 }
         
-                var target = text("立即打开").findOne(1)
+                var target = text("立即打开").findOne(10)
                 if (target) {
                     toastLog("找到立即打开阳光宝箱 text")
                     var bounds = target.bounds()            
@@ -210,54 +217,65 @@ function find_treasure_box() {
                         var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
+                            sleep(1000)
+                            back();
+                            break;
+                        } else {
+                            log("未打开宝箱")
                         }
-                        sleep(1000)
-                        back();
+                    } else {
+                        log("宝箱坐标超出屏幕尺寸")
                     }
-                    break;
                 }
                       
-                var target = descContains("关注店铺").findOne(1)
+                var target = descContains("关注店铺").findOne(10)
                 if (target) {
                     toastLog("找到关注店铺阳光宝箱 desc")
                     var bounds = target.bounds()
-                    if (bounds.centerY() <= device.height) {
+                    if (bounds.centerY() <= device.height*0.9) {
                         click(bounds.centerX(), bounds.centerY()+100)
                         var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
+                            sleep(1000)
+                            back();
+                            break;
+                        } else {
+                            log("未打开宝箱")
                         }
-                        sleep(1000)
-                        back();
                     } else {
-                        log("点击范围超出屏幕")
+                        log("宝箱坐标超出屏幕尺寸")
                     }
-                    break;
                 }
         
-                var target = textContains("关注店铺").findOne(1)
+                var target = textContains("关注店铺").findOne(10)
                 if (target) {
                     toastLog("找到关注店铺阳光宝箱 text")
                     var bounds = target.bounds()
-                    if (bounds.centerY() <= device.height) {
+                    if (bounds.centerY() <= device.height*0.9) {
                         click(bounds.centerX(), bounds.centerY()+100)
                         var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
+                            sleep(1000)
+                            back();
+                            break;
+                        } else {
+                            log("未打开宝箱")
                         }
-                        sleep(1000)
-                        back();
-                        break;
                     } else {
-                        log("点击范围超出屏幕")
+                        log("宝箱坐标超出屏幕尺寸")
                     }
                 } else {
                     swipe(500, 2200, 500, 0, 500);
                     log("滑动第"+j+"次")
-                    sleep(800)
+                    sleep(1400)
                 }
             }
-            sleep(1000)
+            if (j >= 35) {
+                back();
+            }
+            sleep(600)
         } else {
             break;
         }
@@ -273,21 +291,25 @@ function find_treasure_box() {
 
 // 6. 点击种芒果
 function clickMango() {
-    log("点击种芒果")
-    click(150, 750)
-    log("等待天猫农场-福年种福果")
-    // className("android.widget.Image").depth(16).textContains("gif;base64,iVB").waitFor()
-    className("android.widget.Image").textContains("gif;base64,iVB").waitFor()
+    do {
+        log("点击种芒果")
+        click(150, 750)
+        log("等待天猫农场-福年种福果")
+        // className("android.widget.Image").depth(16).textContains("gif;base64,iVB").waitFor()
+        sleep(2000)
+    }while(!className("android.widget.Image").textContains("gif;base64,iVB").exists())
+    // className("android.widget.Image").textContains("gif;base64,iVB").waitFor()
     log("找到天猫农场-福年种福果")
     sleep(1000)
+
     //点击领取昨日肥料
     log("点击领取昨日肥料")
     click(777, 1280)
-    sleep(500)
+    sleep(700)
     var target = textContains("去施肥，赚更多肥料").findOne(1000)
     if (target) {
         target.click()
-        sleep(500)
+        sleep(700)
     }
 }
 
@@ -331,13 +353,16 @@ function goto_browse_task() {
                     if (target) { //说明进入了支付宝的芭芭农场
                         log("进入支付宝芭芭农场1")
                         target.click()
-
-                    } else if (target2) { //说明进入了支付宝的芭芭农场, 需要点击集肥料按钮
+                        back();
+                        ignoreId++;
+                        alipay_browse_task();
+                    } else if (target2) { //说明进入了支付宝的芭芭农场
                         log("进入支付宝芭芭农场2")
-                        click(980, 2088)
+                        ignoreId++;
+                        alipay_browse_task();
                     } else {
                         let browse_cnt = 0;
-                        while (browse_cnt < 25) {
+                        while (browse_cnt < 18) {
                             let target1 = textMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
                             if (target1) {
                                 break;
@@ -348,7 +373,11 @@ function goto_browse_task() {
                             }
                             browse_cnt++;
                         }
-                        log("浏览完成啦")
+                        if (browse_cnt < 18) {
+                            log("浏览完成啦")
+                        } else {
+                            log("浏览超时返回啦")
+                        }
                         sleep(1000);
                         back();
                     }
@@ -377,6 +406,15 @@ function goto_browse_task() {
         log("点击关闭")
         target.click()
     }
+}
+
+// 支付宝芭芭农场浏览任务
+function alipay_browse_task() {
+    back();
+    
+    //TODO: 完成支付宝芭芭农场任务
+    // 点击集肥料
+    // click(980, 2088)
 }
 
 //结束后返回主页面

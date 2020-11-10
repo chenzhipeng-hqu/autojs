@@ -153,7 +153,7 @@ function get_alipay_family_points(){
         sleep(2300);
 
         var target = text("小医保额度").findOne(1000)
-        log(target)
+        // log(target)
         if (target) {
             for(i=0; i<3;i++){
                 target.parent().click()
@@ -162,7 +162,7 @@ function get_alipay_family_points(){
         }
         
         var target = text("积分").findOne(1000)
-        log(target)
+        // log(target)
         if (target) {
             for(i=0; i<3;i++){
                 target.parent().click()
