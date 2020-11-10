@@ -148,11 +148,14 @@ function JDongChoose(JDongChooseList) {
 //获取权限和设置参数
 function creatEnv() {
     try {
-        auto.waitFor();
+        // auto();  //触发异常
+        auto.waitFor(); //不触发异常
     } catch (error) {
         toast("请手动开启无障碍并授权给Auto.js");
         console.error("请手动开启无障碍并授权给Auto.js")
-        exit();
+        auto.waitFor();
+        toast("Auto.js 继续运行");
+        sleep(1000)
     }
 
     //设置屏幕大小，适应不同屏幕尺寸手机
