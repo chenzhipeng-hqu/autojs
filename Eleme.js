@@ -157,10 +157,12 @@ function openElemeGarden(){
 
 // 签到 / 领水滴 / 邀请好友助力
 function goto_browse_task() {
-    log("点击领水滴")
-    click(112, 2256)
-    sleep(1000)
-    text("邀请果园新用户").waitFor()
+    do {
+        log("点击领水滴")
+        click(112, 2256)
+        sleep(1600)
+    } while(!text("邀请果园新用户").exists()) 
+    // text("邀请果园新用户").waitFor()
 
     log("开始寻找任务")
     var taskList = ['签到', '去浏览', '去玩转', '去逛逛', '领取'];
@@ -169,7 +171,7 @@ function goto_browse_task() {
         taskList.forEach(task => {
             while (text(task).exists()) {
                 text("邀请果园新用户").waitFor()
-                sleep(1000)
+                sleep(100)
                 var button = text(task).findOnce(ignoreId);
                 if (button == null) {
                     break;
@@ -208,7 +210,7 @@ function goto_browse_task() {
                         taskId++;
                         break;
                     }
-                sleep(1000)
+                sleep(500)
             }
         })
     }
