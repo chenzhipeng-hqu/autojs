@@ -144,10 +144,12 @@ function openJDongPet(){
 
 // 做任务 赚狗粮
 function goto_browse_task() {
-    log("点击赚狗粮")
-    press(133, 2261, 100);
-    sleep(500)
-    className("android.widget.TextView").textContains("做任务赚狗粮").waitFor()
+    do {
+        log("点击赚狗粮")
+        press(133, 2261, 100);
+        sleep(1000)
+    }while(!className("android.widget.TextView").textContains("做任务赚狗粮").exists())
+    // className("android.widget.TextView").textContains("做任务赚狗粮").waitFor()
 
     log("开始寻找任务")
     var taskList = ['去签到', '去完成', '去开启', '去浏览', '去领取'];
@@ -182,11 +184,14 @@ function goto_browse_task() {
                     }
                     if (first_enter) {
                         first_enter = 0;
-                        let target = className("android.widget.ScrollView").depth(1).findOne(1000)
-                        if (target) {
-                            target.scrollBackward()
-                            target.scrollBackward()
-                        }
+                        log("向上滚动")
+                        swipe(500, 1400, 500, 2290, 300);
+                        swipe(500, 1400, 500, 2290, 300);
+                        // let target = className("android.widget.ScrollView").depth(1).findOne(1000)
+                        // if (target) {
+                        //     target.scrollBackward()
+                        //     target.scrollBackward()
+                        // }
                     } else {
                         // swipe(500, 2000, 500, 1800, 500);
                     }
@@ -196,14 +201,16 @@ function goto_browse_task() {
                 case '去开启':{
                     let bounds = button.bounds()
                     click(bounds.centerX(), bounds.centerY())
-                    sleep(1900)
-                    //开心收下
-                    click(538, 1600)
-                    sleep(1000)
-                    log("点击赚狗粮")
-                    press(133, 2261, 100);
-                    sleep(500)
-                    className("android.widget.TextView").textContains("做任务赚狗粮").waitFor()
+                    sleep(3000)
+                    do {
+                        log("点击开心收下")
+                        click(538, 1600)
+                        sleep(1500)
+                        log("点击赚狗粮")
+                        press(133, 2261, 100);
+                        sleep(1000)
+                    }while(!className("android.widget.TextView").textContains("做任务赚狗粮").exists())
+                    // className("android.widget.TextView").textContains("做任务赚狗粮").waitFor()
 
                     taskId++;
                     break;
