@@ -37,14 +37,14 @@ threads.start(function(){
 function mainEntrence(){
     do{
         //打开支付宝
-        openAlipay();
+        // openAlipay();
         //蚂蚁庄园
-        if(!checkTime()){
+        // if(!checkTime()){
             //enterAntFarm();
-         }
+        //  }
         //进入蚂蚁森林主页
-        enterMyMainPage();
-        // enterMyMainPage2();
+        // enterMyMainPage();
+        enterMyMainPage2();
         //收集自己的能量
         collectMyEnergy()
         //进入排行榜
