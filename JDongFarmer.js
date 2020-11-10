@@ -144,9 +144,12 @@ function openGrowingFruit(){
 
 // 3. 点击连续签到
 function clickSignin() {
-    log("点击连续签到")
-    click(138, 1738)
-    sleep(1000)
+    do {
+        log("点击连续签到")
+        click(138, 1738)
+        sleep(1000)
+    }while(textContains("再浇水").exists());
+
     log("点击签到")
     click(780, 900)
     sleep(1000)
@@ -188,10 +191,12 @@ function FocusOnWaterDroplets() {
 
 // 领水滴
 function goto_browse_task() {
-    log("点击领水滴")
-    press(300, 1738, 100);
-    sleep(500)
-    className("android.view.View").textContains("领水滴").waitFor()
+    do {
+        log("点击领水滴")
+        press(300, 1738, 100);
+        sleep(1000)
+    }while(!className("android.view.View").textContains("领水滴").exists()) //弹出页面中间的领水滴
+    // className("android.view.View").textContains("领水滴").waitFor()
 
     log("开始寻找任务")
     // TODO: 去完成任务需要跳过 帮2位好友浇水，下单奖励50g水滴
@@ -250,13 +255,19 @@ function goto_browse_task() {
                     } else {
                         swipe(500, 2000, 500, 1800, 300);
                     }
+
                     if (first_enter) {
                         first_enter = 0;
-                        let target = className("android.widget.ScrollView").findOne(1000)
-                        if (target) {
-                            target.scrollBackward()
-                            target.scrollBackward()
-                        }
+                        log("向上滚动")
+                        swipe(500, 1300, 500, 2290, 300);
+                        swipe(500, 1300, 500, 2290, 300);
+                        // let target = className("android.widget.ScrollView").findOne(1000)
+                        // log(target)
+                        // if (target) {
+                        //     log("向上滚动")
+                        //     target.scrollBackward()
+                        //     target.scrollBackward()
+                        // }
                     } else {
                         // swipe(500, 2000, 500, 1800, 500);
                     }
@@ -322,6 +333,7 @@ function clicksDuck(cnt) {
         sleep(1000);
         let target = className("android.widget.TextView").textMatches("喊它回来|收下道具卡|收下水滴").findOne(6000)
         if (target) {
+            log(target.text())
             let bounds = target.bounds()
             click(bounds.centerX(), bounds.centerY())
         }
