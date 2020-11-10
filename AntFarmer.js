@@ -129,21 +129,23 @@ function openAlipay(){
 //从支付宝主页进入蚂蚁森林进入蚂蚁庄园
 function enterAntFarmer(){
     //五次尝试蚂蚁森林入
-    var i=0;
-    while (!textEndsWith("蚂蚁森林").exists() && !descEndsWith("蚂蚁森林").exists() && i<=5){
-        sleep(1000);
-        i++;   
-    }  
-    if(i>=5){
-        toastLog("没有找到蚂蚁森林入口，尝试中");
+    // var i=0;
+    while (!textEndsWith("蚂蚁森林").exists() && !descEndsWith("蚂蚁森林").exists()){
+        // i++;   
         clickByTextDesc("首页",0);
-        sleep(2000);
-        swipe(screen_width*0.5,screen_height*0.3,screen_width*0.5,screen_height*0.7,1000);
-        sleep(2000);
-        swipe(screen_width*0.5,screen_height*0.3,screen_width*0.5,screen_height*0.7,1000);
-        sleep(2000);
-    }
+        sleep(1000);
+    }  
+    // if(i>=5){
+    //     toastLog("没有找到蚂蚁森林入口，尝试中");
+    //     clickByTextDesc("首页",0);
+    //     sleep(1000);
+        // swipe(screen_width*0.5,screen_height*0.3,screen_width*0.5,screen_height*0.7,1000);
+        // sleep(2000);
+        // swipe(screen_width*0.5,screen_height*0.3,screen_width*0.5,screen_height*0.7,1000);
+        // sleep(2000);
+    // }
     clickByTextDesc("蚂蚁森林",0);
+    sleep(500);
 
     className("android.widget.TextView").text("蚂蚁森林").waitFor();
     sleep(2000);
