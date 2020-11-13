@@ -223,7 +223,8 @@ function goto_browse_task() {
                     click(538, 1638)
                     sleep(1000)
                     //开心收下
-                    click(538, 1600)
+                    click(538, 1600) //普通签到
+                    click(538, 1738) //双倍签到
                     sleep(1000)
 
                     log("点击赚狗粮")
