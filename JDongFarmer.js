@@ -112,15 +112,22 @@ function unlock(){
 // 1. 打开京东
 function openJDong(appName){
     log("打开"+appName)
-    // app.launch("com.jingdong.app.mall")
-    app.launchApp('京东');
-    sleep(2000)
-    var JDong = desc(appName).findOne(5);
+    var JDong;
+    do {
+        // app.launch("com.jingdong.app.mall")
+        app.launchApp('京东');
+        sleep(2000)
+        JDong = desc(appName).findOne(5000);
+    }while(!JDong)
+
     if(JDong) {
         JDong.parent().click()
+    } else {
+        toastLog("未找到京东")
     }
-    waitForActivity("com.jingdong.app.mall.MainFrameActivity");
-    log("京东已打开")
+
+    // waitForActivity("com.jingdong.app.mall.MainFrameActivity");
+    // log("京东已打开")
 }
 
 // 2. 打开东东农场
@@ -130,15 +137,18 @@ function openGrowingFruit(){
     if (freeFruit) {
         freeFruit.parent().click()
     }
-    waitForActivity("com.jingdong.app.mall.WebActivity");
+    // waitForActivity("com.jingdong.app.mall.WebActivity");
     // sleep(2000)
 
-    var target = text("去签到").findOne(6000)
+    // 有的时候是去签到, 三餐福利是去领取, 啥也没有就找再浇
+    var target = textMatches("去签到|去领取|再浇.*").findOne(7000)
     if (target) {     
-        log("点击去签到")
+        log("点击"+target.text())
         let bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY())
         sleep(1000)
+    } else {
+        log("未找到 去签到|去领取|再浇")
     }
 }
 
@@ -148,7 +158,7 @@ function clickSignin() {
         log("点击连续签到")
         click(138, 1738)
         sleep(1000)
-    }while(textContains("再浇水").exists());
+    }while(!textMatches("关注得水滴|去看看|去领取").findOne(2000));
 
     log("点击签到")
     click(780, 900)
@@ -175,8 +185,9 @@ function FocusOnWaterDroplets() {
             sleep(5500);
             back();
             
+            sleep(1000);
             log("点击去领取");
-            target = text("去领取").findOne(2000)
+            target = text("去领取").findOne(3000)
             if (target) {
                 let bounds = target.bounds()
                 click(bounds.centerX(), bounds.centerY())
@@ -236,7 +247,15 @@ function goto_browse_task() {
                         click(bounds.centerX(), bounds.centerY())
                         sleep(8000)
                         back();     
-                        sleep(1000)   
+                        
+                        var target = textMatches("残忍放弃").findOne(1000);
+                        if (target) {
+                            log("发现"+target.text())
+                            let bounds = target.bounds()
+                            click(bounds.centerX(), bounds.centerY())
+                            back();     
+                            sleep(1000) 
+                        }  
                     }
                     swipe(500, 2000, 500, 1750, 500);
                     // sleep(1000)
@@ -331,11 +350,14 @@ function clicksDuck(cnt) {
             }
         }
         sleep(1000);
-        let target = className("android.widget.TextView").textMatches("喊它回来|收下道具卡|收下水滴").findOne(6000)
+        log("寻找 喊它回来|收下道具卡|收下水滴")
+        let target = textMatches("喊它回来|收下道具卡|收下水滴").findOne(7000)
         if (target) {
             log(target.text())
             let bounds = target.bounds()
             click(bounds.centerX(), bounds.centerY())
+        } else {
+            log("未找到 喊它回来|收下")
         }
     }
 }
@@ -343,16 +365,24 @@ function clicksDuck(cnt) {
 // 天天领红包
 function get_red_paper() {
     log("点击天天领红包")
-    press(980, 680, 100);
-    sleep(3000)
-    className("android.widget.TextView").text("天天红包").waitFor()
+    do {
+        press(980, 680, 100);
+        sleep(3000)
+    }while(!className("android.widget.TextView").text("天天红包").exists())
+    // className("android.widget.TextView").text("天天红包").waitFor()
+
+    var target = text("快去抽奖").findOne(1000)
+    if(target) {
+        let bounds = target.bounds()
+        click(bounds.centerX(), bounds.centerY())
+    }
 
     log("开始寻找任务")
     var taskList = ['去浏览', '立即领取'];
     var taskId = ignoreId = 0;
     var first_enter = 1;
     taskList.forEach(task => {
-        className("android.view.View").textContains("天天红包").waitFor()
+        textContains("天天红包").waitFor()
         while (text(task).exists()) {
             sleep(1000)
             var button = text(task).findOnce(ignoreId);
