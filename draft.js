@@ -962,23 +962,23 @@ function get_red_paper() {
 //     log("不在同一个控件下!!!!!!1")
 // }
 
-var button = textContains("已完成").findOnce(5);
-log(button)
-if(button) {
-    let parent = button.parent();
-    log(parent);
-    let bounds = parent.bounds();
-    log(bounds)
-    // let target = boundsContains(parent.bounds().centerX(), parent.bounds().centerY(), parent.bounds().width(), parent.bounds().height()).textContains("逛逛支付宝").findOne(1000);
-    log(bounds(0))
-    log(bounds.Y())
-    log(bounds.width())
-    log(bounds.height())
-    let target = boundsInside(bounds).textContains("逛逛支付宝").findOne(1000);
-    if (target) {
-        log(target)
-    }
-}
+// var button = textContains("已完成").findOnce(5);
+// log(button)
+// if(button) {
+//     let parent = button.parent();
+//     log(parent);
+//     let bounds = parent.bounds();
+//     log(bounds)
+//     // let target = boundsContains(parent.bounds().centerX(), parent.bounds().centerY(), parent.bounds().width(), parent.bounds().height()).textContains("逛逛支付宝").findOne(1000);
+//     log(bounds(0))
+//     log(bounds.Y())
+//     log(bounds.width())
+//     log(bounds.height())
+//     let target = boundsInside(bounds).textContains("逛逛支付宝").findOne(1000);
+//     if (target) {
+//         log(target)
+//     }
+// }
 
 // var button = textContains("逛逛支付宝").findOnce();
 // log(button)
@@ -1095,6 +1095,24 @@ function goto_browse_task() {
     if (target != null) {
         log("点击关闭")
         target.click()
+    }
+}
+
+
+var target = desc("立即打开").findOne(1)
+if (target) {
+    log(target)
+    let bounds = target.bounds();
+    click(bounds.centerX(), bounds.centerY()) 
+    log(bounds)
+    log("center: " + bounds.centerX() +", "+ bounds.centerY())
+    log("find: " + (bounds.centerX()) +", "+ (bounds.centerY()-200))
+    log("find: " + (bounds.centerX()+200) +", "+ bounds.centerY())
+    toastLog("找到立即打开阳光宝箱 desc")
+    var target = boundsInside(bounds.centerX(), bounds.centerY()-200, bounds.centerX()+200, bounds.centerY()).descMatches("\\d{1,}").findOne(1000);
+    if (target) {
+        log(target)
+        toastLog("找到 "+target.desc()+" 阳光")
     }
 }
 
