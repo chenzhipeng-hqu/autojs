@@ -194,16 +194,19 @@ function find_treasure_box() {
                     var bounds = target.bounds()            
                     if (bounds.centerY() < device.height*0.9) {
                         click(bounds.centerX(), bounds.centerY()) 
-                        var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
+                        var target = boundsInside(bounds.centerX(), bounds.centerY()-200, 
+                                                    bounds.centerX()+300, bounds.centerY())
+                                                        .descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
                             sleep(1000)
                             back();
                             break;
                         } else {
-                            log("未打开宝箱")
+                            toastLog("未打开宝箱")
                         }
                     } else {
+                        swipe(500, 500, 500, 700, 500);
                         log("宝箱坐标超出屏幕尺寸")
                     }
                 }
@@ -214,16 +217,19 @@ function find_treasure_box() {
                     var bounds = target.bounds()            
                     if (bounds.centerY() <= device.height) {
                         click(bounds.centerX(), bounds.centerY())
-                        var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
+                        var target = boundsInside(bounds.centerX(), bounds.centerY()-200, 
+                                                    bounds.centerX()+300, bounds.centerY())
+                                                        .descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
                             sleep(1000)
                             back();
                             break;
                         } else {
-                            log("未打开宝箱")
+                            toastLog("未打开宝箱")
                         }
                     } else {
+                        swipe(500, 500, 500, 700, 500);
                         log("宝箱坐标超出屏幕尺寸")
                     }
                 }
@@ -234,16 +240,19 @@ function find_treasure_box() {
                     var bounds = target.bounds()
                     if (bounds.centerY() <= device.height*0.9) {
                         click(bounds.centerX(), bounds.centerY()+100)
-                        var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
+                        var target = boundsInside(bounds.centerX(), bounds.centerY()-100, 
+                                                    bounds.centerX()+300, bounds.centerY()+100)
+                                                        .descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
                             sleep(1000)
                             back();
                             break;
                         } else {
-                            log("未打开宝箱")
+                            toastLog("未打开宝箱")
                         }
                     } else {
+                        swipe(500, 500, 500, 700, 500);
                         log("宝箱坐标超出屏幕尺寸")
                     }
                 }
@@ -254,16 +263,19 @@ function find_treasure_box() {
                     var bounds = target.bounds()
                     if (bounds.centerY() <= device.height*0.9) {
                         click(bounds.centerX(), bounds.centerY()+100)
-                        var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
+                        var target = boundsInside(bounds.centerX(), bounds.centerY()-100, 
+                                                    bounds.centerX()+300, bounds.centerY()+100)
+                                                        .descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
                             sleep(1000)
                             back();
                             break;
                         } else {
-                            log("未打开宝箱")
+                            toastLog("未打开宝箱")
                         }
                     } else {
+                        swipe(500, 500, 500, 700, 500);
                         log("宝箱坐标超出屏幕尺寸")
                     }
                 } else {
