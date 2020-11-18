@@ -106,32 +106,67 @@ function unlock(){
 
 // 打开京东
 function openJDong(appName){
-    log("打开"+appName)
-    // app.launch("com.jingdong.app.mall")
-    app.launchApp('京东');
-    sleep(2000)
-    var JDong = desc(appName).findOne(5);
-    if(JDong) {
-        JDong.parent().click()
-    }
-    waitForActivity("com.jingdong.app.mall.MainFrameActivity");
-    log("京东已打开")
+    log("打开" + appName)
+    var JDong;
+    do {
+        // app.launch("com.jingdong.app.mall")
+        app.launchApp('京东');
+        sleep(2000)
+        JDong = desc(appName).findOne(1000);
+        // log(JDong)
+        if (JDong) {
+            let bounds = JDong.bounds()
+            click(bounds.centerX(), bounds.centerY())
+            break;
+        } else {
+            toastLog("未找到京东")
+        }
+
+        if (text("免费水果").exists())
+        {
+            toastLog("找到京东主页")
+            break;
+        }
+    } while (!JDong)
 }
 
 // 打开东东萌宠
 function openJDongPet(){ 
-    var target = className("android.widget.TextView").descContains("搜索框").findOne(1000)
+    // var target = className("android.widget.TextView").descContains("搜索框").findOne(1000)
+    // if (target) {
+    //     target.click();
+    //     target = className("android.widget.EditText").descContains("搜索框").findOne(1000)
+    //     target.setText("东东萌宠")
+    //     target = className("android.widget.TextView").text("搜索").findOne(1000)
+    //     if(target) {
+    //         target.click();
+    //     }
+    // }
+    className("android.widget.TextView").descContains("搜索框").waitFor()
+    // swipe(900, 1000, 100, 1000, 2020);
+    // sleep(1500)
+    // swipe(900, 1000, 100, 1000, 2020);
+    // sleep(1500)
+
+    var target = text("我的").findOne()
     if (target) {
-        target.click();
-        target = className("android.widget.EditText").descContains("搜索框").findOne(1000)
-        target.setText("东东萌宠")
-        target = className("android.widget.TextView").text("搜索").findOne(1000)
-        if(target) {
-            target.click();
-        }
+        let bounds = target.bounds()
+        click(bounds.centerX(), bounds.centerY())
+    }
+
+    var target = text("东东萌宠").findOne()
+    if (target) {
+        let bounds = target.bounds()
+        click(bounds.centerX(), bounds.centerY())
+    }
+
+    log("打开东东萌宠");
+    var JDongPet = text("东东萌宠").findOne()
+    if (JDongPet) {
+        let bounds = JDongPet.bounds()
+        click(bounds.centerX(), bounds.centerY())
     }
     
-    log("打开东东萌宠");
     // className("android.widget.TextView").text("东东萌宠").waitFor()
     className("android.widget.TextView").textContains("与爱宠相识").waitFor()
     sleep(500)
@@ -179,14 +214,15 @@ function goto_browse_task() {
                 }
                 case '去领取': {
                     let bounds = button.bounds()
-                    if (bounds.centerY() < device.height) {
+                    if ((bounds.centerY() < device.height) && (bounds.centerY() > device.height/2)) {
                         click(bounds.centerX(), bounds.centerY())  
                     }
                     if (first_enter) {
                         first_enter = 0;
                         log("向上滚动")
-                        swipe(500, 1400, 500, 2290, 300);
-                        swipe(500, 1400, 500, 2290, 300);
+                        sleep(500)
+                        swipe(500, 1450, 500, 2250, 300);
+                        swipe(500, 1450, 500, 2250, 300);
                         // let target = className("android.widget.ScrollView").depth(1).findOne(1000)
                         // if (target) {
                         //     target.scrollBackward()
