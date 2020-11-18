@@ -43,8 +43,17 @@ deleteEnv();
  * 任务选择
  */
 function taskChoose() {
-    taskChooseList = ["全选", "蚂蚁森林", "蚂蚁庄园", "饿了么果园", "蚂蚁会员积分",
-                        "东东农场", "东东萌宠", "芭芭农场", "淘金币"];
+    // taskChooseList = ["全选", "蚂蚁森林", "蚂蚁庄园", "饿了么果园", "蚂蚁会员积分",
+    //                     "东东农场", "东东萌宠", "芭芭农场", "淘金币"];
+
+    if (device.model == 'Redmi K30 Pro') {  //我的手机需要双开, 暂时先用这个判断吧
+        taskChooseList = ["全选", "蚂蚁森林", "蚂蚁庄园", "饿了么果园", "蚂蚁会员积分",
+                    "东东农场", "东东萌宠", "东东农场(双开)", "东东萌宠(双开)", "芭芭农场", "淘金币"];
+    } else {
+        taskChooseList = ["全选", "蚂蚁森林", "蚂蚁庄园", "饿了么果园", "蚂蚁会员积分",
+                            "东东农场", "东东萌宠", "芭芭农场", "淘金币"];
+    }
+
     var options = dialogs.multiChoice("请选择需要执行的任务", taskChooseList, [0]);
     if (options == '') {
         toastLog("未选择任务");
@@ -62,16 +71,16 @@ function taskChoose() {
         }
     }
 
-    var JDongAppName = "京东"
-    if (device.model == 'Redmi K30 Pro') {  //我的手机需要双开, 暂时先用这个判断吧
-        //勾选京东任务时弹出双开京东选择
-        var JDongChooseList = ["京东", "双开京东"]
-        if ((options.indexOf(5) > -1) || (options.indexOf(6) > -1)) {
-            JDongAppName = JDongChooseList[JDongChoose(JDongChooseList)];
-        }
-    }
+    // var JDongAppName = "京东"
+    // if (device.model == 'Redmi K30 Pro') {  //我的手机需要双开, 暂时先用这个判断吧
+    //     //勾选京东任务时弹出双开京东选择
+    //     var JDongChooseList = ["京东", "双开京东"]
+    //     if ((options.indexOf(5) > -1) || (options.indexOf(6) > -1)) {
+    //         JDongAppName = JDongChooseList[JDongChoose(JDongChooseList)];
+    //     }
+    // }
     
-    log(JDongAppName)
+    // log(JDongAppName)
 
     options.forEach(option => {
         var ret = 0;
@@ -105,13 +114,25 @@ function taskChoose() {
             case "东东萌宠": {
                 var JDongPet = require('JDongPet.js');
                 var jdongPet = new JDongPet();
-                ret = jdongPet.run(JDongAppName)
+                ret = jdongPet.run("京东")
                 break;
             }
             case "东东农场": {
                 var JDongFarmer = require('JDongFarmer.js');
                 var jdongFarmer = new JDongFarmer();
-                ret = jdongFarmer.run(JDongAppName)
+                ret = jdongFarmer.run("京东")
+                break;
+            }
+            case "东东萌宠(双开)": {
+                var JDongPet = require('JDongPet.js');
+                var jdongPet = new JDongPet();
+                ret = jdongPet.run("双开京东")
+                break;
+            }
+            case "东东农场(双开)": {
+                var JDongFarmer = require('JDongFarmer.js');
+                var jdongFarmer = new JDongFarmer();
+                ret = jdongFarmer.run("双开京东")
                 break;
             }
             case "淘金币": {
@@ -163,7 +184,7 @@ function creatEnv() {
     }
 
     //设置屏幕大小，适应不同屏幕尺寸手机
-    toastLog(device.device+" "+width+"x"+height)
+    toastLog(device.model+" "+width+"x"+height)
     setScreenMetrics(width, height);
 
     //解锁

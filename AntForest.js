@@ -456,7 +456,7 @@ function openAlipay(){
         clickByTextDesc("首页",0);
         i++;
     }
-    toastLog("第"+i+"次尝试进入支付宝主页");
+    log("第"+i+"次尝试进入支付宝主页");
     if(i>=5){
         toastLog("没有找到支付宝首页");
         sleep(1000);
