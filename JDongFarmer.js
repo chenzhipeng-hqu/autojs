@@ -36,7 +36,7 @@ threads.start(function(){
 // deleteEnv();
 
 //程序主入口
-function mainEntrence(appName){
+function mainEntrence(appName) {
     //打开京东
     openJDong(appName);
     //打开东东农场
@@ -80,7 +80,7 @@ function creatEnv() {
     toastLog("开始运行");
 
     //请求截图
-    if(!requestScreenCapture()){
+    if (!requestScreenCapture()) {
         log.error("请求截图失败,脚本退出");
         exit();
     }
@@ -95,13 +95,13 @@ function deleteEnv() {
 
 // 1.1 解锁
 //解锁
-function unlock(){
-    if(!device.isScreenOn()){
+function unlock() {
+    if (!device.isScreenOn()) {
         //点亮屏幕
         device.wakeUp();
         sleep(1000);
         //滑动屏幕到输入密码界面 
-        swipe(500,2000,500,1000,222);// 201~238可以
+        swipe(500, 2000, 500, 1000, 222);// 201~238可以
         sleep(800)
         //输入密码图案
         gestures([0, 800, [250, 936], [834, 936], [834, 1518]]);
@@ -110,28 +110,35 @@ function unlock(){
 
 
 // 1. 打开京东
-function openJDong(appName){
-    log("打开"+appName)
+function openJDong(appName) {
+    log("打开" + appName)
     var JDong;
     do {
-        // app.launch("com.jingdong.app.mall")
-        app.launchApp('京东');
+        app.launch("com.jingdong.app.mall")
+        // app.launchApp('京东');
         sleep(2000)
         JDong = desc(appName).findOne(5000);
-    }while(!JDong)
+        // log(JDong)
+        if (JDong) {
+            let bounds = JDong.bounds()
+            click(bounds.centerX(), bounds.centerY())
+            break;
+        } else {
+            toastLog("未找到京东")
+        }
 
-    if(JDong) {
-        JDong.parent().click()
-    } else {
-        toastLog("未找到京东")
-    }
+        if (text("免费水果").exists())
+        {
+            break;
+        }
+    } while (!JDong)
 
     // waitForActivity("com.jingdong.app.mall.MainFrameActivity");
     // log("京东已打开")
 }
 
 // 2. 打开东东农场
-function openGrowingFruit(){
+function openGrowingFruit() {
     log("打开东东农场")
     var freeFruit = text("免费水果").findOne()
     if (freeFruit) {
@@ -142,8 +149,8 @@ function openGrowingFruit(){
 
     // 有的时候是去签到, 三餐福利是去领取, 啥也没有就找再浇
     var target = textMatches("去签到|去领取|再浇.*").findOne(7000)
-    if (target) {     
-        log("点击"+target.text())
+    if (target) {
+        log("点击" + target.text())
         let bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY())
         sleep(1000)
@@ -158,7 +165,7 @@ function clickSignin() {
         log("点击连续签到")
         click(138, 1738)
         sleep(1000)
-    }while(!textMatches("关注得水滴|去看看|去领取").findOne(2000));
+    } while (!textMatches("关注得水滴|去看看|去领取").findOne(2000));
 
     log("点击签到")
     click(780, 900)
@@ -176,15 +183,15 @@ function clickSignin() {
 // 4. 签到页面 限时关注得水滴
 function FocusOnWaterDroplets() {
     log("寻找限时关注得水滴")
-    for (let i=0; i<3; i++) {
-        var target = text("关注得水滴").findOne(1000)
+    for (let i = 0; i < 5; i++) {
+        var target = text("关注得水滴").findOne(1500)
         if (target) {
-            log("点击关注得水滴 "+ (i+1) + "次");
+            log("点击关注得水滴 " + (i + 1) + "次");
             let bounds = target.bounds()
             click(bounds.centerX(), bounds.centerY())
             sleep(5500);
             back();
-            
+
             sleep(1000);
             log("点击去领取");
             target = text("去领取").findOne(3000)
@@ -206,7 +213,7 @@ function goto_browse_task() {
         log("点击领水滴")
         press(300, 1738, 100);
         sleep(1000)
-    }while(!className("android.view.View").textContains("领水滴").exists()) //弹出页面中间的领水滴
+    } while (!className("android.view.View").textContains("领水滴").exists()) //弹出页面中间的领水滴
     // className("android.view.View").textContains("领水滴").waitFor()
 
     log("开始寻找任务")
@@ -233,7 +240,7 @@ function goto_browse_task() {
                 case '去完成': {
                     let bounds = button.bounds()
                     click(bounds.centerX(), bounds.centerY())
-                    sleep(5000)        
+                    sleep(5000)
                     log("点击领水滴")
                     press(300, 1738, 100);
                     sleep(500)
@@ -246,27 +253,27 @@ function goto_browse_task() {
                     if (bounds.centerY() <= device.height) {
                         click(bounds.centerX(), bounds.centerY())
                         sleep(8000)
-                        back();     
-                        
+                        back();
+
                         var target = textMatches("残忍放弃").findOne(1000);
                         if (target) {
-                            log("发现"+target.text())
+                            log("发现" + target.text())
                             let bounds = target.bounds()
                             click(bounds.centerX(), bounds.centerY())
-                            back();     
-                            sleep(1000) 
-                        }  
+                            back();
+                            sleep(1000)
+                        }
                     }
                     swipe(500, 2000, 500, 1750, 500);
                     // sleep(1000)
                     taskId++;
                     break;
                 }
-                case '领取': 
+                case '领取':
                 case '去领取': {
                     let bounds = button.bounds()
                     if (bounds.centerY() < device.height) {
-                        click(bounds.centerX(), bounds.centerY()) 
+                        click(bounds.centerX(), bounds.centerY())
                         let target = className("android.widget.Button").textMatches("收下水滴").findOne(1000)
                         if (target) {
                             target.click()
@@ -313,37 +320,37 @@ function goto_browse_task() {
                     break;
                 }
                 default:
-                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                     ignoreId++;
                     taskId++;
                     break;
-                }
+            }
             sleep(1000)
         }
     })
-    
+
     log("任务全部完成, 点击关闭")
     click(1000, 1150)
     sleep(1000)
 }
 
 // 浇水 n 次
-function watering(cnt){
+function watering(cnt) {
     cnt = cnt ? cnt : 2;
-    for(var i=0; i<cnt; i++) {
+    for (var i = 0; i < cnt; i++) {
         click(900, 1700);
         sleep(3000);
-        log("浇水第"+(i+1)+"次");
+        log("浇水第" + (i + 1) + "次");
     }
 }
 
 // 连续点击鸭子
 function clicksDuck(cnt) {
     log("连续点击鸭子")
-    for (let i=0; i<cnt; i++) {
-        for (let j=0; j<6; j++) {
+    for (let i = 0; i < cnt; i++) {
+        for (let j = 0; j < 8; j++) {
             press(566, 1256, 100)
-            if(className("android.view.View").textMatches("我要休息啦，明天再来找我玩吧").exists()) {
+            if (className("android.view.View").textMatches("我要休息啦，明天再来找我玩吧").exists()) {
                 log("我要休息啦，明天再来找我玩吧")
                 sleep(1300)
                 return true;
@@ -357,7 +364,7 @@ function clicksDuck(cnt) {
             let bounds = target.bounds()
             click(bounds.centerX(), bounds.centerY())
         } else {
-            log("未找到 喊它回来|收下")
+            log("未找到 喊它回来|收下道具卡|收下水滴")
         }
     }
 }
@@ -368,11 +375,11 @@ function get_red_paper() {
     do {
         press(980, 680, 100);
         sleep(3000)
-    }while(!className("android.widget.TextView").text("天天红包").exists())
+    } while (!className("android.widget.TextView").text("天天红包").exists())
     // className("android.widget.TextView").text("天天红包").waitFor()
 
     var target = text("快去抽奖").findOne(1000)
-    if(target) {
+    if (target) {
         let bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY())
     }
@@ -396,8 +403,8 @@ function get_red_paper() {
                     if (bounds.centerY() <= device.height) {
                         click(bounds.centerX(), bounds.centerY())
                         sleep(5000)
-                        back();     
-                        sleep(1000)   
+                        back();
+                        sleep(1000)
                     }
                     swipe(500, 2000, 500, 1750, 500);
                     sleep(500)
@@ -407,7 +414,7 @@ function get_red_paper() {
                 case '立即领取': {
                     let bounds = button.bounds()
                     if (bounds.centerY() < device.height) {
-                        click(bounds.centerX(), bounds.centerY())  
+                        click(bounds.centerX(), bounds.centerY())
                     } else {
                         swipe(500, 2000, 500, 1800, 500);
                     }
@@ -416,26 +423,26 @@ function get_red_paper() {
                     break;
                 }
                 default:
-                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                     ignoreId++;
                     taskId++;
                     break;
-                }
+            }
             // sleep(500)
         }
     })
-    
+
     log("任务全部浏览完成, 去抽奖")
     swipe(500, 360, 500, 2100, 1000);
-    
+
     //抽奖
-    while(1) {
+    while (1) {
         var target = textMatches("还剩\\d{1,2}次机会").findOne(2000)
         if (target) {
             let cnt = target.text().match("\\d{1,2}")
             if (cnt > 0) {
                 let bounds = target.bounds()
-                click(bounds.centerX(), bounds.centerY()-100)
+                click(bounds.centerX(), bounds.centerY() - 100)
                 sleep(3000);
                 var target = textMatches("继续抽奖").findOne(5000)
                 if (target) {
