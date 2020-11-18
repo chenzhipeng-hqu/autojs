@@ -413,9 +413,11 @@ function get_red_paper() {
                 }
                 case '立即领取': {
                     let bounds = button.bounds()
-                    if (bounds.centerY() < device.height) {
-                        click(bounds.centerX(), bounds.centerY())
+                    if (bounds.centerY() < device.height*0.9) {
+                        log("X:" + bounds.centerX() + " Y:" + bounds.centerY())
+                        press(bounds.centerX(), bounds.centerY()+10, 100)
                     } else {
+                        log("向上滑动")
                         swipe(500, 2000, 500, 1800, 500);
                     }
                     sleep(500)
