@@ -195,7 +195,7 @@ function find_treasure_box() {
                     if (bounds.centerY() < device.height*0.9) {
                         click(bounds.centerX(), bounds.centerY()) 
                         var target = boundsInside(bounds.centerX(), bounds.centerY()-200, 
-                                                    bounds.centerX()+300, bounds.centerY())
+                                                    bounds.centerX()+400, bounds.centerY())
                                                         .descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
@@ -206,7 +206,7 @@ function find_treasure_box() {
                             toastLog("未打开宝箱")
                         }
                     } else {
-                        swipe(500, 500, 500, 700, 500);
+                        swipe(500, 500, 500, 1000, 500);
                         log("宝箱坐标超出屏幕尺寸")
                     }
                 }
@@ -218,7 +218,7 @@ function find_treasure_box() {
                     if (bounds.centerY() <= device.height) {
                         click(bounds.centerX(), bounds.centerY())
                         var target = boundsInside(bounds.centerX(), bounds.centerY()-200, 
-                                                    bounds.centerX()+300, bounds.centerY())
+                                                    bounds.centerX()+400, bounds.centerY())
                                                         .descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
@@ -229,7 +229,7 @@ function find_treasure_box() {
                             toastLog("未打开宝箱")
                         }
                     } else {
-                        swipe(500, 500, 500, 700, 500);
+                        swipe(500, 500, 500, 1000, 500);
                         log("宝箱坐标超出屏幕尺寸")
                     }
                 }
@@ -241,7 +241,7 @@ function find_treasure_box() {
                     if (bounds.centerY() <= device.height*0.9) {
                         click(bounds.centerX(), bounds.centerY()+100)
                         var target = boundsInside(bounds.centerX(), bounds.centerY()-100, 
-                                                    bounds.centerX()+300, bounds.centerY()+100)
+                                                    bounds.centerX()+400, bounds.centerY()+100)
                                                         .descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
@@ -252,7 +252,7 @@ function find_treasure_box() {
                             toastLog("未打开宝箱")
                         }
                     } else {
-                        swipe(500, 500, 500, 700, 500);
+                        swipe(500, 500, 500, 1000, 500);
                         log("宝箱坐标超出屏幕尺寸")
                     }
                 }
@@ -264,7 +264,7 @@ function find_treasure_box() {
                     if (bounds.centerY() <= device.height*0.9) {
                         click(bounds.centerX(), bounds.centerY()+100)
                         var target = boundsInside(bounds.centerX(), bounds.centerY()-100, 
-                                                    bounds.centerX()+300, bounds.centerY()+100)
+                                                    bounds.centerX()+400, bounds.centerY()+100)
                                                         .descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
@@ -275,7 +275,7 @@ function find_treasure_box() {
                             toastLog("未打开宝箱")
                         }
                     } else {
-                        swipe(500, 500, 500, 700, 500);
+                        swipe(500, 500, 500, 1000, 500);
                         log("宝箱坐标超出屏幕尺寸")
                     }
                 } else {
@@ -334,7 +334,7 @@ function goto_browse_task() {
     sleep(1000)
 
     log("开始寻找任务")
-    var taskList = ['去领取', '领取', '去签到', '去浏览', '去完成', '去逛逛'];
+    var taskList = ['去浏览', '去领取', '领取', '去签到', '去完成', '去逛逛'];
     var taskId = ignoreId = 0;
     taskList.forEach(task => {
         while (text(task).exists()) {
@@ -377,16 +377,18 @@ function goto_browse_task() {
                         while (browse_cnt < 18) {
                             let target1 = textMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
                             if (target1) {
+                                log("text:"+target1.text())
                                 break;
                             }
                             let target2 = descMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
                             if (target2) {
+                                log("desc:"+target2.desc())
                                 break;
                             }
                             browse_cnt++;
                         }
                         if (browse_cnt < 18) {
-                            log("浏览完成啦")
+                            // log("浏览完成啦")
                         } else {
                             log("浏览超时返回啦")
                         }
