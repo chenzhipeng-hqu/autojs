@@ -107,8 +107,8 @@ function unlock(){
 function openAlipay(){
     //launchApp("Alipay");
     
-    launchApp("支付宝");
-    toastLog("等待支付宝启动");
+    // launchApp("支付宝");
+    // toastLog("等待支付宝启动");
     //sleep(3000);
     // var i=0;
     // while (!textEndsWith("扫一扫").exists() && !descEndsWith("扫一扫").exists() && i<=5){
@@ -123,6 +123,14 @@ function openAlipay(){
     //     clickByTextDesc("首页",0);
     //     return false;
     // }
+
+    do {
+        toastLog("等待支付宝启动");
+        launchApp("支付宝");
+        sleep(2000);
+        clickByTextDesc("首页",0);
+    }while (!textEndsWith("蚂蚁森林").exists() && !descEndsWith("蚂蚁森林").exists())
+
     return true;
 }
 
@@ -130,11 +138,11 @@ function openAlipay(){
 function enterAntFarmer(){
     //五次尝试蚂蚁森林入
     // var i=0;
-    while (!textEndsWith("蚂蚁森林").exists() && !descEndsWith("蚂蚁森林").exists()){
-        // i++;   
-        clickByTextDesc("首页",0);
-        sleep(1000);
-    }  
+    // while (!textEndsWith("蚂蚁森林").exists() && !descEndsWith("蚂蚁森林").exists()){
+    //     // i++;   
+    //     clickByTextDesc("首页",0);
+    //     sleep(1000);
+    // }  
     // if(i>=5){
     //     toastLog("没有找到蚂蚁森林入口，尝试中");
     //     clickByTextDesc("首页",0);
