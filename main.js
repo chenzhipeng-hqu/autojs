@@ -63,12 +63,15 @@ function taskChoose() {
     }
 
     var JDongAppName = "京东"
-    var JDongChooseList = ["京东", "双开京东"]
-    //勾选京东任务时弹出双开京东选择
-    if ((options.indexOf(5) > -1) || (options.indexOf(6) > -1)) {
-        JDongAppName = JDongChooseList[JDongChoose(JDongChooseList)];
-        log(JDongAppName)
+    if (device.model == 'Redmi K30 Pro') {  //我的手机需要双开, 暂时先用这个判断吧
+        //勾选京东任务时弹出双开京东选择
+        var JDongChooseList = ["京东", "双开京东"]
+        if ((options.indexOf(5) > -1) || (options.indexOf(6) > -1)) {
+            JDongAppName = JDongChooseList[JDongChoose(JDongChooseList)];
+        }
     }
+    
+    log(JDongAppName)
 
     options.forEach(option => {
         var ret = 0;
