@@ -181,6 +181,7 @@ function creatEnv() {
 
 function deleteEnv() {
     home()
+    device.vibrate(50)
     console.info("删除脚本环境")
     toastLog("结束运行");
     exit();
