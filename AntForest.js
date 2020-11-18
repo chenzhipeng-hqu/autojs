@@ -37,14 +37,14 @@ threads.start(function(){
 function mainEntrence(){
     do{
         //打开支付宝
-        // openAlipay();
+        openAlipay();
         //蚂蚁庄园
         // if(!checkTime()){
             //enterAntFarm();
         //  }
         //进入蚂蚁森林主页
-        // enterMyMainPage();
-        enterMyMainPage2();
+        enterMyMainPage();
+        // enterMyMainPage2();
         //收集自己的能量
         collectMyEnergy()
         //进入排行榜
@@ -183,7 +183,7 @@ function collectMyEnergy() {
         sleep(1000);
         i++;
     }
-    toastLog("第"+i+"次尝试进入自己主页");
+    log("第"+i+"次尝试进入自己主页");
     if(i>=10){
         toastLog("进入自己能量主页失败");
         return false;
@@ -191,12 +191,12 @@ function collectMyEnergy() {
 
     //收自己能量
     //clickByTextDesc("克",0);
-    toastLog("收集自己能量");
+    log("收集自己能量");
     for(var row=screen_height*0.256;row<screen_height*0.376;row+=80)
         for(var col=screen_width*0.185;col<screen_width*0.815;col+=80){
             click(col,row);
             }
-    toastLog("自己能量收集完成");
+    log("自己能量收集完成");
     sleep(1000);
     return true;
 }
@@ -272,7 +272,7 @@ function enterOthers(){
         sleep(1000);
         i++;
     }
-    toastLog("第"+i+"次尝试进入好友主页");
+    log("第"+i+"次尝试进入好友主页");
     if(i>=10){
         toastLog("进入好友能量主页失败");
         return false;
@@ -295,7 +295,7 @@ function enterOthers(){
 function enterOthers2(){
     var tmp = className("android.view.View").textContains("找能量").findOne()
     if (tmp != null) {
-        toastLog("进入好友能量主页");
+        log("进入好友能量主页");
         tmp.click()
         
     } else {      
@@ -380,10 +380,11 @@ function clickByTextDesc(energyType,paddingY){
 
 //结束后返回主页面
 function whenComplete() {
-    toastLog("蚂蚁森林结束");
+    log("蚂蚁森林结束");
     back();
-    sleep(1500);
+    sleep(1000);
     back();
+    sleep(1000);
 }
 
 function checkTime(){
