@@ -72,6 +72,7 @@ function taskChoose() {
 
     options.forEach(option => {
         var ret = 0;
+        sleep(1000)
         toastLog("执行【"+ taskChooseList[option] +"】任务")
         switch (taskChooseList[option]) {
             case "蚂蚁森林": {
@@ -127,7 +128,7 @@ function taskChoose() {
                 break;
             }
         }
-        toastLog("【"+ taskChooseList[option] +"】结束")
+        // toastLog("【"+ taskChooseList[option] +"】结束")
     })
 }
 
@@ -179,6 +180,7 @@ function creatEnv() {
 }
 
 function deleteEnv() {
+    home()
     console.info("删除脚本环境")
     toastLog("结束运行");
     exit();
