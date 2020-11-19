@@ -148,6 +148,7 @@ function clickGetSunny() {
 // 4. 浏览领阳光
 function baba_Farmer() {
     // sleep(1000)
+    log("浏览领阳光")
     var target = className("android.view.View").text("去浏览").findOne(3000)
     if (target != null) {
         // if (text("10, 今日剩余0次").exists()) { //判断是否有浏览任务
@@ -172,6 +173,8 @@ function baba_Farmer() {
             sleep(500);
             back()        
         }
+    } else {
+        log("浏览都完成啦")
     }
     sleep(800)
 }
@@ -289,6 +292,7 @@ function find_treasure_box() {
             }
             sleep(600)
         } else {
+            log("宝箱都开完啦")
             break;
         }
     }
@@ -366,12 +370,20 @@ function goto_browse_task() {
                         log("进入支付宝芭芭农场1")
                         target.click()
                         back();
-                        ignoreId++;
+                        // ignoreId++;
                         alipay_browse_task();
+                        var target = textContains("继续赚肥料").findOne(1000)
+                        if (target) {
+                            target.click()
+                        }
                     } else if (target2) { //说明进入了支付宝的芭芭农场
                         log("进入支付宝芭芭农场2")
-                        ignoreId++;
-                        alipay_browse_task();
+                        // ignoreId++;
+                        alipay_browse_task();                    
+                        var target = textContains("继续赚肥料").findOne(1000)
+                        if (target) {
+                            target.click()
+                        }
                     } else {
                         let browse_cnt = 0;
                         while (browse_cnt < 18) {
@@ -424,11 +436,48 @@ function goto_browse_task() {
 
 // 支付宝芭芭农场浏览任务
 function alipay_browse_task() {
-    back();
+    // back();
     
-    //TODO: 完成支付宝芭芭农场任务
-    // 点击集肥料
-    // click(980, 2088)
+    log("点击支付宝集肥料")
+    click(980, 2088)
+    sleep(1000)
+
+    log("开始寻找任务")
+    var taskList = ['去签到', '领取', '去逛逛'];
+    var taskId = ignoreId = 0;
+    taskList.forEach(task => {
+        while (text(task).exists()) {
+            var button = text(task).findOnce(ignoreId);
+            if (button == null) {
+                break;
+            }
+            log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
+            switch (task) {
+                case '去逛逛':
+                    button.click()      
+                    var target = textContains("你将要登录的账号和手机淘宝当前已登录账号不一致，是否需要切换？").findOne(3000)
+                    if (target) {
+                        click("确定")
+                        break;
+                    }
+                    taskId++;
+                    break;
+                case '去签到':
+                case '去领取':
+                case '领取':
+                    button.click()
+                    taskId++;
+                    break;
+                default:
+                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    ignoreId++;
+                    taskId++;
+                    break;
+                }
+            sleep(1000)
+        }
+    })
+    log("完成支付宝集肥料")
 }
 
 //结束后返回主页面
