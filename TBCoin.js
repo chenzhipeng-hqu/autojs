@@ -124,7 +124,7 @@ function openGetCoin(){
 // 3. 点击淘金币
 function clickSignin() {
     // 签到领取双倍淘金币
-    var target = text("签到领金币").findOne(3000)
+    var target = textMatches("签到领金币.*|领取.*").findOne(3000)
     if (target) {
         log("点击签到领取双倍淘金币")
         target.click()
