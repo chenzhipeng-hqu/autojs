@@ -212,21 +212,21 @@ function goto_browse_task() {
     do {
         log("点击领水滴")
         press(300, 1738, 100);
-        sleep(1000)
+        sleep(1600)
     } while (!className("android.view.View").textContains("领水滴").exists()) //弹出页面中间的领水滴
     // className("android.view.View").textContains("领水滴").waitFor()
 
     log("开始寻找任务")
     // TODO: 去完成任务需要跳过 帮2位好友浇水，下单奖励50g水滴
-    // var taskList = ['签到', '去完成', '去逛逛', '去浏览', '去领取', '领取'];
-    var taskList = ['签到', '去逛逛', '去浏览', '去领取', '领取'];
+    var taskList = ['签到', '去完成', '去逛逛', '去浏览', '去领取', '领取'];
+    // var taskList = ['签到', '去逛逛', '去浏览', '去领取', '领取'];
     var taskId = ignoreId = 0;
     var first_enter = 1;
     taskList.forEach(task => {
         className("android.view.View").textContains("领水滴").waitFor()
         while (text(task).exists()) {
             sleep(500)
-            var target = text("立即领取").findOne(10);
+            var target = text("立即领取").findOne(10);  // 昨夜下雨领到水滴
             if (target) {
                 let bounds = button.bounds()
                 click(bounds.centerX(), bounds.centerY())
@@ -239,12 +239,60 @@ function goto_browse_task() {
             switch (task) {
                 case '去完成': {
                     let bounds = button.bounds()
-                    click(bounds.centerX(), bounds.centerY())
-                    sleep(5000)
-                    log("点击领水滴")
-                    press(300, 1738, 100);
-                    sleep(500)
-                    className("android.view.View").textContains("领水滴").waitFor()
+                    let target = boundsInside(0, bounds.centerY()-170, 
+                                    bounds.centerX(), bounds.centerY())
+                                        .textMatches("帮2位好友浇水|每日累计浇水10次").findOne(1000);
+                    // log(target)
+                    if (target) {
+                        if (target.text() == "帮2位好友浇水") {
+                            click(bounds.centerX(), bounds.centerY())
+                            sleep(1000)
+                            targets = text("帮ta浇水有机会得道具卡").find()
+                            if (targets.empty()) {
+                                for (let i=0; i<targets.length; i++) {
+                                    // log(targets[i])
+                                    if (targets[i]) {
+                                        do {
+                                            let bounds = targets[i].bounds();
+                                            click(bounds.centerX(), bounds.centerY())
+                                            sleep(1000)
+                                        } while(!textMatches(".*的农场").exists())
+                                        // textMatches(".*的农场").waitFor()
+                                        target = textContains("浇 水").findOne(1000)
+                                        // log(target)
+                                        if (target) {
+                                            let bounds = target.bounds();
+                                            log("浇水")
+                                            click(bounds.centerX(), bounds.centerY())
+                                            sleep(5000)
+                                            // TODO: 收下道具卡, 水滴
+                                            log("收下道具")
+                                        } else {
+                                            log("浇水已完成")
+                                        }
+                                        sleep(1000)
+                                        back()
+                                        sleep(1000)  
+                                    } else {
+                                        toaseLog("帮好友浇水出错了")
+                                    }
+                                }
+                            } else {
+                                toaseLog("未找到好友")
+                            }
+                        } else if (target.text() == "每日累计浇水10次") {
+                            click(bounds.centerX(), bounds.centerY())
+                            sleep(3000)
+                            do {
+                                log("点击领水滴")
+                                press(300, 1738, 100);
+                                sleep(1600)
+                            } while (!className("android.view.View").textContains("领水滴").exists()) //弹出页面中间的领水滴
+                        }
+                    } else {
+                        ignoreId++;
+                        log("跳过" + (ignoreId + 1) + "次【" + task + "】");
+                    }
                     taskId++;
                     break;
                 }
@@ -306,13 +354,15 @@ function goto_browse_task() {
                     click(bounds.centerX(), bounds.centerY())
                     sleep(1000)
                     //签到按钮
+                    log("签到按钮")
                     click(538, 1638)
                     sleep(1000)
                     //开心收下
+                    log("开心收下")
                     click(538, 1738)
                     sleep(1000)
 
-                    log("点击赚狗粮")
+                    log("点击领水滴")
                     press(133, 2261, 100);
                     sleep(500)
                     className("android.view.View").textContains("领水滴").waitFor()
@@ -325,7 +375,7 @@ function goto_browse_task() {
                     taskId++;
                     break;
             }
-            sleep(1000)
+            sleep(1200)
         }
     })
 
@@ -378,7 +428,7 @@ function get_red_paper() {
     } while (!className("android.widget.TextView").text("天天红包").exists())
     // className("android.widget.TextView").text("天天红包").waitFor()
 
-    var target = text("快去抽奖").findOne(1000)
+    var target = text("快去抽奖").findOne(2000)
     if (target) {
         let bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY())
