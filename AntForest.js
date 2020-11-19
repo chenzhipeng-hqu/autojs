@@ -168,11 +168,20 @@ function enterMyMainPage2() {
 
 //通过能量球的位置来点选
 function collectOtherEnergyFromPoint(){
-    var energyPoint = [220,740,360,690,490,640,610,610,750,640,890,770] //自己手机 能量球位置 ，最多六个 需自己适配 x 坐标 /Y 坐标 依次排列
-    
-    for (var i = 0; i<energyPoint.length;i += 2){
-        click(energyPoint[i],energyPoint[i+1])
+    //自己手机 能量球位置 ，最多七个(包括朋友浇水的) 需自己适配 x 坐标 /Y 坐标 依次排列
+    var energyPoint = [266,539, 220,740, 360,690, 490,640, 610,610, 750,640, 890,770]   
+    for (var j = 0; j<3; j++) {
+        for (var i = 0; i < energyPoint.length; i += 2){
+            click(energyPoint[i],energyPoint[i+1])
+        }
     }
+    
+    // 区域点选
+    // for(var row=screen_height*0.256; row<screen_height*0.376; row+=80) {
+    //     for(var col=screen_width*0.185; col<screen_width*0.815; col+=80) {
+    //         click(col,row);
+    //     }
+    // }
 }
 
 function collectMyEnergy() {    
@@ -192,10 +201,11 @@ function collectMyEnergy() {
     //收自己能量
     //clickByTextDesc("克",0);
     log("收集自己能量");
-    for(var row=screen_height*0.256;row<screen_height*0.376;row+=80)
-        for(var col=screen_width*0.185;col<screen_width*0.815;col+=80){
-            click(col,row);
-            }
+    // for(var row=screen_height*0.256;row<screen_height*0.376;row+=80)
+    //     for(var col=screen_width*0.185;col<screen_width*0.815;col+=80){
+    //         click(col,row);
+    //         }
+    collectOtherEnergyFromPoint()
     log("自己能量收集完成");
     sleep(1000);
     return true;
@@ -293,11 +303,12 @@ function enterOthers(){
 
 }
 function enterOthers2(){
+    log("点击找能量")
+    // click(950, 1580)
     var tmp = className("android.view.View").textContains("找能量").findOne()
     if (tmp != null) {
         log("进入好友能量主页");
         tmp.click()
-        
     } else {      
         toastLog("进入好友能量主页失败");
         back();
@@ -309,10 +320,12 @@ function enterOthers2(){
     if (target) {
         //收能量
         //clickByTextDesc("克",0);
-        for(var row=screen_height*0.256;row<screen_height*0.376;row+=80)
-            for(var col=screen_width*0.185;col<screen_width*0.815;col+=80){
-                click(col,row);
-                }
+        // for(var row=screen_height*0.256;row<screen_height*0.376;row+=80)
+        //     for(var col=screen_width*0.185;col<screen_width*0.815;col+=80){
+        //         click(col,row);
+        //         }
+        log("找到有能量的好友")
+        collectOtherEnergyFromPoint()
     } else {
         // 收集完成
         back();
@@ -455,7 +468,7 @@ function openAlipay(){
         sleep(1000);
         clickByTextDesc("首页",0);
         i++;
-        
+
         let button = text("稍后再说").findOne(500)
         if (button) {
             let bounds = button.bounds()
