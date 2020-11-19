@@ -455,6 +455,12 @@ function openAlipay(){
         sleep(1000);
         clickByTextDesc("首页",0);
         i++;
+        
+        let button = text("稍后再说").findOne(500)
+        if (button) {
+            let bounds = button.bounds()
+            click(bounds.centerX(), bounds.centerY())
+        }
     }
     log("第"+i+"次尝试进入支付宝主页");
     if(i>=5){

@@ -129,6 +129,12 @@ function openAlipay(){
         launchApp("支付宝");
         sleep(2000);
         clickByTextDesc("首页",0);
+
+        let button = text("稍后再说").findOne(500) // 不更新版本
+        if (button) {
+            let bounds = button.bounds()
+            click(bounds.centerX(), bounds.centerY())
+        }
     }while (!textEndsWith("蚂蚁森林").exists() && !descEndsWith("蚂蚁森林").exists())
 
     return true;
