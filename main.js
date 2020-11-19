@@ -54,6 +54,7 @@ function taskChoose() {
                             "东东农场", "东东萌宠", "芭芭农场", "淘金币"];
     }
 
+    log("选择任务")
     var options = dialogs.multiChoice("请选择需要执行的任务", taskChooseList, [0]);
     if (options == '') {
         toastLog("未选择任务");
@@ -169,6 +170,31 @@ function JDongChoose(JDongChooseList) {
     return option;
 }
 
+
+/**
+ * 清理近期任务
+ */
+function cleanRecentApp() {
+    recents()
+    let button = descContains("双击清理全部任务").findOne(1000)
+    // log(button)
+    if (button) {
+        log(button.desc())
+        let bounds = button.bounds()
+        log("X:" + bounds.centerX() + " Y:" + bounds.centerY())
+        click(bounds.centerX(), bounds.centerY())
+        press(bounds.centerX(), bounds.centerY(), 100)
+    } else {
+        let button = textContains("近期没有任何内容").findOne(100)
+        // log(button)
+        if (button) {
+            log(button.text())
+            let bounds = button.bounds()
+            click(bounds.centerX(), bounds.centerY())
+        }
+    }
+}
+
 // 1. 环境准备
 //获取权限和设置参数
 function creatEnv() {
@@ -184,7 +210,7 @@ function creatEnv() {
     }
 
     //设置屏幕大小，适应不同屏幕尺寸手机
-    toastLog(device.model+" "+width+"x"+height)
+    toastLog(device.model+" "+device.width+"x"+device.height)
     setScreenMetrics(width, height);
 
     //解锁
@@ -195,12 +221,17 @@ function creatEnv() {
     toastLog("开始运行");
     console.info("创建脚本环境")
 
-    //请求截图
+    home()
+    sleep(500);
+    cleanRecentApp();
+
+    // 请求截图, 比较慢, 大概需要3s
     if(!requestScreenCapture()){
         log.error("请求截图失败,脚本退出");
         exit();
     }
-    // sleep(3000);
+    // sleep(1000);
+    // exit();
 }
 
 function deleteEnv() {
