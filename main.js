@@ -216,11 +216,15 @@ function creatEnv() {
     //解锁
     unlock();
 
+    // 保持常亮
+    device.keepScreenDim(3600*1000)
+
     // 1.2 打开日志
     // console.show();
     toastLog("开始运行");
     console.info("创建脚本环境")
 
+    // 清理任务
     home()
     sleep(500);
     cleanRecentApp();
@@ -236,6 +240,8 @@ function creatEnv() {
 
 function deleteEnv() {
     home()
+    // 取消屏幕常亮
+    device.cancelKeepingAwake()
     device.vibrate(50)
     console.info("删除脚本环境")
     toastLog("结束运行");
