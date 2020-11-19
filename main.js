@@ -46,26 +46,29 @@ function taskChoose() {
     // taskChooseList = ["全选", "蚂蚁森林", "蚂蚁庄园", "饿了么果园", "蚂蚁会员积分",
     //                     "东东农场", "东东萌宠", "芭芭农场", "淘金币"];
 
-    if (device.model == 'Redmi K30 Pro') {  //我的手机需要双开, 暂时先用这个判断吧
-        taskChooseList = ["全选", "蚂蚁森林", "蚂蚁庄园", "饿了么果园", "蚂蚁会员积分",
+    if (device.getAndroidId() == '762129accff8441b') {  // 我的手机需要双开, 用androidId判断
+        taskChooseList = ["反选", "蚂蚁森林", "蚂蚁庄园", "饿了么果园", "蚂蚁会员积分",
                     "东东农场", "东东萌宠", "东东农场(双开)", "东东萌宠(双开)", "芭芭农场", "淘金币"];
     } else {
-        taskChooseList = ["全选", "蚂蚁森林", "蚂蚁庄园", "饿了么果园", "蚂蚁会员积分",
+        taskChooseList = ["反选", "蚂蚁森林", "蚂蚁庄园", "饿了么果园", "蚂蚁会员积分",
                             "东东农场", "东东萌宠", "芭芭农场", "淘金币"];
     }
 
     log("选择任务")
     var options = dialogs.multiChoice("请选择需要执行的任务", taskChooseList, [0]);
+    // log(options)
     if (options == '') {
         toastLog("未选择任务");
         return false
     }
     if(options[0] == 0) {
-        log("选择了全选")
+        log("选择了反选")
         options.shift(0)
         for(let j=1; j<taskChooseList.length; j++) {
-            if (options.indexOf(j) > -1) {
+            let index = options.indexOf(j)
+            if (index > -1) {
                 // log("存在")
+                options.splice(index, 1)
             } else {
                 options.push(j)
             }
