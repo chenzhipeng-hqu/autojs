@@ -169,6 +169,8 @@ function get_alipay_family_points(){
                 sleep(200);
             }
         }
+        back()
+        sleep(500);
     }
 }
 
@@ -176,8 +178,6 @@ function get_alipay_family_points(){
 //结束后返回主页面
 function whenComplete() {
     toastLog("蚂蚁积分结束");
-    back();
-    sleep(500);
     back();
     sleep(500);
     back();
