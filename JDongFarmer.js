@@ -243,16 +243,16 @@ function goto_browse_task() {
                     let bounds = button.bounds()
                     let target = boundsInside(0, bounds.centerY()-170, 
                                     bounds.centerX(), bounds.centerY())
-                                        .textMatches("帮2位好友浇水|每日累计浇水10次").findOne(1000);
-                    // log(target)
+                                        .textMatches("帮2位好友浇水|每日累计浇水10次").findOne(1500);
                     if (target) {
+                        log(target.text())
                         if (target.text() == "帮2位好友浇水") {
                             click(bounds.centerX(), bounds.centerY())
                             sleep(1000)
-                            targets = text("帮ta浇水有机会得道具卡").find()
-                            if (targets.empty()) {
+                            targets = textContains("帮ta浇水有机会得道具卡").find()
+                            if (!targets.empty()) {
                                 for (let i=0; i<targets.length; i++) {
-                                    // log(targets[i])
+                                    log(targets[i].text())
                                     if (targets[i]) {
                                         do {
                                             let bounds = targets[i].bounds();
@@ -260,15 +260,33 @@ function goto_browse_task() {
                                             sleep(1000)
                                         } while(!textMatches(".*的农场").exists())
                                         // textMatches(".*的农场").waitFor()
-                                        target = textContains("浇 水").findOne(1000)
-                                        // log(target)
-                                        if (target) {
-                                            let bounds = target.bounds();
-                                            log("浇水")
+                                        let watering = textContains("浇 水").findOne(1000)
+                                        // log(watering)
+                                        if (watering) {
+                                            log(watering.text()) //"浇水"
+                                            let bounds = watering.bounds();
                                             click(bounds.centerX(), bounds.centerY())
-                                            sleep(5000)
+                                            // sleep(5000)
                                             // TODO: 收下道具卡, 水滴
-                                            log("收下道具")
+                                            let target = textMatches("回农场看看|收下道具卡").findOne(5000);
+                                            if (target) {
+                                                log(target.text())
+                                                if(target.text() == '回农场看看') { // 加签卡
+                                                    back()
+                                                    sleep(1000)
+                                                    
+                                                } else if(target.text() == '收下道具卡'){ //浇水卡
+                                                    let bounds = target.bounds()
+                                                    click(bounds.centerX(), bounds.centerY())
+                                                }
+                                            }
+
+                                            // do {
+                                            //     log("点击领水滴")
+                                            //     press(300, 1738, 100);
+                                            //     sleep(1600)
+                                            // } while (!className("android.view.View").textContains("领水滴").exists()) //弹出页面中间的领水滴
+                                        
                                         } else {
                                             log("浇水已完成")
                                         }
@@ -276,11 +294,11 @@ function goto_browse_task() {
                                         back()
                                         sleep(1000)  
                                     } else {
-                                        toaseLog("帮好友浇水出错了")
+                                        toastLog("帮好友浇水出错了")
                                     }
                                 }
                             } else {
-                                toaseLog("未找到好友")
+                                toastLog("未找到需要浇水的好友")
                             }
                         } else if (target.text() == "每日累计浇水10次") {
                             click(bounds.centerX(), bounds.centerY())
@@ -290,10 +308,13 @@ function goto_browse_task() {
                                 press(300, 1738, 100);
                                 sleep(1600)
                             } while (!className("android.view.View").textContains("领水滴").exists()) //弹出页面中间的领水滴
+                        } else {
+                            log("跳过" + (ignoreId + 1) + "次【" + task + "】");
+                            ignoreId++;
                         }
                     } else {
-                        ignoreId++;
                         log("跳过" + (ignoreId + 1) + "次【" + task + "】");
+                        ignoreId++;
                     }
                     taskId++;
                     break;
