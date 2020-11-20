@@ -335,7 +335,7 @@ function goto_browse_task() {
     // log(tmp)
     log("点击集肥料")
     click(980, 1760)
-    sleep(1000)
+    sleep(1300)
 
     log("开始寻找任务")
     var taskList = ['去浏览', '去领取', '领取', '去签到', '去完成', '去逛逛'];
