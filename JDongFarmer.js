@@ -149,6 +149,8 @@ function openGrowingFruit() {
 
     // 有的时候是去签到, 三餐福利是去领取, 啥也没有就找再浇
     var target = textMatches("去签到|去领取|再浇.*").findOne(7000)
+    sleep(1000)
+    var target = textMatches("去签到|去领取|再浇.*").findOne(2000)
     if (target) {
         log("点击" + target.text())
         let bounds = target.bounds()
