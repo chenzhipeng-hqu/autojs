@@ -215,6 +215,8 @@ function creatEnv() {
     //设置屏幕大小，适应不同屏幕尺寸手机
     toastLog(device.model+" "+device.width+"x"+device.height)
     setScreenMetrics(width, height);
+    // common.x_ratio = device.width / 540
+    // common.y_ratio = device.height / 2360
 
     //解锁
     unlock();
@@ -246,6 +248,7 @@ function deleteEnv() {
     // 取消屏幕常亮
     device.cancelKeepingAwake()
     device.vibrate(50)
+    alert("任务已完成, 请小主查阅.");
     console.info("删除脚本环境")
     toastLog("结束运行");
     exit();
