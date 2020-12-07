@@ -148,12 +148,14 @@ function openJDongPet(){
     // swipe(900, 1000, 100, 1000, 2020);
     // sleep(1500)
 
+    log("点击我的")
     var target = text("我的").findOne()
     if (target) {
         let bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY())
     }
 
+    log("点击东东萌宠")
     var target = text("东东萌宠").findOne()
     if (target) {
         let bounds = target.bounds()
