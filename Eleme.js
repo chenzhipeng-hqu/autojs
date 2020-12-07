@@ -155,8 +155,18 @@ function openElemeGarden(){
     return true;
 }
 
+// 回果园
+function goto_fruit() {
+    log("点击回果园")
+    click(130, 1000)
+    sleep(1600)
+}
+
 // 签到 / 领水滴 / 邀请好友助力
 function goto_browse_task() {
+    // 2020/12/07 双12需要
+    goto_fruit();
+
     do {
         log("点击领水滴")
         click(112, 2256)
@@ -185,7 +195,7 @@ function goto_browse_task() {
                             swipe(500, 2000, 500, 1800, 1000);
                             // toast("第" + i*2 + ":s")
                         }
-                        text("任务完成").findOne(10000);
+                        text("任务完成").findOne(15000);
                         log("浏览完成啦")
                         sleep(1000);
                         back();                    
