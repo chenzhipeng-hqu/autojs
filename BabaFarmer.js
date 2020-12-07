@@ -187,10 +187,11 @@ function find_treasure_box() {
         var target = className("android.view.View").text("去进店").findOne(1500)
         if (target) {
             target.click()
-            sleep(4500)
+            sleep(5000)
             // textContains("宝贝").waitFor();
             log("第"+(i+1)+"次寻找阳光宝箱")
-            for (var j=0; j<36; j++) {
+            for (var j=0; j<36; j++) {          
+                sleep(1000)
                 var target = desc("立即打开").findOne(10)
                 if (target) {
                     toastLog("找到立即打开阳光宝箱 desc")
@@ -209,8 +210,10 @@ function find_treasure_box() {
                             toastLog("未打开宝箱")
                         }
                     } else {
-                        swipe(500, 500, 500, 1000, 500);
+                        // swipe(500, 500, 500, 1000, 500);                
+                        swipe(500, 2000, 500, 1000, 500);
                         log("宝箱坐标超出屏幕尺寸")
+                        continue;
                     }
                 }
         
@@ -232,8 +235,10 @@ function find_treasure_box() {
                             toastLog("未打开宝箱")
                         }
                     } else {
-                        swipe(500, 500, 500, 1000, 500);
+                        // swipe(500, 500, 500, 1000, 500);                
+                        swipe(500, 2000, 500, 1000, 500);
                         log("宝箱坐标超出屏幕尺寸")
+                        continue;
                     }
                 }
                       
@@ -255,8 +260,10 @@ function find_treasure_box() {
                             toastLog("未打开宝箱")
                         }
                     } else {
-                        swipe(500, 500, 500, 1000, 500);
+                        // swipe(500, 500, 500, 1000, 500);                
+                        swipe(500, 2000, 500, 1000, 500);
                         log("宝箱坐标超出屏幕尺寸")
+                        continue;
                     }
                 }
         
@@ -278,13 +285,15 @@ function find_treasure_box() {
                             toastLog("未打开宝箱")
                         }
                     } else {
-                        swipe(500, 500, 500, 1000, 500);
+                        // swipe(500, 500, 500, 1000, 500);                
+                        swipe(500, 2000, 500, 1000, 500);
                         log("宝箱坐标超出屏幕尺寸")
+                        continue;
                     }
                 } else {
                     swipe(500, 2200, 500, 0, 500);
                     log("滑动第"+j+"次")
-                    sleep(1400)
+                    sleep(500)
                 }
             }
             if (j >= 35) {
@@ -341,6 +350,7 @@ function goto_browse_task() {
     var taskList = ['去浏览', '去领取', '领取', '去签到', '去完成', '去逛逛'];
     var taskId = ignoreId = 0;
     taskList.forEach(task => {
+        ignoreId = 0;
         while (text(task).exists()) {
             var button = text(task).findOnce(ignoreId);
             if (button == null) {
@@ -389,12 +399,12 @@ function goto_browse_task() {
                         while (browse_cnt < 18) {
                             let target1 = textMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
                             if (target1) {
-                                log("text:"+target1.text())
+                                log("text: "+target1.text())
                                 break;
                             }
                             let target2 = descMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
                             if (target2) {
-                                log("desc:"+target2.desc())
+                                log("desc: "+target2.desc())
                                 break;
                             }
                             browse_cnt++;
@@ -422,7 +432,7 @@ function goto_browse_task() {
                     taskId++;
                     break;
                 }
-            sleep(1000)
+            sleep(1600)
         }
     })
     
