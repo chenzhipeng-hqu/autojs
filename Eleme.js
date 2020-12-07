@@ -161,7 +161,7 @@ function goto_browse_task() {
         log("点击领水滴")
         click(112, 2256)
         sleep(1600)
-    } while(!text("邀请果园新用户").exists()) 
+    } while(!text("做任务领水滴").exists()) 
     // text("邀请果园新用户").waitFor()
 
     log("开始寻找任务")
