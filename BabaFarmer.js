@@ -367,13 +367,17 @@ function goto_browse_task() {
                     //     taskId++;
                     //     break;
                     // }
+                    
+                    let bounds = button.bounds()
+                    var target3 = boundsInside(0, bounds.centerY()-100, 
+                                    bounds.centerX(), bounds.centerY()+100)
+                                        .textMatches("抽心愿礼盒得300肥料").findOne(10);
                     button.click()
                     for (var i=0; i<4; i++) {
                         swipe(500, 2000, 500, 1800, 1000);
                         sleep(1000)
                         // toast("第" + i*2 + ":s")
                     }
-
                     var target = textContains("继续赚肥料").findOne(1000)
                     var target2 = desc("关闭").findOne(1000) //支付宝的芭芭农场右上角有个关闭
                     if (target) { //说明进入了支付宝的芭芭农场
@@ -394,6 +398,19 @@ function goto_browse_task() {
                         if (target) {
                             target.click()
                         }
+                    } else if (target3) { // 去淘宝人生拿套装(0/1)
+                        sleep(1000)
+                        log("点击免费抽一次心愿礼盒")
+                        click(555, 2290)   // 免费抽一次心愿礼盒
+                        sleep(1000)
+                        click(560, 1683)   // 跳过
+                        sleep(1000)
+                        click(560, 1511)   // 确定
+                        sleep(1000)
+                        back();
+                        sleep(1000);    
+                        log("点击回到淘宝")
+                        click(566, 1436)   // 回到淘宝
                     } else {
                         let browse_cnt = 0;
                         while (browse_cnt < 18) {
