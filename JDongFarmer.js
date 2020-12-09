@@ -230,6 +230,7 @@ function watering_friends() {
     targets = textContains("帮ta浇水有机会得道具卡").find()
     if (!targets.empty()) {
         for (let i=0; i<targets.length; i++) {
+            sleep(1000)
             log(targets[i].text())
             if (targets[i]) {
                 do {
@@ -354,7 +355,7 @@ function goto_browse_task() {
                 case '领取':
                 case '去领取': {
                     let bounds = button.bounds()
-                    if (bounds.centerY() < device.height) {
+                    if ((bounds.centerY() < device.height) & (bounds.centerY() > 0)) {
                         click(bounds.centerX(), bounds.centerY())
                         let target = className("android.widget.Button").textMatches("收下水滴").findOne(1000)
                         if (target) {
@@ -464,6 +465,7 @@ function get_red_paper() {
 
     var target = text("快去抽奖").findOne(2000)
     if (target) {
+        log("点击快去抽奖")
         let bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY())
     }
