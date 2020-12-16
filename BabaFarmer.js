@@ -332,6 +332,7 @@ function clickMango() {
     // 点击继续努力
     var target = textContains("继续努力").findOne(1000)
     if (target) {
+        log(target.text())
         target.click()
         sleep(700)
     }
@@ -450,13 +451,15 @@ function goto_browse_task() {
                         sleep(1000)
                         log("点击免费抽一次心愿礼盒")
                         click(555, 2290)   // 免费抽一次心愿礼盒
-                        sleep(1000)
+                        sleep(1500)
+                        log("点击跳过")
                         click(560, 1683)   // 跳过
-                        sleep(1000)
+                        sleep(1500)
+                        log("点击确定")
                         click(560, 1511)   // 确定
-                        sleep(1000)
+                        sleep(1500)
                         back();
-                        sleep(1000);    
+                        sleep(1500);    
                         log("点击回到淘宝")
                         click(566, 1436)   // 回到淘宝
                     } else {
