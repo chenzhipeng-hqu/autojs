@@ -155,7 +155,7 @@ function openElemeGarden(){
     return true;
 }
 
-// 回果园
+// 回果园 2020/12/07 双12需要
 function goto_fruit() {
     log("点击回果园")
     click(130, 1000)
@@ -164,10 +164,10 @@ function goto_fruit() {
 
 // 签到 / 领水滴 / 邀请好友助力
 function goto_browse_task() {
-    // 2020/12/07 双12需要
-    goto_fruit();
-
     do {
+        // 2020/12/07 双12需要
+        goto_fruit();
+
         log("点击领水滴")
         click(112, 2256)
         sleep(1600)
@@ -175,18 +175,18 @@ function goto_browse_task() {
     // text("邀请果园新用户").waitFor()
 
     log("开始寻找任务")
-    var taskList = ['签到', '去浏览', '去玩转', '去逛逛', '领取'];
+    var taskList = ['签到', '去浏览', '去玩转', '去参加', '去完成', '去逛逛', '领取'];
     var taskId = ignoreId = 0;
-    for (let i=0; i<2; i++) {
+    for (let i=0; i<3; i++) {
         taskList.forEach(task => {
+            log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
             while (text(task).exists()) {
-                text("邀请果园新用户").waitFor()
+                text("做任务领水滴").waitFor()
                 sleep(100)
                 var button = text(task).findOnce(ignoreId);
                 if (button == null) {
                     break;
                 }
-                log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
                 switch (task) {
                     case '去浏览':
                         button.parent().click()
@@ -201,8 +201,10 @@ function goto_browse_task() {
                         back();                    
                         taskId++;
                         break;
+                    case '去参加':
                     case '去逛逛':
                     case '去玩转':
+                    case '去完成':
                         button.parent().click()
                         sleep(1000)
                         back();
@@ -220,7 +222,7 @@ function goto_browse_task() {
                         taskId++;
                         break;
                     }
-                sleep(500)
+                sleep(1000)
             }
         })
     }
