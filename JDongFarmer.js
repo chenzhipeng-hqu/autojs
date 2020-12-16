@@ -194,6 +194,7 @@ function clickSignin() {
     sleep(1000)
     let target = text("明日再来").findOne(1600)
     if (target) {
+        log(target.text())
         let bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY())
         sleep(1000)
@@ -206,27 +207,35 @@ function clickSignin() {
 function FocusOnWaterDroplets() {
     log("寻找限时关注得水滴")
     for (let i = 0; i < 5; i++) {
+        sleep(1000)
         var target = text("关注得水滴").findOne(1500)
         if (target) {
             log("点击关注得水滴 " + (i + 1) + "次");
             let bounds = target.bounds()
             click(bounds.centerX(), bounds.centerY())
             sleep(5500);
-            back();
 
-            sleep(1600);
-            log("点击去领取");
-            target = text("去领取").findOne(3000)
-            if (target) {
-                let bounds = target.bounds()
-                click(bounds.centerX(), bounds.centerY())
+            while (!text("去领取").exists()) {
+                back();
+                sleep(1600);
+
+                log("寻找 去领取");
+                target = text("去领取").findOne(3000)
+                if (target) {
+                    log("点击 去领取");
+                    let bounds = target.bounds()
+                    click(bounds.centerX(), bounds.centerY())
+                    break;
+                }
             }
+
         } else {
             break;
         }
     }
     back();
     log("限时关注得水滴完成")
+    sleep(1000);
 }
 
 // 帮好友浇水
@@ -277,10 +286,11 @@ function watering_friends() {
             } else {
                 toastLog("帮好友浇水出错了")
             }
+            sleep(1000)
         }
-        sleep(1000)  
         //点击关闭
         press(1033, 1185, 100);
+        sleep(1000)  
     }
 }
 
@@ -370,6 +380,7 @@ function goto_browse_task() {
                         let target = className("android.widget.Button").textMatches("收下水滴").findOne(1000)
                         if (target) {
                             target.click()
+                            sleep(1000)
                         }
                     } else {
                         swipe(500, 2000, 500, 1800, 300);
