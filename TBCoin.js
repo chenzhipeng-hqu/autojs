@@ -128,6 +128,11 @@ function clickSignin() {
     if (target) {
         log(target.text())
         target.click()
+        target = text("领取奖励").findOne(1000)
+        if (target) {
+            log("点击 领取奖励")
+            target.click()
+        }
         target = text("关闭").findOne(1000)
         if (target) {
             log("点击 关闭 互动赚更多")
