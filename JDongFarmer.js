@@ -150,24 +150,34 @@ function openGrowingFruit() {
     // sleep(2000)
 
     // 有的时候是去签到, 三餐福利是去领取, 啥也没有就找再浇
-    var target = textMatches("去签到|去领取").findOne(6000)
+    var target = textMatches("去签到|去领取|收下水滴").findOne(6000)
     if (target) {
         log("点击" + target.text())
         let bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY())
         sleep(1000)
     } else {
-        log("未找到 去签到|去领取")
+        log("未找到 去签到|去领取|收下水滴")
     }
     sleep(500)
-    var target = textMatches("去签到|去领取").findOne(2000)
+    var target = textMatches("去签到|去领取|收下水滴").findOne(2000)
     if (target) {
         log("点击" + target.text())
         let bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY())
         sleep(1000)
     } else {
-        log("未找到 去签到|去领取")
+        log("未找到 去签到|去领取|收下水滴")
+    }
+    sleep(500)
+    var target = textMatches("去签到|去领取|收下水滴").findOne(2000)
+    if (target) {
+        log("点击" + target.text())
+        let bounds = target.bounds()
+        click(bounds.centerX(), bounds.centerY())
+        sleep(1000)
+    } else {
+        log("未找到 去签到|去领取|收下水滴")
     }
 }
 
