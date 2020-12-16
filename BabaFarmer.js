@@ -49,6 +49,8 @@ function mainEntrence(){
     find_treasure_box();
     //种芒果
     clickMango();
+    // 观看直播
+    watch_live();
     //浏览任务
     for(var i=0; i<5; i++) {
         goto_browse_task();
@@ -225,7 +227,7 @@ function find_treasure_box() {
                         click(bounds.centerX(), bounds.centerY())
                         var target = boundsInside(bounds.centerX(), bounds.centerY()-200, 
                                                     bounds.centerX()+400, bounds.centerY())
-                                                        .descMatches("\\d{1,}").findOne(1000);
+                                                        .descMatches("\\d{1,}|已获得\\d{1,}阳光.*").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
                             sleep(1000)
@@ -250,7 +252,7 @@ function find_treasure_box() {
                         click(bounds.centerX(), bounds.centerY()+100)
                         var target = boundsInside(bounds.centerX(), bounds.centerY()-100, 
                                                     bounds.centerX()+400, bounds.centerY()+100)
-                                                        .descMatches("\\d{1,}").findOne(1000);
+                                                        .descMatches("\\d{1,}|关注店铺，成功获得").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
                             sleep(1000)
@@ -327,6 +329,13 @@ function clickMango() {
     log("找到天猫农场-福年种福果")
     sleep(1000)
 
+    // 点击继续努力
+    var target = textContains("继续努力").findOne(1000)
+    if (target) {
+        target.click()
+        sleep(700)
+    }
+
     //点击领取昨日肥料
     log("点击领取昨日肥料")
     click(777, 1280)
@@ -335,6 +344,45 @@ function clickMango() {
     if (target) {
         target.click()
         sleep(700)
+    }
+}
+
+// 观看直播
+function watch_live() {
+    let target = textContains("观看直播").findOne(1000)
+    if (target) {
+        log("点击观看直播")
+        let bounds = target.bounds()
+        click(bounds.centerX(), bounds.centerY()-100)
+
+        for (var i=0; i<4; i++) {
+            swipe(500, 2000, 500, 1800, 1000);
+            sleep(1000)
+            // toast("第" + i*2 + ":s")
+        }
+
+        let browse_cnt = 0;
+        while (browse_cnt < 18) {
+            let target1 = textMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
+            if (target1) {
+                log("text: "+target1.text())
+                break;
+            }
+            let target2 = descMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
+            if (target2) {
+                log("desc: "+target2.desc())
+                break;
+            }
+            browse_cnt++;
+        }
+        if (browse_cnt < 18) {
+            // log("浏览完成啦")
+        } else {
+            log("浏览超时返回啦")
+        }
+        sleep(1000);
+        back();
+        sleep(1000);
     }
 }
 
