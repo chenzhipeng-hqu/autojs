@@ -12,13 +12,20 @@ auto()
 //     data: "alipays://platformapi/startapp?appId=60000002"
 // });
 
+//淘宝搜索页面
+// app.startActivity({
+//     action: "VIEW",
+//     packageName:"com.taobao.taobao",
+//     className:"com.taobao.search.searchdoor.SearchDoorActivity"
+// });
+
 // console.show()
 console.info("start")
 
-// queryAllList();
+queryAllList();
 
 // js递归遍历数组获取所有的叶子节点
-function queryList(json,arr) {
+function queryList(json, arr) {
     for (var i = 0; i < json.childCount(); i++) {
         var sonList = json.child(i);
         if (sonList.childCount() == 0) {
@@ -32,28 +39,29 @@ function queryList(json,arr) {
 
 function queryAllList() {
     var list = className("FrameLayout").findOne();
-    var arr=[];
-    queryList(list,arr);
-    
-    for(var k=0;k<arr.length;k++){
-        // log("第"+k+"个子控件\n"
-        //     +"desc="+arr[k].desc()+"\n"
-        //     +"text="+arr[k].text()+"\n" 
-        //     +"ID="+arr[k].id()+"\n"
-        //     +"classname="+arr[k].className()+"\n"
-        //     +"bounds="+arr[k].bounds()+"\n"
-        //     +"clickable="+arr[k].clickable()+"\n");
-        // }
-        log("第"+k+"个子控件\n"
-            +arr[k]);
-        }
+    var arr = [];
+    queryList(list, arr);
+
+    for (var k = 0; k < arr.length; k++) {
+        log("第" + k + "个子控件\n"
+            + "desc=" + arr[k].desc() + "\n"
+            + "text=" + arr[k].text() + "\n"
+            + "ID=" + arr[k].id() + "\n"
+            + "classname=" + arr[k].className() + "\n"
+            + "bounds=" + arr[k].bounds() + "\n"
+            + "scrollable=" + arr[k].scrollable() + "\n"
+            + "clickable=" + arr[k].clickable() + "\n");
+    }
+    // log("第"+k+"个子控件\n"
+    //     +arr[k]);
+    // }
 
 }
 
 // 芭芭农场田地 浏览任务
 function baba_Farmer() {
     className("android.view.View").text("去浏览").findOne().click()
-    for (var i=0; i<8; i++) {
+    for (var i = 0; i < 8; i++) {
         swipe(500, 2000, 500, 1800, 1000);
         sleep(1000)
     }
@@ -110,7 +118,7 @@ function goto_browse_task() {
                 case '去完成':
                 case '去浏览':
                     button.click()
-                    for (var i=0; i<8; i++) {
+                    for (var i = 0; i < 8; i++) {
                         swipe(500, 2000, 500, 1800, 1000);
                         sleep(1000)
                     }
@@ -121,11 +129,11 @@ function goto_browse_task() {
                     i++;
                     break;
                 default:
-                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                     ignoreId++;
                     taskId++;
                     break;
-                }
+            }
         }
     })
 }
@@ -164,7 +172,7 @@ function goto_browse_task() {
 // find_treasure_box()
 
 function find_treasure_box() {
-    for (var i=0; i<10; i++) {
+    for (var i = 0; i < 10; i++) {
         // if (1) {
         sleep(1000)
         var target = className("android.view.View").text("去进店").findOne(5)
@@ -173,62 +181,62 @@ function find_treasure_box() {
             // sleep(3000)
             textContains("宝贝").waitFor();
             toastLog("寻找阳光宝箱")
-            for (var j=0; j<36; j++) {
+            for (var j = 0; j < 36; j++) {
                 var target = desc("立即打开").findOne(1)
                 if (target) {
                     target.parent().click()
                     toastLog("找到立即打开阳光宝箱 desc")
                     var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
                     if (target) {
-                        toastLog("找到 "+target.desc()+" 阳光")
+                        toastLog("找到 " + target.desc() + " 阳光")
                     }
                     sleep(1000)
                     // back();
                     break;
                 }
-        
+
                 var target = text("立即打开").findOne(1)
                 if (target) {
                     target.parent().click()
                     toastLog("找到立即打开阳光宝箱 text")
                     var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
                     if (target) {
-                        toastLog("找到 "+target.desc()+" 阳光")
+                        toastLog("找到 " + target.desc() + " 阳光")
                     }
                     sleep(1000)
                     // back();
                     break;
                 }
-                      
+
                 var target = descContains("关注店铺").findOne(1)
                 if (target) {
                     var bounds = target.bounds()
-                    click(bounds.centerX(), bounds.centerY()+100)
+                    click(bounds.centerX(), bounds.centerY() + 100)
                     toastLog("找到关注店铺阳光宝箱 desc")
                     var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
                     if (target) {
-                        toastLog("找到 "+target.desc()+" 阳光")
+                        toastLog("找到 " + target.desc() + " 阳光")
                     }
                     sleep(1000)
                     // back();
                     break;
                 }
-        
+
                 var target = textContains("关注店铺").findOne(1)
                 if (target) {
                     var bounds = target.bounds()
-                    click(bounds.centerX(), bounds.centerY()+100)
+                    click(bounds.centerX(), bounds.centerY() + 100)
                     toastLog("找到关注店铺阳光宝箱 text")
                     var target = className("android.view.View").descMatches("\\d{1,}").findOne(1000);
                     if (target) {
-                        toastLog("找到 "+target.desc()+" 阳光")
+                        toastLog("找到 " + target.desc() + " 阳光")
                     }
                     sleep(1000)
                     // back();
                     break;
                 } else {
                     swipe(500, 2200, 500, 0, 500);
-                    toastLog("滑动第"+j+"次")
+                    toastLog("滑动第" + j + "次")
                     sleep(800)
                 }
             }
@@ -253,54 +261,54 @@ function find_treasure_box() {
 //     gestures([0, 800, [250, 936], [834, 936], [834, 1518]]);
 // }
 
-function clickByTextDesc(energyType,paddingY){
+function clickByTextDesc(energyType, paddingY) {
     var clicked = false;
-    if(descEndsWith(energyType).exists()){
-        descEndsWith(energyType).find().forEach(function(pos){
-            var posb=pos.bounds();
-            if(posb.centerX()<0 || posb.centerY()-paddingY<0){
+    if (descEndsWith(energyType).exists()) {
+        descEndsWith(energyType).find().forEach(function (pos) {
+            var posb = pos.bounds();
+            if (posb.centerX() < 0 || posb.centerY() - paddingY < 0) {
                 return false;
             }
             //toastLog(pos.id());
             var str = pos.id();
-            if(str != null){
-                if(str.search("search") == -1){
-                    click(posb.centerX(),posb.centerY()-paddingY);
-                     //toastLog("get it 1");
-                     clicked = true;   
+            if (str != null) {
+                if (str.search("search") == -1) {
+                    click(posb.centerX(), posb.centerY() - paddingY);
+                    //toastLog("get it 1");
+                    clicked = true;
                 }
-            }else{
-                click(posb.centerX(),posb.centerY()-paddingY);
+            } else {
+                click(posb.centerX(), posb.centerY() - paddingY);
                 //toastLog("get it 2");
                 clicked = true;
                 sleep(100);
             }
         });
     }
-    
-    if(textEndsWith(energyType).exists() && clicked == false){
-        textEndsWith(energyType).find().forEach(function(pos){
-            var posb=pos.bounds();
-            if(posb.centerX()<0 || posb.centerY()-paddingY<0){
+
+    if (textEndsWith(energyType).exists() && clicked == false) {
+        textEndsWith(energyType).find().forEach(function (pos) {
+            var posb = pos.bounds();
+            if (posb.centerX() < 0 || posb.centerY() - paddingY < 0) {
                 return false;
             }
             //toastLog(pos.id());
             var str = pos.id();
-            if(str != null){
-                if(str.search("search") == -1){
-                    click(posb.centerX(),posb.centerY()-paddingY); 
+            if (str != null) {
+                if (str.search("search") == -1) {
+                    click(posb.centerX(), posb.centerY() - paddingY);
                     //toastLog("get it 3"); 
-                    clicked = true;  
+                    clicked = true;
                 }
-            }else{
-                click(posb.centerX(),posb.centerY()-paddingY);
+            } else {
+                click(posb.centerX(), posb.centerY() - paddingY);
                 //toastLog("get it 4");
                 clicked = true;
             }
             sleep(100);
         });
     }
-    
+
     return clicked;
 }
 
@@ -315,38 +323,38 @@ function unlock() {
         device.isScreenOn() && KeyCode("KEYCODE_POWER"); //判断是否锁屏
         exit();
     }
-    
+
     let max_try_times_wake_up = 10; //尝试解锁10次
-    
+
     while (!device.isScreenOn() && max_try_times_wake_up--) {
         device.wakeUp();
         sleep(500);
     }
-    
-    if (max_try_times_wake_up < 0) 
+
+    if (max_try_times_wake_up < 0)
         errorMessage("点亮屏幕失败"); //尝试次数max，显示失败文本
-    
+
     let keyguard_manager = context.getSystemService(context.KEYGUARD_SERVICE);
-    
+
     let isUnlocked = () => !keyguard_manager.isKeyguardLocked();
-    
+
     let swipe_time = 0;
-    
+
     let swipe_time_increment = 80;
-    
+
     let max_try_times_swipe = 20; //初始化时间，递增时间，最大解锁时间
-    
+
     while (!isUnlocked() && max_try_times_swipe--) {
         swipe_time += swipe_time_increment;
         gesture(swipe_time, [540, device.height * 0.9], [540, device.height * 0.1]); //模拟手势
         sleep(1200);
     } //循环函数
-    
-    if (max_try_times_swipe < 0) 
+
+    if (max_try_times_swipe < 0)
         errorMessage("上滑屏幕失败"); //尝试失败，重新设置一下参数
-    
+
     log("解锁成功");
-    
+
     log("尝试得到最佳滑动时间: " + swipe_time + "(毫秒)") //可到日志中查看最佳滑动时间
 }
 
@@ -397,7 +405,7 @@ function clickMango() {
 
 // get_alipay_vip_points();
 
-function get_alipay_vip_points(){
+function get_alipay_vip_points() {
     toastLog("领取蚂蚁会员积分");
     // clickByTextDesc("我的",0);
     sleep(1000);
@@ -409,9 +417,9 @@ function get_alipay_vip_points(){
     // clickByTextDesc("领积分",0);
     textContains("领积分").findOne(3000).click();
     // sleep(1000);
-    var i=0;
-    for(i=0; i<10;i++){
-        clickByTextDesc("点击领取",0);
+    var i = 0;
+    for (i = 0; i < 10; i++) {
+        clickByTextDesc("点击领取", 0);
         sleep(100);
     }
 }
@@ -531,7 +539,7 @@ function goto_browse_task() {
             switch (task) {
                 case '去浏览':
                     button.parent().click()
-                    for (var i=0; i<4; i++) {
+                    for (var i = 0; i < 4; i++) {
                         sleep(1000)
                         swipe(500, 2000, 500, 1800, 1000);
                         // toast("第" + i*2 + ":s")
@@ -539,7 +547,7 @@ function goto_browse_task() {
                     text("任务完成").findOne(10000);
                     log("浏览完成啦")
                     sleep(1000);
-                    back();                    
+                    back();
                     taskId++;
                     break;
                 case '去逛逛':
@@ -556,15 +564,15 @@ function goto_browse_task() {
                     taskId++;
                     break;
                 default:
-                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                     ignoreId++;
                     taskId++;
                     break;
-                }
+            }
             sleep(1000)
         }
     })
-    
+
     log("点击关闭")
     click(1000, 1000)
     sleep(1000)
@@ -635,8 +643,8 @@ function goto_browse_task() {
                     if (bounds.centerY() <= device.height) {
                         click(bounds.centerX(), bounds.centerY())
                         sleep(1500)
-                        back();     
-                        sleep(1000)   
+                        back();
+                        sleep(1000)
                     }
                     swipe(500, 2000, 500, 1700, 500);
                     sleep(1000)
@@ -646,7 +654,7 @@ function goto_browse_task() {
                 case '去领取': {
                     let bounds = button.bounds()
                     if (bounds.centerY() < device.height) {
-                        click(bounds.centerX(), bounds.centerY())  
+                        click(bounds.centerX(), bounds.centerY())
                     }
                     if (first_enter) {
                         first_enter = 0;
@@ -662,7 +670,7 @@ function goto_browse_task() {
                     taskId++;
                     break;
                 }
-                case '去开启':{
+                case '去开启': {
                     let bounds = button.bounds()
                     click(bounds.centerX(), bounds.centerY())
                     sleep(1900)
@@ -696,15 +704,15 @@ function goto_browse_task() {
                     break;
                 }
                 default:
-                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                     ignoreId++;
                     taskId++;
                     break;
-                }
+            }
             sleep(1000)
         }
     })
-    
+
     log("任务全部完成, 点击关闭")
     click(1000, 1150)
     sleep(1000)
@@ -720,15 +728,15 @@ function goto_browse_task() {
 // FocusOnWaterDroplets()
 
 function FocusOnWaterDroplets() {
-    for (let i=0; i<3; i++) {
+    for (let i = 0; i < 3; i++) {
         var target = text("关注得水滴").findOne(1000)
         if (target) {
-            log("点击关注得水滴 "+ (i+1) + "次");
+            log("点击关注得水滴 " + (i + 1) + "次");
             let bounds = target.bounds()
             click(bounds.centerX(), bounds.centerY())
             sleep(5500);
             back();
-            
+
             log("点击去领取");
             target = text("去领取").findOne(2000)
             if (target) {
@@ -768,19 +776,19 @@ function goto_browse_task() {
                     if (bounds.centerY() <= device.height) {
                         click(bounds.centerX(), bounds.centerY())
                         sleep(8000)
-                        back();     
-                        sleep(1000)   
+                        back();
+                        sleep(1000)
                     }
                     swipe(500, 2000, 500, 1750, 500);
                     sleep(1000)
                     taskId++;
                     break;
                 }
-                case '领取': 
+                case '领取':
                 case '去领取': {
                     let bounds = button.bounds()
                     if (bounds.centerY() < device.height) {
-                        click(bounds.centerX(), bounds.centerY())  
+                        click(bounds.centerX(), bounds.centerY())
                     }
                     if (first_enter) {
                         first_enter = 0;
@@ -815,15 +823,15 @@ function goto_browse_task() {
                     break;
                 }
                 default:
-                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                     ignoreId++;
                     taskId++;
                     break;
-                }
+            }
             sleep(1000)
         }
     })
-    
+
     log("任务全部完成, 点击关闭")
     click(1000, 1150)
     sleep(1000)
@@ -832,10 +840,10 @@ function goto_browse_task() {
 // clicksDuck(5)
 
 function clicksDuck(cnt) {
-    for (let i=0; i<cnt; i++) {
-        for (let j=0; j<6; j++) {
+    for (let i = 0; i < cnt; i++) {
+        for (let j = 0; j < 6; j++) {
             press(566, 1256, 100)
-            if(className("android.view.View").textMatches("我要休息啦，明天再来找我玩吧").exists()) {
+            if (className("android.view.View").textMatches("我要休息啦，明天再来找我玩吧").exists()) {
                 log("我要休息啦，明天再来找我玩吧")
                 return true;
             }
@@ -891,8 +899,8 @@ function get_red_paper() {
                     if (bounds.centerY() <= device.height) {
                         click(bounds.centerX(), bounds.centerY())
                         sleep(5000)
-                        back();     
-                        sleep(1000)   
+                        back();
+                        sleep(1000)
                     }
                     swipe(500, 2000, 500, 1750, 500);
                     sleep(500)
@@ -902,33 +910,33 @@ function get_red_paper() {
                 case '立即领取': {
                     let bounds = button.bounds()
                     if (bounds.centerY() < device.height) {
-                        click(bounds.centerX(), bounds.centerY())  
+                        click(bounds.centerX(), bounds.centerY())
                     }
                     sleep(500)
                     taskId++;
                     break;
                 }
                 default:
-                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                     ignoreId++;
                     taskId++;
                     break;
-                }
+            }
             // sleep(500)
         }
     })
-    
+
     log("任务全部浏览完成, 去抽奖")
     swipe(500, 360, 500, 2100, 1000);
-    
+
     //抽奖
-    while(1) {
+    while (1) {
         var target = textMatches("还剩\\d{1,2}次机会").findOne(2000)
         if (target) {
             let cnt = target.text().match("\\d{1,2}")
             if (cnt > 0) {
                 let bounds = target.bounds()
-                click(bounds.centerX(), bounds.centerY()-100)
+                click(bounds.centerX(), bounds.centerY() - 100)
                 sleep(3000);
                 var target = textMatches("继续抽奖").findOne(5000)
                 if (target) {
@@ -1039,7 +1047,7 @@ function goto_browse_task() {
                     //     break;
                     // }
                     button.click()
-                    for (var i=0; i<4; i++) {
+                    for (var i = 0; i < 4; i++) {
                         swipe(500, 2000, 500, 1800, 1000);
                         sleep(1000)
                         // toast("第" + i*2 + ":s")
@@ -1071,7 +1079,7 @@ function goto_browse_task() {
                         sleep(1000);
                         back();
                     }
-                    
+
                     taskId++;
                     break;
                 case '去签到':
@@ -1081,15 +1089,15 @@ function goto_browse_task() {
                     taskId++;
                     break;
                 default:
-                    log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                    log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                     ignoreId++;
                     taskId++;
                     break;
-                }
+            }
             sleep(1000)
         }
     })
-    
+
     var target = className("android.widget.Button").textContains("关闭").findOne()
     // log(target)
     if (target != null) {
@@ -1099,22 +1107,323 @@ function goto_browse_task() {
 }
 
 
-var target = desc("立即打开").findOne(1)
-if (target) {
-    log(target)
-    let bounds = target.bounds();
-    click(bounds.centerX(), bounds.centerY()) 
-    log(bounds)
-    log("center: " + bounds.centerX() +", "+ bounds.centerY())
-    log("find: " + (bounds.centerX()) +", "+ (bounds.centerY()-200))
-    log("find: " + (bounds.centerX()+200) +", "+ bounds.centerY())
-    toastLog("找到立即打开阳光宝箱 desc")
-    var target = boundsInside(bounds.centerX(), bounds.centerY()-200, bounds.centerX()+200, bounds.centerY()).descMatches("\\d{1,}").findOne(1000);
-    if (target) {
-        log(target)
-        toastLog("找到 "+target.desc()+" 阳光")
+// var target = desc("立即打开").findOne(1)
+// if (target) {
+//     log(target)
+//     let bounds = target.bounds();
+//     click(bounds.centerX(), bounds.centerY()) 
+//     log(bounds)
+//     log("center: " + bounds.centerX() +", "+ bounds.centerY())
+//     log("find: " + (bounds.centerX()) +", "+ (bounds.centerY()-200))
+//     log("find: " + (bounds.centerX()+200) +", "+ bounds.centerY())
+//     toastLog("找到立即打开阳光宝箱 desc")
+//     var target = boundsInside(bounds.centerX(), bounds.centerY()-200, bounds.centerX()+200, bounds.centerY()).descMatches("\\d{1,}").findOne(1000);
+//     if (target) {
+//         log(target)
+//         toastLog("找到 "+target.desc()+" 阳光")
+//     }
+// }
+
+
+// swipe(900, 990, 130, 1010, 310);
+// sleep(1500)
+// swipe(900, 990, 130, 1010, 310);
+// sleep(1500)
+
+// openJDong('京东')
+
+// 1. 打开京东
+function openJDong(appName) {
+    log("打开" + appName)
+    var JDong;
+    do {
+        app.launch("com.jingdong.app.mall")
+        // app.launchApp('京东');
+        sleep(2000)
+        JDong = packageName("android").desc(appName).findOne(1000);
+        log(JDong)
+        if (JDong) {
+            let bounds = JDong.bounds()
+            click(bounds.centerX(), bounds.centerY())
+            break;
+        } else {
+            toastLog("未找到京东")
+        }
+        //     if (active)
+        if (text("免费水果").exists()) {
+            break;
+        }
+
+    } while (!JDong)
+
+    // waitForActivity("com.jingdong.app.mall.MainFrameActivity");
+    // log("京东已打开")
+}
+
+// get_mobile_info()
+
+function get_mobile_info() {
+    log(app.versionCode)
+    log(app.versionName)
+    log(device.buildId)
+    log(device.broad)
+    log(device.brand)
+    log(device.device)
+    log(device.product)
+    log(device.bootloader)
+    log(device.hardware)
+    log(device.model)
+    log(device.fingerprint)
+    log(device.serial)
+    log(device.sdkInt)
+    log(device.incremental)
+    log(device.release)
+    log(device.baseOS)
+    log(device.getIMEI())
+    // device.vibrate(50)
+}
+
+// (255, 2002 - 748, 2112)
+// (783, 2087 - 1003, 2186)
+// do {
+//     log("点击领水滴")
+//     press(300, 1738, 100);
+//     sleep(1600)
+// } while (!className("android.view.View").textContains("领水滴").exists()) //弹出页面中间的领水滴
+// watering_friends();
+function watering_friends() {
+    if (text("去完成").exists()) {
+        let button = text("去完成").findOne(1000)
+        if (button) {
+            let bounds = button.bounds();
+            let target = boundsInside(0, bounds.centerY() - 170,
+                bounds.centerX(), bounds.centerY())
+                .textMatches("帮2位好友浇水|每日累计浇水10次").findOne(1500);
+            log(target)
+            if (target) {
+                if (target.text() == "帮2位好友浇水") {
+                    click(bounds.centerX(), bounds.centerY())
+                    sleep(1000)
+                    targets = text("帮ta浇水有机会得道具卡").find()
+                    log(targets.empty())
+                    if (!targets.empty()) {
+                        for (let i = 0; i < targets.length; i++) {
+                            // log(targets[i])
+                            if (targets[i]) {
+                                do {
+                                    let bounds = targets[i].bounds();
+                                    click(bounds.centerX(), bounds.centerY())
+                                    sleep(1000)
+                                } while (!textMatches(".*的农场").exists())
+                                // textMatches(".*的农场").waitFor()
+                                target = textContains("浇 水").findOne(1000)
+                                // log(target)
+                                if (target) {
+                                    let bounds = target.bounds();
+                                    log("浇水")
+                                    // click(bounds.centerX(), bounds.centerY())
+                                    sleep(5000)
+                                    // 收下道具卡, 水滴
+                                    log("收下道具")
+                                } else {
+                                    log("浇水已完成")
+                                }
+                                sleep(1000)
+                                back()
+                                sleep(1000)
+                            } else {
+                            }
+                        }
+                    }
+                } else if (target.text() == "每日累计浇水10次") {
+                    click(bounds.centerX(), bounds.centerY())
+                    sleep(3000)
+                    do {
+                        log("点击领水滴")
+                        press(300, 1738, 100);
+                        sleep(1600)
+                    } while (!className("android.view.View").textContains("领水滴").exists()) //弹出页面中间的领水滴
+                }
+            }
+        }
     }
 }
+
+// notifications()
+// quickSettings()
+// recents()
+// log(device.getAndroidId())
+
+// let button = descContains("双击清理全部任务").findOne(1000)
+// // log(button)
+// if (button) {
+//     log(button.desc())
+//     let bounds = button.bounds()
+//     log("X:" + bounds.centerX() + " Y:" + bounds.centerY())
+//     click(bounds.centerX(), bounds.centerY())
+// } else {
+//     let button = textContains("近期没有任何内容").findOne(100)
+//     // log(button)
+//     if (button) {
+//         log(button.text())
+//         let bounds = button.bounds()
+//         click(bounds.centerX(), bounds.centerY())
+//     }
+// }
+
+// let button = text("稍后再说").findOne(1000)
+// log(button)
+// if (button) {
+//     let bounds = button.bounds()
+//     click(bounds.centerX(), bounds.centerY())
+// }
+
+// collectOtherEnergyFromPoint()
+
+//通过能量球的位置来点选
+function collectOtherEnergyFromPoint() {
+    var energyPoint = [220, 740, 360, 690, 490, 640, 610, 610, 750, 640, 890, 770] //自己手机 能量球位置 ，最多六个 需自己适配 x 坐标 /Y 坐标 依次排列
+
+    for (var i = 0; i < energyPoint.length; i += 2) {
+        click(energyPoint[i], energyPoint[i + 1])
+    }
+}
+
+// if (device.getAndroidId() == '762129accff8441b') {  // 我的手机需要双开, 用androidId判断
+//     taskChooseList = ["全选", "蚂蚁森林", "蚂蚁庄园", "饿了么果园", "蚂蚁会员积分",
+//                 "东东农场", "东东萌宠", "东东农场(双开)", "东东萌宠(双开)", "芭芭农场", "淘金币"];
+// } else {
+//     taskChooseList = ["全选", "蚂蚁森林", "蚂蚁庄园", "饿了么果园", "蚂蚁会员积分",
+//                         "东东农场", "东东萌宠", "芭芭农场", "淘金币"];
+// }
+
+// var options = dialogs.multiChoice("请选择需要执行的任务", taskChooseList, [0]);
+// log(options)
+// if (options == '') {
+//     toastLog("未选择任务");
+//     // return false
+// }
+// if(options[0] == 0) {
+//     log("选择了全选")
+//     options.shift(0)
+//     for(let j=1; j<taskChooseList.length; j++) {
+//         let index = options.indexOf(j)
+//         if (index > -1) {
+//             // log("存在")
+//             options.splice(index, 1)
+//         } else {
+//             options.push(j)
+//         }
+//     }
+// }
+// log(options)
+
+// alipay_browse_task()
+
+// 7. 集肥料
+function alipay_browse_task() {
+    log("点击支付宝集肥料")
+    click(980, 2088)
+    sleep(1000)
+
+    log("开始寻找任务")
+    var taskList = ['去签到', '领取', '去逛逛'];
+    var taskId = ignoreId = 0;
+    taskList.forEach(task => {
+        while (text(task).exists()) {
+            var button = text(task).findOnce(ignoreId);
+            if (button == null) {
+                break;
+            }
+            log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
+            switch (task) {
+                case '去逛逛':
+                    button.click()
+                    var target = textContains("你将要登录的账号和手机淘宝当前已登录账号不一致，是否需要切换？").findOne(3000)
+                    if (target) {
+                        click("确定")
+                    }
+                    taskId++;
+                    break;
+                case '去签到':
+                case '去领取':
+                case '领取':
+                    button.click()
+                    taskId++;
+                    break;
+                default:
+                    log("跳过" + (ignoreId + 1) + "次【" + task + "】");
+                    ignoreId++;
+                    taskId++;
+                    break;
+            }
+            sleep(1000)
+        }
+    })
+    log("完成支付宝集肥料")
+
+    var target = textContains("继续赚肥料").findOne(1000)
+    if (target) {
+        target.click()
+    }
+}
+
+// watering_friends()
+
+function watering_friends() {
+    do {
+        log("点击好友")
+        press(633, 1736, 100); //点击好友按钮
+        sleep(1000)
+    } while (!className("android.view.View").textContains("好友列表").exists()) //弹出好友列表
+    targets = textContains("帮ta浇水有机会得道具卡").find()
+    if (!targets.empty()) {
+        for (let i = 0; i < targets.length; i++) {
+            log(targets[i].text())
+            if (targets[i]) {
+                do {
+                    let bounds = targets[i].bounds();
+                    click(bounds.centerX(), bounds.centerY())
+                    sleep(1000)
+                } while (!textMatches(".*的农场").exists())
+                // textMatches(".*的农场").waitFor()
+                let watering = textContains("浇 水").findOne(1000)
+                // log(watering)
+                if (watering) {
+                    log(watering.text()) //"浇水"
+                    let bounds = watering.bounds();
+                    click(bounds.centerX(), bounds.centerY())
+                    // sleep(5000)
+                    // TODO: 收下道具卡, 水滴
+                    let target = textMatches("回农场看看|收下道具卡").findOne(6000);
+                    if (target) {
+                        log(target.text())
+                        if (target.text() == '回农场看看') { // 加签卡
+                            // back()
+                            // sleep(1000)     
+                            click(537, 1929)  // 点击关闭按钮                        
+                        } else if (target.text() == '收下道具卡') { //浇水卡
+                            let bounds = target.bounds()
+                            click(bounds.centerX(), bounds.centerY())
+                        }
+                    }
+                } else {
+                    log("浇水已完成")
+                }
+                sleep(1000)
+                back()
+            } else {
+                toastLog("帮好友浇水出错了")
+            }
+        }
+        sleep(1000)
+        //点击关闭
+        press(1033, 1185, 100);
+    }
+}
+
+// alert("任务已完成, 请查阅");
+
 
 console.info("end")
 exit()
