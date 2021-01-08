@@ -137,20 +137,20 @@ function get_alipay_vip_points(){
     // clickByTextDesc("领积分",0);
     sleep(1000);
     // 进入领取积分
-    var target = textContains("签到领积分").findOne(3000)
+    var target = textContains("每日赚积分").findOne(3000)
     if (target) {
         log(target.text())
         target.click()
     }
-    sleep(1000);
+    sleep(2000);
     // 领取积分
-    var target = textContains("签到领积分").findOne(3000)
-    if (target) {
-        log(target.text())
-        target.click()
-    } else {
-        log("已领取")
-    }
+    // var target = textContains("每日赚积分").findOne(3000)
+    // if (target) {
+    //     log(target.text())
+    //     target.click()
+    // } else {
+    //     log("已领取")
+    // }
     back();
 }
 
