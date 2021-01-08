@@ -177,15 +177,22 @@ function feed_the_chicken() {
     //喂饲料
     press(950, 2200, 100);
     sleep(1000)
+
+    // TODO:找小鸡
+    var target = text("找小鸡").findOne(1000)
+    if (target) {
+        log("点击找小鸡")
+    }
 }
 
 // 3. 领饲料
 function get_feed(){
-    log("领饲料")
+    log("点击领饲料")
     press(385, 2214, 100);
     sleep(1200)
     var target = text("去完成").findOne(1000)
     if (target) {
+        log("点击 " + target.text())
     }
 
     // 关闭
