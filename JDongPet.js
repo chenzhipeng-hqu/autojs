@@ -276,6 +276,14 @@ function goto_browse_task() {
                     let bounds = button.bounds()
                     click(bounds.centerX(), bounds.centerY())
                     sleep(5000)
+                    
+                    log("点击收爱心")          
+                    //自己手机 爱心的位置, 需自己适配 x 坐标 /Y 坐标 依次排列
+                    var heartPoint = [176,1846, 176,1250, 433,863, 826,1036, 877,1384]  
+                    for (var i = 0; i < heartPoint.length; i += 2){
+                        click(heartPoint[i], heartPoint[i+1])
+                    }
+                    sleep(500)
 
                     log("点击赚狗粮")
                     press(133, 2261, 100);
