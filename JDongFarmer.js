@@ -362,16 +362,21 @@ function goto_browse_task() {
                     if (bounds.centerY() <= device.height) {
                         click(bounds.centerX(), bounds.centerY())
                         sleep(8000)
-                        back();
-
-                        var target = textMatches("残忍放弃").findOne(1000);
-                        if (target) {
-                            log("发现" + target.text())
-                            let bounds = target.bounds()
-                            click(bounds.centerX(), bounds.centerY())
+                        
+                        do {
                             back();
                             sleep(1000)
-                        }
+
+                            var target = textMatches("残忍放弃").findOne(1000);
+                            if (target) {
+                                log("发现" + target.text())
+                                let bounds = target.bounds()
+                                click(bounds.centerX(), bounds.centerY())
+                                back();
+                                sleep(1000)
+                            }
+                        } while (!className("android.view.View").textContains("领水滴").exists()) //弹出页面中间的领水滴
+                        
                     }
                     swipe(500, 2000, 500, 1750, 500);
                     // sleep(1000)
