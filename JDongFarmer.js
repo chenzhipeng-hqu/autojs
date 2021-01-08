@@ -333,13 +333,18 @@ function goto_browse_task() {
                     if (target) {
                         log(target.text())
                         if (target.text() == "每日累计浇水10次") {
-                            click(bounds.centerX(), bounds.centerY())
-                            sleep(3000)
-                            do {
-                                log("点击领水滴")
-                                press(300, 1738, 100);
-                                sleep(1600)
-                            } while (!className("android.view.View").textContains("领水滴").exists()) //弹出页面中间的领水滴
+                            if (bounds.centerY() <= device.height) {
+                                click(bounds.centerX(), bounds.centerY())
+                                sleep(3000)
+                                do {
+                                    log("点击领水滴")
+                                    press(300, 1738, 100);
+                                    sleep(1600)
+                                } while (!className("android.view.View").textContains("领水滴").exists()) //弹出页面中间的领水滴
+                            } else {
+                                log("超出屏幕, 向下滚动一行")
+                                swipe(500, 2000, 500, 1750, 500);
+                            }
                         } else {
                             log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                             ignoreId++;
@@ -348,6 +353,7 @@ function goto_browse_task() {
                         log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                         ignoreId++;
                     }
+                    
                     taskId++;
                     break;
                 }
