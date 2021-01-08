@@ -124,17 +124,23 @@ function openAlipay(){
     //     clickByTextDesc("首页",0);
     //     return false;
     // }
+    sleep(2000)
     return true;
 }
 
 // 打开饿了么果园
 function openElemeGarden(){ 
+    log("等待 饿了么");
+    textContains("饿了么").waitFor()
     var target = textContains("饿了么").findOne(5000) //支付宝饿了么页面
     if (target) {
         log("点击饿了么")
-        sleep(500)
+        sleep(1000)
         var bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY())
+        sleep(2000)
+        log("等待 0元领水果");
+        textContains("0元领水果").waitFor()
         target = textContains("0元领水果").findOne(5000) //0元领水果
         if (target) {
             log("点击0元领水果")
@@ -171,65 +177,77 @@ function goto_browse_task() {
         log("点击领水滴")
         click(112, 2256)
         sleep(1600)
-    } while(!text("做任务领水滴").exists()) 
+    } while(!textMatches("每日任务|做任务领水滴").exists()) 
     // text("邀请果园新用户").waitFor()
 
     log("开始寻找任务")
-    var taskList = ['签到', '去浏览', '去玩转', '去参加', '去完成', '去逛逛', '领取'];
+    var taskList = ['重新签到', '签到', '去浏览', '去玩转', '去参加', '去完成', '去逛逛', '领取'];
     var taskId = ignoreId = 0;
     for (let i=0; i<3; i++) {
         taskList.forEach(task => {
             log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
+            sleep(500)
             while (text(task).exists()) {
-                text("做任务领水滴").waitFor()
+                log("等待 做任务领水滴|每日任务");
+                textMatches("做任务领水滴|每日任务").waitFor()
                 sleep(100)
                 var button = text(task).findOnce(ignoreId);
                 if (button == null) {
                     break;
-                }
-                switch (task) {
-                    case '去浏览':
-                        button.parent().click()
-                        for (var i=0; i<4; i++) {
+                }       
+
+                let bounds = button.bounds()
+                if (bounds.centerY() > device.height) {
+                    log("超出屏幕, 向下滚动一行")
+                    swipe(500, 2000, 500, 1750, 500);
+                } else {
+                    switch (task) {
+                        case '去浏览':
+                            button.parent().click()
+                            for (var i=0; i<4; i++) {
+                                sleep(1000)
+                                swipe(500, 2000, 500, 1800, 1000);
+                                // toast("第" + i*2 + ":s")
+                            }
+                            text("任务完成").findOne(15000);
+                            log("浏览完成啦")
+                            sleep(1000);
+                            back();                    
+                            taskId++;
+                            break;
+                        case '去参加':
+                        case '去逛逛':
+                        case '去玩转':
+                        case '去完成':
+                            button.parent().click()
                             sleep(1000)
-                            swipe(500, 2000, 500, 1800, 1000);
-                            // toast("第" + i*2 + ":s")
-                        }
-                        text("任务完成").findOne(15000);
-                        log("浏览完成啦")
-                        sleep(1000);
-                        back();                    
-                        taskId++;
-                        break;
-                    case '去参加':
-                    case '去逛逛':
-                    case '去玩转':
-                    case '去完成':
-                        button.parent().click()
-                        sleep(1000)
-                        back();
-                        taskId++;
-                        break;
-                    case '领取':
-                    case '签到':
-                        button.parent().click()
-                        sleep(3000)
-                        taskId++;
-                        break;
-                    default:
-                        log("跳过"+(ignoreId+1)+"次【" + task + "】");
-                        ignoreId++;
-                        taskId++;
-                        break;
+                            back();
+                            taskId++;
+                            break;
+                        case '领取':
+                        case '签到':
+                        case '重新签到':
+                            button.parent().click()
+                            sleep(3000)
+                            taskId++;
+                            break;
+                        default:
+                            log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                            ignoreId++;
+                            taskId++;
+                            break;
                     }
+                }
                 sleep(1000)
             }
         })
     }
     
-    log("任务全部完成, 点击关闭")
-    click(1000, 1000)
-    sleep(1000)
+    do {   
+        log("任务全部完成, 点击关闭")
+        click(1000, 1000)
+        sleep(1500)
+    } while(textMatches("每日任务|做任务领水滴").exists()) 
 }
 
 // 浇水 n 次
