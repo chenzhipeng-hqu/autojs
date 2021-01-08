@@ -465,6 +465,23 @@ function goto_browse_task() {
                     } else {
                         let browse_cnt = 0;
                         while (browse_cnt < 18) {
+                            // 签到领取双倍淘金币
+                            var target = textMatches("签到领金币.*|签到领取.*").findOne(50)
+                            if (target) {
+                                log(target.text())
+                                target.click()
+                                target = text("领取奖励").findOne(1000)
+                                if (target) {
+                                    log("点击 领取奖励")
+                                    target.click()
+                                }
+                                target = text("关闭").findOne(1000)
+                                if (target) {
+                                    log("点击 关闭 互动赚更多")
+                                    target.click()
+                                }
+                            }
+
                             let target1 = textMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
                             if (target1) {
                                 log("text: "+target1.text())
