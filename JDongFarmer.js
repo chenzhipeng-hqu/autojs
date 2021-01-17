@@ -317,7 +317,7 @@ function goto_browse_task() {
             var target = text("立即领取").findOne(10);  // 昨夜下雨领到水滴
             if (target) {
                 let bounds = button.bounds()
-                click(bounds.centerX(), bounds.centerY())
+                click(bounds.centerX(), bounds.centerY()+15)
             }
             var button = text(task).findOnce(ignoreId);
             if (button == null) {
@@ -334,7 +334,7 @@ function goto_browse_task() {
                         log(target.text())
                         if (target.text() == "每日累计浇水10次") {
                             if (bounds.centerY() <= device.height) {
-                                click(bounds.centerX(), bounds.centerY())
+                                click(bounds.centerX(), bounds.centerY()+15)
                                 sleep(3000)
                                 do {
                                     log("点击领水滴")
@@ -360,7 +360,7 @@ function goto_browse_task() {
                 case '去逛逛': {
                     let bounds = button.bounds()
                     if (bounds.centerY() <= device.height) {
-                        click(bounds.centerX(), bounds.centerY())
+                        click(bounds.centerX(), bounds.centerY()+15)
                         sleep(8000)
                         
                         do {
@@ -371,7 +371,7 @@ function goto_browse_task() {
                             if (target) {
                                 log("发现" + target.text())
                                 let bounds = target.bounds()
-                                click(bounds.centerX(), bounds.centerY())
+                                click(bounds.centerX(), bounds.centerY()+15)
                                 back();
                                 sleep(1000)
                             }
@@ -387,7 +387,7 @@ function goto_browse_task() {
                 case '去领取': {
                     let bounds = button.bounds()
                     if ((bounds.centerY() < device.height) & (bounds.centerY() > 0)) {
-                        click(bounds.centerX(), bounds.centerY())
+                        click(bounds.centerX(), bounds.centerY()+15)
                         let target = className("android.widget.Button").textMatches("收下水滴").findOne(1000)
                         if (target) {
                             target.click()
@@ -418,7 +418,7 @@ function goto_browse_task() {
                 }
                 case '去签到': {
                     let bounds = button.bounds()
-                    click(bounds.centerX(), bounds.centerY())
+                    click(bounds.centerX(), bounds.centerY()+15)
                     sleep(1000)
                     //签到按钮
                     log("签到按钮")
@@ -479,7 +479,7 @@ function clicksDuck(cnt) {
         if (target) {
             log(target.text())
             let bounds = target.bounds()
-            click(bounds.centerX(), bounds.centerY())
+            click(bounds.centerX(), bounds.centerY()+15)
         } else {
             log("未找到 喊它回来|收下道具卡|收下水滴")
         }
