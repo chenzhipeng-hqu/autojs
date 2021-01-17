@@ -132,9 +132,10 @@ function openAlipay(){
 function openElemeGarden(){ 
     log("等待 饿了么");
     textContains("饿了么").waitFor()
-    var target = textContains("饿了么").findOne(5000) //支付宝饿了么页面
+    sleep(1000)
+    var target = text("饿了么").findOne(5000) //支付宝饿了么页面
     if (target) {
-        log("点击饿了么")
+        log("点击 " + target.text())
         sleep(1000)
         var bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY())
@@ -146,7 +147,43 @@ function openElemeGarden(){
             log("点击0元领水果")
             var bounds = target.bounds()
             click(bounds.centerX(), bounds.centerY())
-            sleep(3000)
+            sleep(2000);
+            do{
+                sleep(2000);
+                log('等待加载饿了么果园界面')
+            } while(textMatches("工具.*|正在.*").exists());
+            back();
+            log("返回")
+            sleep(1000)
+        }
+        back();
+        log("返回")
+        sleep(1000)
+    }
+    
+    log("等待 口碑");
+    textContains("口碑").waitFor()
+    sleep(1000)
+    var target = text("口碑").findOne(5000) //支付宝饿了么页面
+    if (target) {
+        log("点击 " + target.text())
+        sleep(1000)
+        var bounds = target.bounds()
+        click(bounds.centerX(), bounds.centerY())
+        sleep(2000)
+        log("等待 0元领水果");
+        textContains("0元领水果").waitFor()
+        target = textContains("0元领水果").findOne(5000) //0元领水果
+        if (target) {
+            log("点击0元领水果")
+            var bounds = target.bounds()
+            click(bounds.centerX(), bounds.centerY())
+            sleep(2000);
+            do{
+                sleep(2000);
+                log('等待加载饿了么果园界面')
+            } while(textMatches("工具.*|正在.*").exists());
+            sleep(1000);
         }
     }
 
@@ -182,8 +219,8 @@ function goto_browse_task() {
 
     log("开始寻找任务")
     var taskList = ['重新签到', '签到', '去浏览', '去玩转', '去参加', '去完成', '去逛逛', '领取'];
-    var taskId = ignoreId = 0;
     for (let i=0; i<3; i++) {
+        var taskId = ignoreId = 0;
         taskList.forEach(task => {
             log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
             sleep(500)
@@ -197,7 +234,7 @@ function goto_browse_task() {
                 }       
 
                 let bounds = button.bounds()
-                if (bounds.centerY() > device.height) {
+                if (bounds.centerY() > device.height*0.9) {
                     log("超出屏幕, 向下滚动一行")
                     swipe(500, 2000, 500, 1750, 500);
                 } else {
@@ -257,6 +294,12 @@ function watering(cnt){
         click(900, 2200);
         sleep(2500);
         log("浇水第"+(i+1)+"次");
+
+        if (className("android.view.View").textMatches("水不够啦").exists()) {
+            log("水不够啦")
+            sleep(1300)
+            return true;
+        }
     }
 }
 
