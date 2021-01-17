@@ -186,6 +186,7 @@ function find_treasure_box() {
     log("开宝箱")
     for (var i=0; i<13; i++) {
         // if (1) {
+        sleep(1000)
         var target = className("android.view.View").text("去进店").findOne(1500)
         if (target) {
             target.click()
