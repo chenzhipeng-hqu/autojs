@@ -212,7 +212,7 @@ function FocusOnWaterDroplets() {
         if (target) {
             log("点击关注得水滴 " + (i + 1) + "次");
             let bounds = target.bounds()
-            click(bounds.centerX(), bounds.centerY())
+            click(bounds.centerX(), bounds.centerY()+15)
             sleep(5500);
 
             while (!text("去领取").exists()) {
@@ -518,8 +518,8 @@ function get_red_paper() {
             switch (task) {
                 case '去浏览': {
                     let bounds = button.bounds()
-                    if (bounds.centerY() <= device.height) {
-                        click(bounds.centerX(), bounds.centerY())
+                    if (bounds.centerY() <= device.height*0.9) {
+                        click(bounds.centerX(), bounds.centerY()+15)
                         sleep(5000)
                         back();
                         sleep(1000)
@@ -533,7 +533,7 @@ function get_red_paper() {
                     let bounds = button.bounds()
                     if (bounds.centerY() < device.height*0.9) {
                         log("X:" + bounds.centerX() + " Y:" + bounds.centerY())
-                        press(bounds.centerX(), bounds.centerY()+10, 100)
+                        press(bounds.centerX(), bounds.centerY()+15, 100)
                     } else {
                         log("向上滑动")
                         swipe(500, 2000, 500, 1800, 500);
