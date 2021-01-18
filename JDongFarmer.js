@@ -224,12 +224,23 @@ function FocusOnWaterDroplets() {
                 if (target) {
                     log("点击 去领取");
                     let bounds = target.bounds()
-                    click(bounds.centerX(), bounds.centerY())
+                    click(bounds.centerX(), bounds.centerY()+15)
                     break;
                 }
             }
 
         } else {
+            while (text("去领取").exists()) {
+                sleep(1000);
+                log("寻找 去领取");
+                target = text("去领取").findOne(100)
+                if (target) {
+                    log("点击 去领取");
+                    let bounds = target.bounds()
+                    click(bounds.centerX(), bounds.centerY()+15)
+                    sleep(1000);
+                }
+            }
             break;
         }
     }
@@ -275,7 +286,7 @@ function watering_friends() {
                             click(537, 1929)  // 点击关闭按钮                
                         } else if(target.text() == '收下道具卡'){ //浇水卡
                             let bounds = target.bounds()
-                            click(bounds.centerX(), bounds.centerY())
+                            click(bounds.centerX(), bounds.centerY()+15)
                         }
                     }
                 } else {
@@ -465,7 +476,7 @@ function watering(cnt) {
 function clicksDuck(cnt) {
     log("连续点击鸭子")
     for (let i = 0; i < cnt; i++) {
-        for (let j = 0; j < 8; j++) {
+        for (let j = 0; j < 10; j++) {
             press(566, 1256, 100)
             if (className("android.view.View").textMatches("我要休息啦，明天再来找我玩吧").exists()) {
                 log("我要休息啦，明天再来找我玩吧")
@@ -480,6 +491,7 @@ function clicksDuck(cnt) {
             log(target.text())
             let bounds = target.bounds()
             click(bounds.centerX(), bounds.centerY()+15)
+            sleep(600);
         } else {
             log("未找到 喊它回来|收下道具卡|收下水滴")
         }
@@ -499,7 +511,7 @@ function get_red_paper() {
     if (target) {
         log("点击快去抽奖")
         let bounds = target.bounds()
-        click(bounds.centerX(), bounds.centerY())
+        click(bounds.centerX(), bounds.centerY()+15)
     }
 
     log("开始寻找任务")
