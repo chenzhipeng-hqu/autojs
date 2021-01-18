@@ -218,9 +218,15 @@ function goto_browse_task() {
     // text("邀请果园新用户").waitFor()
 
     log("开始寻找任务")
-    var taskList = ['重新签到', '签到', '去浏览', '去玩转', '去参加', '去完成', '去逛逛', '领取'];
+    var taskList = ['重新签到', '签到', '去逛逛', '去玩转', '去参加', '去完成', '去逛一逛', '去浏览', '去领取', '领取'];
     for (let i=0; i<3; i++) {
         var taskId = ignoreId = 0;
+
+        log("向上滚动")
+        sleep(500)
+        swipe(500, 1450, 500, 2250, 300);
+        swipe(500, 1450, 500, 2250, 300);
+
         taskList.forEach(task => {
             log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
             sleep(500)
@@ -234,7 +240,7 @@ function goto_browse_task() {
                 }       
 
                 let bounds = button.bounds()
-                if (bounds.centerY() > device.height*0.9) {
+                if (bounds.centerY() > device.height) {
                     log("超出屏幕, 向下滚动一行")
                     swipe(500, 2000, 500, 1750, 500);
                 } else {
@@ -254,14 +260,17 @@ function goto_browse_task() {
                             break;
                         case '去参加':
                         case '去逛逛':
+                        case '去逛一逛':
                         case '去玩转':
                         case '去完成':
                             button.parent().click()
                             sleep(1000)
+                            log("返回")
                             back();
                             taskId++;
                             break;
                         case '领取':
+                        case '去领取':
                         case '签到':
                         case '重新签到':
                             button.parent().click()
@@ -275,7 +284,7 @@ function goto_browse_task() {
                             break;
                     }
                 }
-                sleep(1000)
+                sleep(1500)
             }
         })
     }
