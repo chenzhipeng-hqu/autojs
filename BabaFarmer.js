@@ -297,7 +297,7 @@ function find_treasure_box() {
                         continue;
                     }
                 } else {
-                    swipe(500, 2200, 500, 0, 500);
+                    swipe(500, 2100, 500, 100, 500);
                     log("滑动第"+j+"次")
                     sleep(500)
                 }

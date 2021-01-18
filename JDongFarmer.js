@@ -126,7 +126,7 @@ function openJDong(appName) {
             click(bounds.centerX(), bounds.centerY())
             break;
         } else {
-            toastLog("未找到京东")
+            log("未找到京东")
         }
 
         if (text("免费水果").exists())
@@ -154,7 +154,7 @@ function openGrowingFruit() {
     if (target) {
         log("点击" + target.text())
         let bounds = target.bounds()
-        click(bounds.centerX(), bounds.centerY())
+        click(bounds.centerX(), bounds.centerY()+17)
         sleep(1000)
     } else {
         log("未找到 去签到|去领取|收下水滴")
@@ -164,7 +164,7 @@ function openGrowingFruit() {
     if (target) {
         log("点击" + target.text())
         let bounds = target.bounds()
-        click(bounds.centerX(), bounds.centerY())
+        click(bounds.centerX(), bounds.centerY()+17)
         sleep(1000)
     } else {
         log("未找到 去签到|去领取|收下水滴")
@@ -174,7 +174,7 @@ function openGrowingFruit() {
     if (target) {
         log("点击" + target.text())
         let bounds = target.bounds()
-        click(bounds.centerX(), bounds.centerY())
+        click(bounds.centerX(), bounds.centerY()+17)
         sleep(1000)
     } else {
         log("未找到 去签到|去领取|收下水滴")
@@ -484,7 +484,7 @@ function clicksDuck(cnt) {
                 return true;
             }
         }
-        sleep(1000);
+        sleep(2000);
         log("寻找 喊它回来|收下道具卡|收下水滴")
         let target = textMatches("喊它回来|收下道具卡|收下水滴").findOne(7000)
         if (target) {
