@@ -229,8 +229,8 @@ function find_treasure_box() {
                         // var target = boundsInside(bounds.centerX(), bounds.centerY()-200, 
                         //                             bounds.centerX()+400, bounds.centerY())
                         //                                 .descMatches("\\d{1,}|已获得\\d{1,}阳光.*").findOne(1000);
-                        var target = boundsInside(bounds.centerX(), bounds.centerY()-200, 
-                                                    bounds.centerX()+400, bounds.centerY())
+                        var target = boundsInside(bounds.centerX()-500, bounds.centerY()-250, 
+                                                    bounds.centerX()+500, bounds.centerY()+50)
                                                         .textMatches("\\d{1,}|已获得\\d{1,}阳光.*").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.text()+" 阳光")
@@ -254,8 +254,8 @@ function find_treasure_box() {
                     var bounds = target.bounds()
                     if (bounds.centerY() <= device.height*0.9) {
                         click(bounds.centerX(), bounds.centerY()+100)
-                        var target = boundsInside(bounds.centerX(), bounds.centerY()-100, 
-                                                    bounds.centerX()+400, bounds.centerY()+100)
+                        var target = boundsInside(bounds.centerX()-500, bounds.centerY()-150, 
+                                                    bounds.centerX()+500, bounds.centerY()+150)
                                                         .descMatches("\\d{1,}|关注店铺，成功获得").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
@@ -279,8 +279,8 @@ function find_treasure_box() {
                     var bounds = target.bounds()
                     if (bounds.centerY() <= device.height*0.9) {
                         click(bounds.centerX(), bounds.centerY()+100)
-                        var target = boundsInside(bounds.centerX(), bounds.centerY()-100, 
-                                                    bounds.centerX()+400, bounds.centerY()+100)
+                        var target = boundsInside(bounds.centerX()-500, bounds.centerY()-150, 
+                                                    bounds.centerX()+500, bounds.centerY()+150)
                                                         .descMatches("\\d{1,}").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
