@@ -153,6 +153,7 @@ function enterMyMainPage(){
         swipe(screen_width*0.5,screen_height*0.3,screen_width*0.5,screen_height*0.7,1000);
         sleep(2000);
     }
+    sleep(1000);
     clickByTextDesc("蚂蚁森林",0);
 
     return true;
