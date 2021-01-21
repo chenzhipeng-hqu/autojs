@@ -198,8 +198,9 @@ function find_treasure_box() {
                 var target = desc("立即打开").findOne(10)
                 if (target) {
                     toastLog("找到立即打开阳光宝箱 desc")
-                    var bounds = target.bounds()            
-                    if (bounds.centerY() < device.height*0.9) {
+                    var bounds = target.bounds()   
+                    log("X:" + bounds.centerX() + " Y:" + bounds.centerY())       
+                    if (bounds.centerY() < device.height*0.95) {
                         click(bounds.centerX(), bounds.centerY()) 
                         var target = boundsInside(bounds.centerX(), bounds.centerY()-200, 
                                                     bounds.centerX()+400, bounds.centerY())
@@ -223,8 +224,9 @@ function find_treasure_box() {
                 var target = text("立即打开").findOne(10)
                 if (target) {
                     toastLog("找到立即打开阳光宝箱 text")
-                    var bounds = target.bounds()            
-                    if (bounds.centerY() <= device.height) {
+                    var bounds = target.bounds()      
+                    log("X:" + bounds.centerX() + " Y:" + bounds.centerY())      
+                    if (bounds.centerY() <= device.height*0.95) {
                         click(bounds.centerX(), bounds.centerY())
                         // var target = boundsInside(bounds.centerX(), bounds.centerY()-200, 
                         //                             bounds.centerX()+400, bounds.centerY())
@@ -252,11 +254,12 @@ function find_treasure_box() {
                 if (target) {
                     toastLog("找到关注店铺阳光宝箱 desc")
                     var bounds = target.bounds()
-                    if (bounds.centerY() <= device.height*0.9) {
+                    log("X:" + bounds.centerX() + " Y:" + bounds.centerY())
+                    if (bounds.centerY() <= device.height*0.95) {
                         click(bounds.centerX(), bounds.centerY()+100)
-                        var target = boundsInside(bounds.centerX()-500, bounds.centerY()-150, 
-                                                    bounds.centerX()+500, bounds.centerY()+150)
-                                                        .descMatches("\\d{1,}|关注店铺，成功获得").findOne(1000);
+                        var target = boundsInside(bounds.centerX()-400, bounds.centerY()-150, 
+                                                    bounds.centerX()+400, bounds.centerY()+150)
+                                                        .descMatches("\\d{1,}|.*成功获得.*|已关注").findOne(1000);
                         if (target) {
                             toastLog("找到 "+target.desc()+" 阳光")
                             sleep(1000)
@@ -277,13 +280,14 @@ function find_treasure_box() {
                 if (target) {
                     toastLog("找到关注店铺阳光宝箱 text")
                     var bounds = target.bounds()
-                    if (bounds.centerY() <= device.height*0.9) {
+                    log("X:" + bounds.centerX() + " Y:" + bounds.centerY())
+                    if (bounds.centerY() <= device.height*0.95) {
                         click(bounds.centerX(), bounds.centerY()+100)
-                        var target = boundsInside(bounds.centerX()-500, bounds.centerY()-150, 
-                                                    bounds.centerX()+500, bounds.centerY()+150)
-                                                        .descMatches("\\d{1,}").findOne(1000);
+                        var target = boundsInside(bounds.centerX()-400, bounds.centerY()-150, 
+                                                    bounds.centerX()+400, bounds.centerY()+150)
+                                                        .textMatches("\\d{1,}|.*成功获得.*|已关注").findOne(1000);
                         if (target) {
-                            toastLog("找到 "+target.desc()+" 阳光")
+                            toastLog("找到 "+target.text()+" 阳光")
                             sleep(1000)
                             back();
                             break;
@@ -297,7 +301,7 @@ function find_treasure_box() {
                         continue;
                     }
                 } else {
-                    swipe(500, 2100, 500, 100, 500);
+                    swipe(500, 2000, 500, 500, 500);
                     log("滑动第"+j+"次")
                     sleep(500)
                 }
@@ -327,19 +331,18 @@ function clickMango() {
         click(150, 750)
         log("等待天猫农场-福年种福果")
         // className("android.widget.Image").depth(16).textContains("gif;base64,iVB").waitFor()
-        sleep(2000)
+        // sleep(2000)
+        // 点击继续努力
+        var target = textContains("继续努力").findOne(2000)
+        if (target) {
+            log(target.text())
+            target.click()
+            sleep(700)
+        }
     }while(!className("android.widget.Image").textContains("gif;base64,iVB").exists())
     // className("android.widget.Image").textContains("gif;base64,iVB").waitFor()
     log("找到天猫农场-福年种福果")
     sleep(1000)
-
-    // 点击继续努力
-    var target = textContains("继续努力").findOne(1000)
-    if (target) {
-        log(target.text())
-        target.click()
-        sleep(700)
-    }
 
     //点击领取昨日肥料
     log("点击领取昨日肥料")
