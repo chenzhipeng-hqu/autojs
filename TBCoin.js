@@ -130,7 +130,12 @@ function clickSignin() {
         target.click()
         target = text("领取奖励").findOne(1000)
         if (target) {
-            log("点击 领取奖励")
+            log("点击 " + target.text())
+            target.click()
+        }
+        target = text("我知道了").findOne(1000)
+        if (target) {
+            log("点击 " + target.text())
             target.click()
         }
         target = text("关闭").findOne(1000)
