@@ -47,7 +47,7 @@ function mainEntrence(){
     goto_browse_task();
 
     //浇水次数
-    watering(10);
+    // watering(10);
     
     //结束回到主页
     whenComplete();
@@ -224,10 +224,11 @@ function goto_browse_task() {
 
         log("向上滚动")
         sleep(500)
-        swipe(500, 1450, 500, 2250, 300);
-        swipe(500, 1450, 500, 2250, 300);
+        swipe(500, 1550, 500, 2050, 488);
+        swipe(500, 1550, 500, 2050, 488);
 
         taskList.forEach(task => {
+            ignoreId = 0
             log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
             sleep(500)
             while (text(task).exists()) {
@@ -240,9 +241,9 @@ function goto_browse_task() {
                 }       
 
                 let bounds = button.bounds()
-                if (bounds.centerY() > device.height) {
+                if (bounds.centerY() > device.height*0.99) {
                     log("超出屏幕, 向下滚动一行")
-                    swipe(500, 2000, 500, 1750, 500);
+                    swipe(500, 2000, 500, 1750, 518);
                 } else {
                     switch (task) {
                         case '去浏览':
@@ -262,13 +263,29 @@ function goto_browse_task() {
                         case '去逛逛':
                         case '去逛一逛':
                         case '去玩转':
-                        case '去完成':
                             button.parent().click()
                             sleep(1000)
                             log("返回")
                             back();
                             taskId++;
-                            break;
+                        case '去完成': {
+                            log("X:" + bounds.centerX() + " Y:" + bounds.centerY())
+                            let target = boundsInside(0, bounds.centerY()-150, 
+                                            bounds.centerX(), bounds.centerY()+150)
+                                                .textMatches("从手机桌面进入果园").findOne(100);
+                            if (target) {
+                                log("跳过" + (ignoreId + 1) + "次【" + task + "】");
+                                ignoreId++;
+                                continue;
+                            } else {
+                                click(bounds.centerX(), bounds.centerY()+15)
+                                sleep(1000)
+                                log("返回")
+                                back();
+                                taskId++;
+                            }
+                            break;                          
+                        }
                         case '领取':
                         case '去领取':
                         case '签到':
