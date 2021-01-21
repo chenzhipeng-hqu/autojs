@@ -215,9 +215,15 @@ function FocusOnWaterDroplets() {
             click(bounds.centerX(), bounds.centerY()+15)
             sleep(5500);
 
-            while (!text("去领取").exists()) {
+            // while (!text("去领取").exists()) {
                 back();
-                sleep(1600);
+                target = textContains("今日关注频道已达上限").findOne(1800)
+                if (target) {
+                    log(target.text());
+                    break;
+                }
+
+                // sleep(1600);
 
                 log("寻找 去领取");
                 target = text("去领取").findOne(3000)
@@ -225,9 +231,9 @@ function FocusOnWaterDroplets() {
                     log("点击 去领取");
                     let bounds = target.bounds()
                     click(bounds.centerX(), bounds.centerY()+15)
-                    break;
+                    // break;
                 }
-            }
+            // }
 
         } else {
             while (text("去领取").exists()) {
