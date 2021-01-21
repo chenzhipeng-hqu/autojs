@@ -328,7 +328,7 @@ function find_treasure_box() {
 function clickMango() {
     do {
         log("点击种芒果")
-        click(150, 750)
+        click(150, 745)
         log("等待天猫农场-福年种福果")
         // className("android.widget.Image").depth(16).textContains("gif;base64,iVB").waitFor()
         // sleep(2000)
