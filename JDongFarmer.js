@@ -403,7 +403,7 @@ function goto_browse_task() {
                 case '领取':
                 case '去领取': {
                     let bounds = button.bounds()
-                    if ((bounds.centerY() < device.height) & (bounds.centerY() > 0)) {
+                    if ((bounds.centerY() < device.height*0.99) & (bounds.centerY() > 0)) {
                         click(bounds.centerX(), bounds.centerY()+15)
                         let target = className("android.widget.Button").textMatches("收下水滴").findOne(1000)
                         if (target) {
@@ -411,14 +411,17 @@ function goto_browse_task() {
                             sleep(1000)
                         }
                     } else {
-                        swipe(500, 2000, 500, 1800, 300);
+                        swipe(500, 2000, 500, 1800, 500);
                     }
 
                     if (first_enter) {
                         first_enter = 0;
                         log("向上滚动")
-                        swipe(500, 1300, 500, 2290, 300);
-                        swipe(500, 1300, 500, 2290, 300);
+                        swipe(500, 1500, 500, 2000, 500);
+                        sleep(10)
+                        swipe(500, 1500, 500, 2000, 500);
+                        sleep(10)
+                        swipe(500, 1500, 500, 2000, 500);
                         // let target = className("android.widget.ScrollView").findOne(1000)
                         // log(target)
                         // if (target) {
