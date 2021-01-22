@@ -43,6 +43,7 @@ function mainEntrence(appName) {
     openGrowingFruit();
     //浇水
     // watering();
+    get_bean();
     //点击签到
     clickSignin();
     //签到页面 限时关注得水滴
@@ -179,6 +180,38 @@ function openGrowingFruit() {
     } else {
         log("未找到 去签到|去领取|收下水滴")
     }
+}
+
+// 签到领京豆
+function get_bean() {
+    do {
+        log("点击 领京豆")
+        click(138, 1316)
+        sleep(1000)
+
+        // var target = textMatches("签到领京豆|去签到领.*").findOne(100)
+        // if (target) {
+        //     log(target.text())
+        //     bounds = target.bounds()
+        //     click(bounds.centerX(), bounds.centerY()+15)
+        //     sleep(1000)
+        // }
+    // } while (!textMatches("签到领京豆|签到领.*").findOne(2000)); 
+    } while (0); 
+
+    var target = text("签到领京豆|签到领.*").findOne(2000)
+    if (target) {
+        log(target.text())
+        bounds = target.bounds()
+        click(bounds.centerX(), bounds.centerY()+15)
+        sleep(500)
+        back();
+        sleep(1000)
+    } else {
+        log("领取完成")
+    }
+    back();
+    sleep(1000)
 }
 
 // 3. 点击连续签到
