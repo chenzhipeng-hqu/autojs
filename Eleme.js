@@ -218,7 +218,7 @@ function goto_browse_task() {
     // text("邀请果园新用户").waitFor()
 
     log("开始寻找任务")
-    var taskList = ['重新签到', '签到', '去逛逛', '去玩转', '去参加', '去完成', '去逛一逛', '去浏览', '去领取', '领取'];
+    var taskList = ['重新签到', '签到', '去逛逛', '去玩转', '去开启', '去参加', '去完成', '去逛一逛', '去浏览', '去领取', '领取'];
     for (let i=0; i<3; i++) {
         var taskId = ignoreId = 0;
 
@@ -260,6 +260,7 @@ function goto_browse_task() {
                             taskId++;
                             break;
                         case '去参加':
+                        case '去开启':
                         case '去逛逛':
                         case '去逛一逛':
                         case '去玩转':
