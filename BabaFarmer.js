@@ -391,7 +391,7 @@ function watch_live() {
         }
         sleep(1000);
         back();
-        sleep(1000);
+        sleep(1300);
     }
 }
 
@@ -400,6 +400,7 @@ function goto_browse_task() {
     // var tmp = className("android.widgetimage").text("集肥料").findOne(3)
     // log(tmp)
     log("点击集肥料")
+    click(980, 1726)
     click(980, 1760)
     sleep(1300)
 
