@@ -534,6 +534,7 @@ function goto_browse_task() {
     if (target != null) {
         log("点击关闭")
         target.click()
+        sleep(1000)
     }
 }
 
