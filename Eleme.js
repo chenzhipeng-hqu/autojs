@@ -244,7 +244,10 @@ function goto_browse_task() {
                 if (bounds.centerY() > device.height*0.99) {
                     log("超出屏幕, 向下滚动一行")
                     swipe(500, 2000, 500, 1750, 518);
-                } else {
+                } else if ((bounds.centerY() < device.height*0.5)) {
+                    log("超出半屏, 向上滚动一行")
+                    swipe(500, 1750, 500, 2000, 518);
+                }else {
                     switch (task) {
                         case '去浏览':
                             button.parent().click()
