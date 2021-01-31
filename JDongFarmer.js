@@ -145,6 +145,7 @@ function openGrowingFruit() {
     log("打开东东农场")
     var freeFruit = text("免费水果").findOne()
     if (freeFruit) {
+        sleep(1000)
         freeFruit.parent().click()
     }
     // waitForActivity("com.jingdong.app.mall.WebActivity");
@@ -445,11 +446,13 @@ function goto_browse_task() {
                             sleep(1000)
                         }
                     } else {
+                        log("向下滚动")
                         swipe(500, 2000, 500, 1800, 500);
                     }
 
                     if (first_enter) {
                         first_enter = 0;
+                        sleep(1000)
                         log("向上滚动")
                         swipe(500, 1550, 500, 2050, 688);
                         swipe(500, 1550, 500, 2050, 688);
@@ -531,6 +534,7 @@ function clicksDuck(cnt) {
         if (target) {
             log(target.text())
             let bounds = target.bounds()
+            sleep(800);
             click(bounds.centerX(), bounds.centerY()+15)
             sleep(600);
         } else {
@@ -551,6 +555,7 @@ function get_red_paper() {
     var target = text("快去抽奖").findOne(2000)
     if (target) {
         log("点击快去抽奖")
+        sleep(600)
         let bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY()+15)
     }
