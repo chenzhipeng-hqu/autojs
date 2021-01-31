@@ -199,7 +199,8 @@ function get_bean() {
     // } while (!textMatches("签到领京豆|签到领.*").findOne(2000)); 
     } while (0); 
 
-    var target = text("签到领京豆|签到领.*").findOne(2000)
+    sleep(1000)
+    var target = textMatches("签到领京豆|签到领.*").findOne(2000)
     if (target) {
         log(target.text())
         bounds = target.bounds()
@@ -450,11 +451,9 @@ function goto_browse_task() {
                     if (first_enter) {
                         first_enter = 0;
                         log("向上滚动")
-                        swipe(500, 1500, 500, 2000, 500);
-                        sleep(10)
-                        swipe(500, 1500, 500, 2000, 500);
-                        sleep(10)
-                        swipe(500, 1500, 500, 2000, 500);
+                        swipe(500, 1550, 500, 2050, 688);
+                        swipe(500, 1550, 500, 2050, 688);
+                        swipe(500, 1550, 500, 2050, 688);
                         // let target = className("android.widget.ScrollView").findOne(1000)
                         // log(target)
                         // if (target) {
