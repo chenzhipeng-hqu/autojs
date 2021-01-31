@@ -230,7 +230,7 @@ function goto_browse_task() {
         taskList.forEach(task => {
             ignoreId = 0
             log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
-            sleep(500)
+            sleep(300)
             while (text(task).exists()) {
                 log("等待 做任务领水滴|每日任务");
                 textMatches("做任务领水滴|每日任务").waitFor()
@@ -244,11 +244,12 @@ function goto_browse_task() {
                 if (bounds.centerY() > device.height*0.99) {
                     log("超出屏幕, 向下滚动一行")
                     swipe(500, 2000, 500, 1750, 518);
-                } else if ((bounds.centerY() < device.height*0.5)) {
+                } else if ((bounds.centerY() < device.height*0.4)) {
                     log("超出半屏, 向上滚动一行")
                     swipe(500, 1750, 500, 2000, 518);
                 }else {
                     switch (task) {
+                        case '去逛一逛':
                         case '去浏览':
                             button.parent().click()
                             for (var i=0; i<4; i++) {
@@ -256,7 +257,7 @@ function goto_browse_task() {
                                 swipe(500, 2000, 500, 1800, 1000);
                                 // toast("第" + i*2 + ":s")
                             }
-                            text("任务完成").findOne(15000);
+                            text("任务完成").findOne(20000);
                             log("浏览完成啦")
                             sleep(1000);
                             back();                    
@@ -265,25 +266,25 @@ function goto_browse_task() {
                         case '去参加':
                         case '去开启':
                         case '去逛逛':
-                        case '去逛一逛':
                         case '去玩转':
-                            button.parent().click()
+                            click(bounds.centerX(), bounds.centerY()+15)
                             sleep(1000)
                             log("返回")
                             back();
                             taskId++;
+                            break; 
                         case '去完成': {
                             log("X:" + bounds.centerX() + " Y:" + bounds.centerY())
                             let target = boundsInside(0, bounds.centerY()-150, 
                                             device.width, bounds.centerY()+150)
                                                 .textMatches("从手机桌面进入果园|每日餐点领水滴").findOne(100);
-                            if (target) {
+                            if ((target) || ((bounds.centerX() < 600))) {
                                 log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                                 ignoreId++;
                                 continue;
                             } else {
                                 click(bounds.centerX(), bounds.centerY()+15)
-                                sleep(1000)
+                                sleep(1500)
                                 log("返回")
                                 back();
                                 taskId++;
