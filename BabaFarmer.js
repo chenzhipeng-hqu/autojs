@@ -473,7 +473,7 @@ function goto_browse_task() {
                         click(566, 1436)   // 回到淘宝
                     } else {
                         let browse_cnt = 0;
-                        while (browse_cnt < 18) {
+                        while (browse_cnt < 35) {
                             // 签到领取双倍淘金币
                             var target = textMatches("签到领金币.*|签到领取.*").findOne(50)
                             if (target) {
@@ -503,7 +503,7 @@ function goto_browse_task() {
                             }
                             browse_cnt++;
                         }
-                        if (browse_cnt < 18) {
+                        if (browse_cnt < 35) {
                             // log("浏览完成啦")
                         } else {
                             log("浏览超时返回啦")
