@@ -226,7 +226,7 @@ function find_treasure_box() {
                     toastLog("找到立即打开阳光宝箱 text")
                     var bounds = target.bounds()      
                     log("X:" + bounds.centerX() + " Y:" + bounds.centerY())      
-                    if (bounds.centerY() <= device.height*0.95) {
+                    if (bounds.centerY() <= device.height*0.98) {
                         click(bounds.centerX(), bounds.centerY())
                         // var target = boundsInside(bounds.centerX(), bounds.centerY()-200, 
                         //                             bounds.centerX()+400, bounds.centerY())
