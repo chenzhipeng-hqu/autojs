@@ -275,8 +275,8 @@ function goto_browse_task() {
                         case '去完成': {
                             log("X:" + bounds.centerX() + " Y:" + bounds.centerY())
                             let target = boundsInside(0, bounds.centerY()-150, 
-                                            bounds.centerX(), bounds.centerY()+150)
-                                                .textMatches("从手机桌面进入果园").findOne(100);
+                                            device.width, bounds.centerY()+150)
+                                                .textMatches("从手机桌面进入果园|每日餐点领水滴").findOne(100);
                             if (target) {
                                 log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                                 ignoreId++;
