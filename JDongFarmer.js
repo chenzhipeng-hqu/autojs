@@ -545,11 +545,25 @@ function clicksDuck(cnt) {
 
 // 天天领红包
 function get_red_paper() {
-    log("点击天天领红包")
     do {
-        press(980, 680, 100);
+        if (className("android.widget.TextView").text("东东农场").exists()) {
+            log("点击天天领红包")
+    do {
+            press(980, 680, 100);
+            sleep(2000)
+        } else {
+            var freeFruit = text("免费水果").findOne(1000)
+            if (freeFruit) {
+                sleep(1000)
+                freeFruit.parent().click()
+                log(freeFruit.text())
+            } else {
+                log("进入天天领红包失败, 返回一下")
+                back();
+            }
+        }
         sleep(3000)
-    } while (!className("android.widget.TextView").text("天天红包").exists())
+    } while (!className("android.widget.TextView").text("天天红包").exists())  
     // className("android.widget.TextView").text("天天红包").waitFor()
 
     var target = text("快去抽奖").findOne(2000)
