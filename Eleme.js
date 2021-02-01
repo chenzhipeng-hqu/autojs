@@ -218,7 +218,8 @@ function goto_browse_task() {
     // text("邀请果园新用户").waitFor()
 
     log("开始寻找任务")
-    var taskList = ['重新签到', '签到', '去逛逛', '去玩转', '去开启', '去参加', '去完成', '去逛一逛', '去浏览', '去领取', '领取'];
+    var taskList = ['重新签到', '签到', '去逛逛', '去玩转', '去开启', '去参加', '去完成', 
+                                        '去抽奖', '去逛一逛', '去浏览', '去领取', '领取'];
     for (let i=0; i<3; i++) {
         var taskId = ignoreId = 0;
 
@@ -229,9 +230,9 @@ function goto_browse_task() {
 
         taskList.forEach(task => {
             ignoreId = 0
-            log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
             sleep(300)
             while (text(task).exists()) {
+                log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
                 log("等待 做任务领水滴|每日任务");
                 textMatches("做任务领水滴|每日任务").waitFor()
                 sleep(100)
@@ -267,6 +268,7 @@ function goto_browse_task() {
                         case '去开启':
                         case '去逛逛':
                         case '去玩转':
+                        case '去抽奖':
                             click(bounds.centerX(), bounds.centerY()+15)
                             sleep(1000)
                             log("返回")
