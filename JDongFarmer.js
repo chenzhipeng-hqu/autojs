@@ -373,6 +373,7 @@ function goto_browse_task() {
             }
             var button = text(task).findOnce(ignoreId);
             if (button == null) {
+                log("未找到 " + "【" + task + "】")
                 break;
             }
             log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
@@ -437,37 +438,32 @@ function goto_browse_task() {
                 }
                 case '领取':
                 case '去领取': {
-                    let bounds = button.bounds()
-                    if ((bounds.centerY() < device.height*0.99) & (bounds.centerY() > 0)) {
-                        click(bounds.centerX(), bounds.centerY()+15)
-                        let target = className("android.widget.Button").textMatches("收下水滴").findOne(1000)
-                        if (target) {
-                            target.click()
-                            sleep(1000)
-                        }
-                    } else {
-                        log("向下滚动")
-                        swipe(500, 2000, 500, 1800, 500);
-                    }
-
                     if (first_enter) {
                         first_enter = 0;
                         sleep(1000)
                         log("向上滚动")
-                        swipe(500, 1550, 500, 2050, 688);
-                        swipe(500, 1550, 500, 2050, 688);
-                        swipe(500, 1550, 500, 2050, 688);
-                        // let target = className("android.widget.ScrollView").findOne(1000)
-                        // log(target)
-                        // if (target) {
-                        //     log("向上滚动")
-                        //     target.scrollBackward()
-                        //     target.scrollBackward()
-                        // }
-                    } else {
-                        // swipe(500, 2000, 500, 1800, 500);
-                    }
-                    // sleep(1000)
+                        swipe(500, 1550, 500, 2050, 188);
+                        swipe(500, 1550, 500, 2050, 188);
+                        // swipe(500, 1550, 500, 2050, 688);
+                        sleep(1000)
+                    } else {      
+                        let bounds = button.bounds()
+                        if ((bounds.centerY() > device.height*0.99)) {
+                            log("超出屏幕, 向下滚动一行")
+                            swipe(500, 2000, 500, 1800, 500);
+                        }  else if ((bounds.centerY() < device.height*0.4)) {
+                            log("超出半屏, 向上滚动一行")
+                            swipe(500, 1750, 500, 2000, 518);
+                        } else {
+                            click(bounds.centerX(), bounds.centerY()+15)
+                            let target = className("android.widget.Button").textMatches("收下水滴").findOne(1000)
+                            if (target) {
+                                log(target.text())
+                                target.click()
+                                sleep(1000)
+                            }
+                        }
+                    } 
                     taskId++;
                     break;
                 }
@@ -548,7 +544,6 @@ function get_red_paper() {
     do {
         if (className("android.widget.TextView").text("东东农场").exists()) {
             log("点击天天领红包")
-    do {
             press(980, 680, 100);
             sleep(2000)
         } else {
@@ -590,7 +585,7 @@ function get_red_paper() {
             switch (task) {
                 case '去浏览': {
                     let bounds = button.bounds()
-                    if (bounds.centerY() <= device.height*0.9) {
+                    if (bounds.centerY() <= device.height*0.98) {
                         click(bounds.centerX(), bounds.centerY()+15)
                         sleep(5000)
                         back();
@@ -603,7 +598,7 @@ function get_red_paper() {
                 }
                 case '立即领取': {
                     let bounds = button.bounds()
-                    if (bounds.centerY() < device.height*0.9) {
+                    if (bounds.centerY() < device.height*0.98) {
                         log("X:" + bounds.centerX() + " Y:" + bounds.centerY())
                         press(bounds.centerX(), bounds.centerY()+15, 100)
                     } else {

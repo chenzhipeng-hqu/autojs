@@ -247,7 +247,7 @@ function goto_browse_task() {
                 } else if ((bounds.centerY() < device.height*0.4)) {
                     log("超出半屏, 向上滚动一行")
                     swipe(500, 1750, 500, 2000, 518);
-                }else {
+                } else {
                     switch (task) {
                         case '去逛一逛':
                         case '去浏览':
