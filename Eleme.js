@@ -250,6 +250,18 @@ function goto_browse_task() {
                     swipe(500, 1750, 500, 2000, 518);
                 } else {
                     switch (task) {
+                        case '去分享': {
+                            click(bounds.centerX(), bounds.centerY()+15)
+                            sleep(3000)
+                            click(520, 1236+15)
+                            sleep(3000)
+                            log("返回")
+                            back();
+                            sleep(1000)
+                            log("返回")
+                            back();
+                            taskId++;
+                        }
                         case '去逛一逛':
                         case '去浏览':
                             button.parent().click()
@@ -280,11 +292,25 @@ function goto_browse_task() {
                             let target = boundsInside(0, bounds.centerY()-150, 
                                             device.width, bounds.centerY()+150)
                                                 .textMatches("从手机桌面进入果园|每日餐点领水滴").findOne(100);
+                            let target2 = boundsInside(0, bounds.centerY()-150, 
+                                            device.width, bounds.centerY()+150)
+                                                .textMatches("逛一逛.*").findOne(100);
                             if ((target) || ((bounds.centerX() < 600))) {
                                 log("跳过" + (ignoreId + 1) + "次【" + task + "】");
                                 ignoreId++;
                                 continue;
-                            } else {
+                            } else if (target2) {
+                                click(bounds.centerX(), bounds.centerY()+15)
+                                for (var i=0; i<4; i++) {
+                                    sleep(1000)
+                                    swipe(500, 2000, 500, 1800, 1000);
+                                }
+                                text("任务完成").findOne(20000);
+                                log("浏览完成啦")
+                                sleep(1000);
+                                back();                    
+                                taskId++;
+                            }else {
                                 click(bounds.centerX(), bounds.centerY()+15)
                                 sleep(1500)
                                 log("返回")
