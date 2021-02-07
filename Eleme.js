@@ -209,7 +209,7 @@ function goto_fruit() {
 function goto_browse_task() {
     do {
         // 2020/12/07 双12需要
-        goto_fruit();
+        // goto_fruit();
 
         log("点击领水滴")
         click(112, 2256)
@@ -219,7 +219,7 @@ function goto_browse_task() {
 
     log("开始寻找任务")
     var taskList = ['重新签到', '签到', '去逛逛', '去玩转', '去开启', '去参加', '去完成', 
-                                        '去抽奖', '去逛一逛', '去浏览', '去领取', '领取'];
+                                        '去逛一逛', '去抽奖', '去浏览', '去领取', '领取'];
     for (let i=0; i<3; i++) {
         var taskId = ignoreId = 0;
 
@@ -230,7 +230,19 @@ function goto_browse_task() {
 
         taskList.forEach(task => {
             ignoreId = 0
-            sleep(300)
+            sleep(100)
+            target = textContains("0元领水果").findOne(100) //0元领水果
+            if (target) {
+                log("点击0元领水果")
+                var bounds = target.bounds()
+                click(bounds.centerX(), bounds.centerY())
+                sleep(2000);
+                do{
+                    sleep(2000);
+                    log('等待加载饿了么果园界面')
+                } while(textMatches("工具.*|正在.*").exists());
+                sleep(1000);
+            }
             while (text(task).exists()) {
                 log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
                 log("等待 做任务领水滴|每日任务");
@@ -242,6 +254,7 @@ function goto_browse_task() {
                 }       
 
                 let bounds = button.bounds()
+                log("X:" + bounds.centerX() + " Y:" + bounds.centerY())
                 if (bounds.centerY() > device.height*0.99) {
                     log("超出屏幕, 向下滚动一行")
                     swipe(500, 2000, 500, 1750, 518);
@@ -281,14 +294,13 @@ function goto_browse_task() {
                         case '去逛逛':
                         case '去玩转':
                         case '去抽奖':
-                            click(bounds.centerX(), bounds.centerY()+15)
+                            click(bounds.centerX(), bounds.centerY()+12)
                             sleep(1000)
                             log("返回")
                             back();
                             taskId++;
                             break; 
                         case '去完成': {
-                            log("X:" + bounds.centerX() + " Y:" + bounds.centerY())
                             let target = boundsInside(0, bounds.centerY()-150, 
                                             device.width, bounds.centerY()+150)
                                                 .textMatches("从手机桌面进入果园|每日餐点领水滴").findOne(100);
