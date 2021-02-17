@@ -320,6 +320,13 @@ function find_treasure_box() {
     log("点击关闭领阳光")
     click(1000, 1360)
     sleep(1000)
+
+    var target = text("立即去收").findOne(1000)
+    if (target) {     
+        log("点击立即去收")
+        target.click()
+        sleep(1000)
+    }
 }
 
 // 5. 收阳光
