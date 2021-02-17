@@ -128,6 +128,8 @@ function openJDong(appName){
             break;
         }
     } while (!JDong)
+
+    sleep(1666)
 }
 
 // 打开东东萌宠
@@ -148,27 +150,27 @@ function openJDongPet(){
     // swipe(900, 1000, 100, 1000, 2020);
     // sleep(1500)
 
-    log("点击我的")
-    var target = text("我的").findOne()
-    if (target) {
-        let bounds = target.bounds()
-        click(bounds.centerX(), bounds.centerY())
-    }
+    do {
+        log("点击我的")
+        var target = text("我的").findOne(1000)
+        if (target) {
+            let bounds = target.bounds()
+            click(bounds.centerX(), bounds.centerY())
+            sleep(1000)
+        }
 
-    log("点击东东萌宠")
-    var target = text("东东萌宠").findOne()
-    if (target) {
-        let bounds = target.bounds()
-        click(bounds.centerX(), bounds.centerY())
-    }
+        log("点击东东萌宠")
+        var JDongPet = text("东东萌宠").findOne()
+        if (JDongPet) {
+            let bounds = JDongPet.bounds()
+            click(bounds.centerX(), bounds.centerY())
+            sleep(500)
+        }
 
-    log("打开东东萌宠");
-    var JDongPet = text("东东萌宠").findOne()
-    if (JDongPet) {
-        let bounds = JDongPet.bounds()
-        click(bounds.centerX(), bounds.centerY())
-    }
+    } while(!className("android.widget.TextView").textContains("与爱宠相识").exists());
+
     
+    log("等待与爱宠相识")
     // className("android.widget.TextView").text("东东萌宠").waitFor()
     className("android.widget.TextView").textContains("与爱宠相识").waitFor()
     sleep(500)
@@ -279,7 +281,7 @@ function goto_browse_task() {
                     
                     log("点击收爱心")          
                     //自己手机 爱心的位置, 需自己适配 x 坐标 /Y 坐标 依次排列
-                    var heartPoint = [176,1846, 176,1250, 433,863, 826,1036, 877,1384]  
+                    var heartPoint = [124,1800, 136,1235, 443,880, 850,1060, 877,1388]  
                     for (var i = 0; i < heartPoint.length; i += 2){
                         click(heartPoint[i], heartPoint[i+1])
                     }
