@@ -187,6 +187,7 @@ function openGrowingFruit() {
 function get_bean() {
     do {
         log("点击 领京豆")
+        sleep(2000)
         click(138, 1316)
         sleep(1000)
 
@@ -200,8 +201,8 @@ function get_bean() {
     // } while (!textMatches("签到领京豆|签到领.*").findOne(2000)); 
     } while (0); 
 
-    sleep(1000)
-    var target = textMatches("签到领京豆|签到领.*").findOne(2000)
+    sleep(2000)
+    var target = textMatches("签到领京豆").findOne(1000)
     if (target) {
         log(target.text())
         bounds = target.bounds()
@@ -313,7 +314,7 @@ function watering_friends() {
                 let watering = textContains("浇 水").findOne(1000)
                 // log(watering)
                 if (watering) {
-                    log(watering.text()) //"浇水"
+                    log("点击 " + watering.text()) //"浇水"
                     let bounds = watering.bounds();
                     click(bounds.centerX(), bounds.centerY())
                     // sleep(5000)
@@ -417,6 +418,7 @@ function goto_browse_task() {
                         sleep(8000)
                         
                         do {
+                            log("返回")
                             back();
                             sleep(1000)
 
@@ -442,8 +444,8 @@ function goto_browse_task() {
                         first_enter = 0;
                         sleep(1000)
                         log("向上滚动")
-                        swipe(500, 1550, 500, 2050, 188);
-                        swipe(500, 1550, 500, 2050, 188);
+                        swipe(500, 1450, 500, 2250, 188);
+                        swipe(500, 1450, 500, 2250, 188);
                         // swipe(500, 1550, 500, 2050, 688);
                         sleep(1000)
                     } else {      
@@ -456,7 +458,7 @@ function goto_browse_task() {
                             swipe(500, 1750, 500, 2000, 518);
                         } else {
                             click(bounds.centerX(), bounds.centerY()+15)
-                            let target = className("android.widget.Button").textMatches("收下水滴").findOne(1000)
+                            let target = className("android.widget.Button").textMatches("收下水滴").findOne(10)
                             if (target) {
                                 log(target.text())
                                 target.click()
