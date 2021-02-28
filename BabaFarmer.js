@@ -327,9 +327,70 @@ function find_treasure_box() {
         target.click()
         sleep(1000)
     }
+
+    log("点击收田")          
+    //自己手机 田的位置, 需自己适配 x 坐标 /Y 坐标 依次排列
+    var fieldPoint = [548,1506, 353,1386, 556,1280, 360,1168, 758,1170, 560,1046, 346,936, 763,946, 566,826]
+    for (var i = 0; i < fieldPoint.length; i += 2){
+        click(fieldPoint[i], fieldPoint[i+1])
+    }
+
+    sleep(2000)
+
+    log("点击立即领取升级阳光")
+    click(556, 1673);
+    
+    log("点击收阳光")          
+    //自己手机 阳光的位置, 需自己适配 x 坐标 /Y 坐标 依次排列
+    var sunnyPoint = [180,910, 360,790, 416,1000, 728,1000, 570,860, 580,678, 786,776, 970,930]
+    for (var i = 0; i < sunnyPoint.length; i += 2){
+        click(sunnyPoint[i], sunnyPoint[i+1])
+    }
+    sleep(1000)
 }
 
-// 5. 收阳光
+// 5. 根据亲密度领肥料
+function collect_by_intimacy() {
+    var target = text("立即领取").findOne(1000)
+    if (target) {
+        log("点击 " + target.text())
+        target.click();
+        sleep(1000)
+    }
+
+    targets = text("肥料礼包").find()
+    if (!targets.empty()) {
+        for (let i=0; i<targets.length; i++) {
+            sleep(1000)
+            log(targets[i].text())
+            if (targets[i]) {
+                let bounds = targets[i].bounds();
+                click(bounds.centerX(), bounds.centerY()+13)
+                sleep(1000)
+                
+                target = textMatches("已领取|小队亲密值达.*").findOne(800)
+                if (target) {
+                    log(target.text())
+                    press(543, 1922, 100);
+                }     
+
+                target = textMatches("开心收下").findOne(100)
+                if (target) {
+                    log(target.text())
+                    let bounds =target.bounds();
+                    click(bounds.centerX(), bounds.centerY()+13)
+                }          
+            } else {
+                toastLog("领取肥料礼包出错")
+            }
+            sleep(1000)
+        }
+        //点击关闭
+        log("点击关闭")
+        press(1000, 500, 100);
+        sleep(1000)  
+    }
+}
 
 // 6. 点击种芒果
 function clickMango() {
@@ -347,10 +408,13 @@ function clickMango() {
             target.click()
             sleep(700)
         }
-    }while(!className("android.widget.Image").textContains("gif;base64,iVB").exists())
+    // }while(!className("android.widget.Image").textContains("gif;base64,iVB").exists())
+    }while(!textMatches("亲密度|立即领取").exists())
     // className("android.widget.Image").textContains("gif;base64,iVB").waitFor()
     log("找到天猫农场-福年种福果")
     sleep(1000)
+
+    collect_by_intimacy();
 
     //点击领取昨日肥料
     log("点击领取昨日肥料")
@@ -439,7 +503,7 @@ function goto_browse_task() {
                                         .textMatches("抽心愿礼盒得300肥料").findOne(10);
                     button.click()
                     for (var i=0; i<4; i++) {
-                        swipe(500, 2000, 500, 1800, 1000);
+                        swipe(500, 2000, 500, 1900, 1000);
                         sleep(1000)
                         // toast("第" + i*2 + ":s")
                     }
@@ -486,11 +550,19 @@ function goto_browse_task() {
                             if (target) {
                                 log(target.text())
                                 target.click()
+                                
+                                target = text("我知道了").findOne(1000)
+                                if (target) {
+                                    log("点击 " + target.text())
+                                    target.click()
+                                }
+
                                 target = text("领取奖励").findOne(1000)
                                 if (target) {
                                     log("点击 领取奖励")
                                     target.click()
                                 }
+                                
                                 target = text("关闭").findOne(1000)
                                 if (target) {
                                     log("点击 关闭 互动赚更多")
@@ -498,12 +570,12 @@ function goto_browse_task() {
                                 }
                             }
 
-                            let target1 = textMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
+                            let target1 = textMatches("浏览完成.*|.*全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
                             if (target1) {
                                 log("text: "+target1.text())
                                 break;
                             }
-                            let target2 = descMatches("浏览完成.*|全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
+                            let target2 = descMatches("浏览完成.*|.*全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
                             if (target2) {
                                 log("desc: "+target2.desc())
                                 break;
