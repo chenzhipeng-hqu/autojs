@@ -233,7 +233,7 @@ function goto_browse_task() {
             sleep(100)
             target = textContains("0元领水果").findOne(100) //0元领水果
             if (target) {
-                log("点击0元领水果")
+                log("点击0元领水果2")
                 var bounds = target.bounds()
                 click(bounds.centerX(), bounds.centerY())
                 sleep(2000);
@@ -242,6 +242,11 @@ function goto_browse_task() {
                     log('等待加载饿了么果园界面')
                 } while(textMatches("工具.*|正在.*").exists());
                 sleep(1000);
+                do {            
+                    log("点击领水滴2")
+                    click(112, 2256)
+                    sleep(1600)
+                } while(!textMatches("每日任务|做任务领水滴").exists()) 
             }
             while (text(task).exists()) {
                 log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
