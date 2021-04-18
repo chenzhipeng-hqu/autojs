@@ -282,29 +282,50 @@ function goto_browse_task() {
                         }
                         case '去逛一逛':
                         case '去浏览':
-                            button.parent().click()
-                            for (var i=0; i<4; i++) {
-                                sleep(1000)
-                                swipe(500, 2000, 500, 1800, 1000);
-                                // toast("第" + i*2 + ":s")
-                            }
-                            text("任务完成").findOne(20000);
-                            log("浏览完成啦")
-                            sleep(1000);
-                            back();                    
-                            taskId++;
-                            break;
+                            // click(bounds.centerX(), bounds.centerY()+12)
+                            // for (var i=0; i<4; i++) {
+                            //     sleep(1000)
+                            //     swipe(500, 2000, 500, 1800, 1000);
+                            //     // toast("第" + i*2 + ":s")
+                            // }
+                            // text("任务完成").findOne(20000);
+                            // log("浏览完成啦")
+                            // sleep(1000);
+                            // back();                    
+                            // taskId++;
+                            // break;
                         case '去参加':
                         case '去开启':
                         case '去逛逛':
                         case '去玩转':
-                        case '去抽奖':
+                        case '去抽奖': {
+                            // let target = boundsInside(0, bounds.centerY()-150, 
+                            //                 device.width, bounds.centerY()+150)
+                            //                     .textMatches("浏览外卖品质好店|浏览甜品饮品会场|.*15.*").findOne(100);
                             click(bounds.centerX(), bounds.centerY()+12)
-                            sleep(1000)
-                            log("返回")
-                            back();
+                            let target = text("请向下滑动").findOne(3800)
+                            if (target) {
+                                for (var i=0; i<4; i++) {
+                                    sleep(1000)
+                                    swipe(500, 2000, 500, 1800, 1000);
+                                    // toast("第" + i*2 + ":s")
+                                }
+                                text("任务完成").findOne(13000);
+                                log("浏览完成啦")
+                            } else {
+                                // click(bounds.centerX(), bounds.centerY()+12)
+                                // sleep(1300)
+                            }
+                            // sleep(500)
+                            // log("返回")
+                            // back();
+                            do {
+                                log("返回")
+                                back();
+                            } while(!textMatches("每日任务|做任务领水滴").findOne(3000)) 
                             taskId++;
                             break; 
+                        }
                         case '去完成': {
                             let target = boundsInside(0, bounds.centerY()-150, 
                                             device.width, bounds.centerY()+150)
