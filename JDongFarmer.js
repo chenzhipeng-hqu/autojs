@@ -151,36 +151,50 @@ function openGrowingFruit() {
     // waitForActivity("com.jingdong.app.mall.WebActivity");
     // sleep(2000)
 
+    sleep(3000)
+    for (var i=0; i<3; i++) {
+        // 有的时候是去签到, 三餐福利是去领取, 啥也没有就找再浇
+        var target = textMatches("去签到|去领取|收下水滴").findOne(2000)
+        if (target) {
+            log("点击" + target.text())
+            let bounds = target.bounds()
+            click(bounds.centerX(), bounds.centerY()+17)
+            sleep(1000)
+        } else {
+            log("未找到 去签到|去领取|收下水滴 " + i)
+        }
+        sleep(500)
+    }
     // 有的时候是去签到, 三餐福利是去领取, 啥也没有就找再浇
-    var target = textMatches("去签到|去领取|收下水滴").findOne(6000)
-    if (target) {
-        log("点击" + target.text())
-        let bounds = target.bounds()
-        click(bounds.centerX(), bounds.centerY()+17)
-        sleep(1000)
-    } else {
-        log("未找到 去签到|去领取|收下水滴")
-    }
-    sleep(500)
-    var target = textMatches("去签到|去领取|收下水滴").findOne(2000)
-    if (target) {
-        log("点击" + target.text())
-        let bounds = target.bounds()
-        click(bounds.centerX(), bounds.centerY()+17)
-        sleep(1000)
-    } else {
-        log("未找到 去签到|去领取|收下水滴")
-    }
-    sleep(500)
-    var target = textMatches("去签到|去领取|收下水滴").findOne(2000)
-    if (target) {
-        log("点击" + target.text())
-        let bounds = target.bounds()
-        click(bounds.centerX(), bounds.centerY()+17)
-        sleep(1000)
-    } else {
-        log("未找到 去签到|去领取|收下水滴")
-    }
+    // var target = textMatches("去签到|去领取|收下水滴").findOne(6000)
+    // if (target) {
+    //     log("点击" + target.text())
+    //     let bounds = target.bounds()
+    //     click(bounds.centerX(), bounds.centerY()+17)
+    //     sleep(1000)
+    // } else {
+    //     log("未找到 去签到|去领取|收下水滴 1")
+    // }
+    // sleep(500)
+    // var target = textMatches("去签到|去领取|收下水滴").findOne(2000)
+    // if (target) {
+    //     log("点击" + target.text())
+    //     let bounds = target.bounds()
+    //     click(bounds.centerX(), bounds.centerY()+17)
+    //     sleep(1000)
+    // } else {
+    //     log("未找到 去签到|去领取|收下水滴 2")
+    // }
+    // sleep(500)
+    // var target = textMatches("去签到|去领取|收下水滴").findOne(2000)
+    // if (target) {
+    //     log("点击" + target.text())
+    //     let bounds = target.bounds()
+    //     click(bounds.centerX(), bounds.centerY()+17)
+    //     sleep(1000)
+    // } else {
+    //     log("未找到 去签到|去领取|收下水滴 3")
+    // }
 }
 
 // 签到领京豆
@@ -208,13 +222,20 @@ function get_bean() {
         bounds = target.bounds()
         click(bounds.centerX(), bounds.centerY()+15)
         sleep(500)
-        back();
-        sleep(1000)
+        // back();
+        // sleep(1000)
     } else {
         log("领取完成")
     }
     back();
     sleep(1000)
+
+    var freeFruit = text("免费水果").findOne(10)
+    if (freeFruit) {
+        sleep(1000)
+        freeFruit.parent().click()
+        sleep(1000)
+    }
 }
 
 // 3. 点击连续签到
@@ -257,6 +278,14 @@ function FocusOnWaterDroplets() {
                 if (target) {
                     log(target.text());
                     break;
+                }
+
+                log("寻找 下次再来哦～");
+                target = text("下次再来哦～").findOne(500)
+                if (target) {
+                    log("点击 " + target.text());
+                    let bounds = target.bounds()
+                    click(bounds.centerX(), bounds.centerY()+15)
                 }
 
                 // sleep(1600);
@@ -518,7 +547,7 @@ function watering(cnt) {
 function clicksDuck(cnt) {
     log("连续点击鸭子")
     for (let i = 0; i < cnt; i++) {
-        for (let j = 0; j < 10; j++) {
+        for (let j = 0; j < 15; j++) {
             press(566, 1256, 100)
             if (className("android.view.View").textMatches("我要休息啦，明天再来找我玩吧").exists()) {
                 log("我要休息啦，明天再来找我玩吧")
@@ -526,15 +555,15 @@ function clicksDuck(cnt) {
                 return true;
             }
         }
-        sleep(2000);
+        sleep(3000);
         log("寻找 喊它回来|收下道具卡|收下水滴")
-        let target = textMatches("喊它回来|收下道具卡|收下水滴").findOne(7000)
+        let target = textMatches("喊它回来|收下道具卡|收下水滴").findOne(5000)
         if (target) {
             log(target.text())
             let bounds = target.bounds()
             sleep(800);
             click(bounds.centerX(), bounds.centerY()+15)
-            sleep(600);
+            sleep(1300);
         } else {
             log("未找到 喊它回来|收下道具卡|收下水滴")
         }
