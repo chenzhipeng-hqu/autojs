@@ -208,7 +208,8 @@ function goto_browse_task() {
                     let bounds = button.bounds()
                     if (bounds.centerY() <= device.height) {
                         click(bounds.centerX(), bounds.centerY())
-                        sleep(1500)
+                        sleep(2000)
+                        log("返回")
                         back();     
                         sleep(1000)   
                     }
