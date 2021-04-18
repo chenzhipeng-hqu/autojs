@@ -335,10 +335,15 @@ function find_treasure_box() {
         click(fieldPoint[i], fieldPoint[i+1])
     }
 
-    sleep(2000)
+    sleep(3000)
 
+}
+
+// 点击收田
+function collect_sunny() {
     log("点击立即领取升级阳光")
     click(556, 1673);
+    sleep(2500)
     
     log("点击收阳光")          
     //自己手机 阳光的位置, 需自己适配 x 坐标 /Y 坐标 依次排列
@@ -346,7 +351,7 @@ function find_treasure_box() {
     for (var i = 0; i < sunnyPoint.length; i += 2){
         click(sunnyPoint[i], sunnyPoint[i+1])
     }
-    sleep(1000)
+    sleep(2000)
 }
 
 // 5. 根据亲密度领肥料
@@ -395,6 +400,8 @@ function collect_by_intimacy() {
 // 6. 点击种芒果
 function clickMango() {
     do {
+        collect_sunny();
+
         log("点击种芒果")
         click(150, 740)
         click(150, 760)
@@ -408,6 +415,7 @@ function clickMango() {
             target.click()
             sleep(700)
         }
+        sleep(2000)
     // }while(!className("android.widget.Image").textContains("gif;base64,iVB").exists())
     }while(!textMatches("亲密度|立即领取").exists())
     // className("android.widget.Image").textContains("gif;base64,iVB").waitFor()
@@ -473,7 +481,7 @@ function goto_browse_task() {
     log("点击集肥料")
     click(980, 1726)
     click(980, 1760)
-    sleep(1300)
+    sleep(1800)
 
     log("开始寻找任务")
     var taskList = ['去浏览', '去领取', '领取', '去签到', '去完成', '去逛逛'];
@@ -486,6 +494,8 @@ function goto_browse_task() {
                 break;
             }
             log("开始做第" + (taskId + 1) + "次任务 " + "【" + task + "】");
+            var bounds = button.bounds()
+            log("X:" + bounds.centerX() + " Y:" + bounds.centerY())  
             switch (task) {
                 case '去完成':
                 case '去浏览':
@@ -495,12 +505,20 @@ function goto_browse_task() {
                     //     ignoreId++;
                     //     taskId++;
                     //     break;
-                    // }
-                    
-                    let bounds = button.bounds()
+                    // }               
                     var target3 = boundsInside(0, bounds.centerY()-100, 
                                     bounds.centerX(), bounds.centerY()+100)
                                         .textMatches("抽心愿礼盒得300肥料").findOne(10);
+                    var target4 = boundsInside(0, bounds.centerY()-100, 
+                                    bounds.centerX(), bounds.centerY()+100)
+                                        .textMatches("下单.*").findOne(10);
+                    if (target4) {
+                        log("找到: " +target4.text())
+                        log("跳过"+(ignoreId+1)+"次【" + task + "】");
+                        ignoreId++;
+                        taskId++;
+                        break;
+                    }
                     button.click()
                     for (var i=0; i<4; i++) {
                         swipe(500, 2000, 500, 1900, 1000);
@@ -544,7 +562,7 @@ function goto_browse_task() {
                         click(566, 1436)   // 回到淘宝
                     } else {
                         let browse_cnt = 0;
-                        while (browse_cnt < 35) {
+                        while (browse_cnt < 25) {
                             // 签到领取双倍淘金币
                             var target = textMatches("签到领金币.*|签到领取.*").findOne(50)
                             if (target) {
@@ -587,8 +605,20 @@ function goto_browse_task() {
                         } else {
                             log("浏览超时返回啦")
                         }
-                        sleep(1000);
+                        sleep(200);
                         back();
+                        sleep(500);
+
+                        let target1 = textMatches("浏览完成.*|.*全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
+                        if (target1) {
+                            log("text: "+target1.text())
+                            back();
+                        }
+                        let target2 = descMatches("浏览完成.*|.*全部完成啦.*|任务已完成.*|任务完成.*").findOne(500);
+                        if (target2) {
+                            log("desc: "+target2.desc())
+                            back();
+                        }
                     }
                     
                     taskId++;
